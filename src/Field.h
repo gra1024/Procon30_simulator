@@ -6,6 +6,8 @@ class Field
 {
 public:
     Field();
+private:
+
 };
 
 #endif // FIELD_H
