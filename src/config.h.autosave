@@ -1,0 +1,26 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+/* ### C++ Standard Library ### */
+#include <iostream>
+#include <vector>
+#include <string>
+#include <stack>
+#include <iomanip>
+#include <cmath>
+#include <algorithm>
+#include <exception>
+#include <stdlib.h>
+#include <sstream>
+#include <iterator>
+
+
+/* ### Qt Library ### */
+
+using namespace std;
+
+extern QSettings config;
+
+/* ### Define ### */
+
+#endif // CONFIG_H

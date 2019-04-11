@@ -25,16 +25,22 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp
+    Field.cpp \
+    Main.cpp \
+    Mainwindow.cpp
 
 HEADERS += \
-        mainwindow.h
+    Field.h \
+    Mainwindow.h \
+    Config.h
 
 FORMS += \
-        mainwindow.ui
+    Mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    Config.ini
