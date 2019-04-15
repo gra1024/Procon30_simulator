@@ -27,12 +27,14 @@ CONFIG += c++11
 SOURCES += \
     Main.cpp \
     MainWindow.cpp \
-    AnalyzeField.cpp
+    AnalyzeField.cpp \
+    PointCalculate.cpp
 
 HEADERS += \
     Config.h \
     MainWindow.h \
-    AnalyzeField.h
+    AnalyzeField.h \
+    PointCalculate.h
 
 FORMS += \
     MainWindow.ui \

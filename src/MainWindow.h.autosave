@@ -9,8 +9,6 @@ namespace Ui {
 class MainWindow;
 }
 
-
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -21,9 +19,11 @@ public:
 
 private slots:
     void on_pushButton_clicked();
-
     void on_pushButton_2_clicked();
-
+    Tile tile;
+    Agent agent;
+    Field field;
+    
 private:
     Ui::MainWindow *ui;
 };
