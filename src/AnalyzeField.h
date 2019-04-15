@@ -2,6 +2,9 @@
 #define ANALYZEFIELD_H
 
 #include <QWidget>
+#include "Config.h"
+
+using namespace std;
 
 namespace Ui {
 class AnalyzeField;
