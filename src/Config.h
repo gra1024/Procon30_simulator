@@ -33,4 +33,30 @@ extern QSettings config;
 
 /* ### Define ### */
 
+/* ### struct ### */
+struct Pos{
+    int x;
+    int y;
+};
+
+struct Tile{
+    int x;
+    int y;
+    int point;
+    int color;
+};
+
+struct Agent{
+    int x;
+    int y;
+    int color;
+    int number;
+};
+
+struct Field{
+    int width;  //横
+    int height; //縦
+    int turn;
+};
+
 #endif // CONFIG_H
