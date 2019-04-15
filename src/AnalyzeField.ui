@@ -2,8 +2,8 @@
  <author/>
  <comment/>
  <exportmacro/>
- <class>Field</class>
- <widget name="Field" class="QWidget">
+ <class>AnalyzeField</class>
+ <widget class="QWidget" name="AnalyzeField">
   <property name="geometry">
    <rect>
     <x>0</x>

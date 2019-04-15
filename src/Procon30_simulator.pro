@@ -26,17 +26,17 @@ CONFIG += c++11
 
 SOURCES += \
     Main.cpp \
-    Field.cpp \
-    MainWindow.cpp
+    MainWindow.cpp \
+    AnalyzeField.cpp
 
 HEADERS += \
     Config.h \
-    Field.h \
-    MainWindow.h
+    MainWindow.h \
+    AnalyzeField.h
 
 FORMS += \
-    Field.ui \
-    MainWindow.ui
+    MainWindow.ui \
+    AnalyzeField.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
