@@ -3,6 +3,7 @@
 PointCalculate::PointCalculate()
 {
     this->mainWindow=mainWindow;
+    setField(height,width);
 }
 
 Pos PointCalculate::makePos(int x,int y){
@@ -47,6 +48,18 @@ int PointCalculate::getAreaPoints(int color){
 
 int PointCalculate::checkArea(Pos checkPos){
 
+}
+
+int PointCalculate::setField(int height,int width){
+    mainWindow->tile.clear();
+    for(int y=0;y<height;y++){//配列用意の順番的にxからループを始める
+        vector<tile> tmpData;
+        for(int x=0;x<width;x++){
+            tmpData.color=WHITE;
+            tmpData.point=0;
+        }
+        mainWindow->tile.push_back(tmpData);
+    }
 }
 
 //#endif // POINTCALCULATE_H
