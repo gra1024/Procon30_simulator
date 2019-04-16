@@ -1,16 +1,15 @@
 #ifndef POINTCALCULATE_H
 #define POINTCALCULATE_H
 
-#define RED 0
-#define BLUE 1
-
-//#include <vector>
+#include "Config.h"
+#include "mainwindow.h"
 
 class PointCalculate
 {
 public:
     PointCalculate();
 
+    MainWindow *mainWindow;
     //color...赤0、青1のようにしてforで処理を繰り返し、コンパクトにする
     Pos makePos(int x,int y);
     int getTilePoints(int color);//タイルポイント計算関数
@@ -25,18 +24,6 @@ public:
 
     int height=10;//仮の縦幅
     int width=10;//仮の横幅
-
-    struct Pos{
-        int x;
-        int y;
-    };
-
-    struct tile{
-        int x;
-        int y;
-        int color;
-        int points;
-    };
 
 };
 #endif // POINTCALCULATE_H

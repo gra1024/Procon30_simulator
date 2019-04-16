@@ -2,7 +2,7 @@
 
 PointCalculate::PointCalculate()
 {
-
+    this->mainWindow=mainWindow;
 }
 
 Pos PointCalculate::makePos(int x,int y){
@@ -16,7 +16,7 @@ int PointCalculate::getTilePoints(int color){
     int tilePoint=0;
     for(int x=0;x<width;x++){
         for(int y=0;y<height;y++){
-            if(mainwindow->tile(x,y)->color==color)tilePoint+=tile(x,y)->point;//現在見るべき色のタイルのみを計算に入れる
+            if(mainWindow->tile[y][x].color==color)tilePoint+=mainWindow->tile[y][x].point;//現在見るべき色のタイルのみを計算に入れる
         }
     }
     return tilePoint;//REDで呼ばれたらREDのタイルポイントを返す、BLUEも同様
@@ -37,7 +37,7 @@ int PointCalculate::getAreaPoints(int color){
 
     for(int y=1;y<height-1;y++){//フィールドの端のマスは領域ポイントを取らないためループから省く
         for(int x=1;x<width-1;x++){//横に見ていく、全部見たら次の列、という形
-            if(mainWindow->tile(x,y)->color!=color){
+            if(mainWindow->tile[y][x].color!=color){
                 Pos checkPos=makePos(x,y);
                 checkArea(checkPos);//自タイルが置かれていないなら検証を行う
             }
@@ -45,8 +45,8 @@ int PointCalculate::getAreaPoints(int color){
     }
 }
 
-int PointCalculate::checkArea(){
+int PointCalculate::checkArea(Pos checkPos){
 
 }
 
-#endif // POINTCALCULATE_H
+//#endif // POINTCALCULATE_H
