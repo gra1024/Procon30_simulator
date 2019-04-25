@@ -11,8 +11,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-
+    AnalyzeField* AF;
+    AF = new AnalyzeField(tile, agent, field);
+    AF->setupField();
 }
 
 MainWindow::~MainWindow()

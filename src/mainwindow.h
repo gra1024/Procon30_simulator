@@ -16,12 +16,14 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    vector<vector<Tile>> tile;
+    vector<vector<Agent>> agent;
+    Field field;
+
 
 private:
     Ui::MainWindow *ui;
-    Tile tile;
-    Agent agent;
-    Field field;
+
 };
 
 #endif // MAINWINDOW_H
