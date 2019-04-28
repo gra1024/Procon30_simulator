@@ -32,6 +32,9 @@ using namespace std;
 extern QSettings config;
 
 /* ### Define ### */
+#define WHITE -1
+#define RED 0
+#define BLUE 1
 
 /* ### struct ### */
 struct Pos{
@@ -40,8 +43,6 @@ struct Pos{
 };
 
 struct Tile{
-    int x;
-    int y;
     int point;
     int color;
 };
@@ -50,7 +51,6 @@ struct Agent{
     int x;
     int y;
     int color;
-    int number;
 };
 
 struct Field{
