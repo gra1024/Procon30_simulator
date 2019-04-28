@@ -7,23 +7,28 @@
 class PointCalculate
 {
 public:
-    PointCalculate();
+    PointCalculate(vector<vector<Tile>>& tile,vector<vector<Agent>>& agent,Field& field);
 
     MainWindow *mainWindow;
-    //color...赤0、青1のようにしてforで処理を繰り返し、コンパクトにする
     Pos makePos(int x,int y);
-    int getTilePoints(int color);//タイルポイント計算関数
-    int getAreaPoints(int color);//領域ポイント計算関数...データの初期化
-    int checkArea(Pos checkPos);//領域ポイント計算関数...各マスの領域判定
+    int getTilePoints(int color);//タイルポイントを返す
+    int getAreaPoints(int color);//領域ポイント計算関数...データの初期化、関数への値の受渡
+    int checkArea(Pos checkPos,int color);//領域ポイント計算関数...各マスの領域判定
+    int calculateAreaData();//領域ポイント計算関数...領域ポイントを返す
+
 
     vector<vector<bool>> areaData;
-    vector<vector<bool>> checkedData;
+    vector<vector<int>> checkedData;
 
     //以下の定義はのちに削除する
 
-    int height=10;//仮の縦幅
-    int width=10;//仮の横幅
-    int setField(int height,int width);//仮のフィールドを形成する
+    int height;//仮の縦幅
+    int width;//仮の横幅
+
+private:
+    vector<vector<Tile>>& tile;
+    vector<vector<Agent>>& agent;
+    Field& field;
 
 };
 #endif // POINTCALCULATE_H

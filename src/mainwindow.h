@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include "Config.h"
 
-
 namespace Ui {
 class MainWindow;
 }
