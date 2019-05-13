@@ -16,6 +16,13 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     vector<vector<Tile>> tile;
+    /*
+    vector<vector<Tile>> tile = {
+                                 {{2,0},{2,0},{2,0},{2,0}},
+                                 {{2,0},{2,1},{2,0},{2,1}},
+                                 {{2,1},{2,0},{2,1},{2,0}},
+                                 {{2,0},{2,1},{2,0},{2,0}}
+                                };//得点計算debug用*/
     vector<vector<Agent>> agent;
     Field field;
 

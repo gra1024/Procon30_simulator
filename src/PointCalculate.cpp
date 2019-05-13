@@ -65,7 +65,13 @@ int PointCalculate::getAreaPoints(int color){
     }
 
     //完成したareaDataを用いて領域ポイントを計算する
-    return calculateAreaData();
+    int areaPoint=0;
+    for(int x=0;x<width;x++){
+        for(int y=0;y<height;y++){
+            if(areaData[y][x]==1)areaPoint+=abs(tile[y][x].point);//絶対値で計算
+        }
+    }
+    return areaPoint;
 }
 
 int PointCalculate::checkArea(Pos checkPos,int color){
@@ -103,14 +109,15 @@ int PointCalculate::checkArea(Pos checkPos,int color){
     return result;
 }
 
-int PointCalculate::calculateAreaData(){
-    int areaPoint=0;
-    for(int x=0;x<width;x++){
-        for(int y=0;y<height;y++){
-            if(areaData[y][x]==1)areaPoint+=abs(tile[y][x].point);//絶対値で計算
-        }
-    }
-    return areaPoint;
+void PointCalculate::debug(){
+    int tilePoint=getTilePoints(RED);
+    int areaPoint=getAreaPoints(RED);
+    cout<<"RED.tilePoint..."<<tilePoint<<endl;
+    cout<<"RED.areaPoint..."<<areaPoint<<endl;
+    tilePoint=getTilePoints(BLUE);
+    areaPoint=getAreaPoints(BLUE);
+    cout<<"BLUE.tilePoint..."<<tilePoint<<endl;
+    cout<<"BLUE.areaPoint..."<<areaPoint<<endl;
 }
 
 //#endif // POINTCALCULATE_H

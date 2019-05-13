@@ -12,18 +12,17 @@ public:
     MainWindow *mainWindow;
     Pos makePos(int x,int y);
     int getTilePoints(int color);//タイルポイントを返す
-    int getAreaPoints(int color);//領域ポイント計算関数...データの初期化、関数への値の受渡
+    int getAreaPoints(int color);//領域ポイント計算関数...領域ポイントを返す
     int checkArea(Pos checkPos,int color);//領域ポイント計算関数...各マスの領域判定
-    int calculateAreaData();//領域ポイント計算関数...領域ポイントを返す
 
 
     vector<vector<bool>> areaData;
     vector<vector<int>> checkedData;
 
     //以下の定義はのちに削除する
-
-    int height;//仮の縦幅
-    int width;//仮の横幅
+    int height =4;//仮の縦幅
+    int width =4;//仮の横幅
+    void debug();//動作確認用
 
 private:
     vector<vector<Tile>>& tile;
