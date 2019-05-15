@@ -32,7 +32,7 @@ public:
 
     void retranslateUi(QWidget *AnalyzeField)
     {
-        AnalyzeField->setWindowTitle(QApplication::translate("AnalyzeField", "Form", nullptr));
+        AnalyzeField->setWindowTitle(QApplication::translate("AnalyzeField", "Field", nullptr));
     } // retranslateUi
 
 };

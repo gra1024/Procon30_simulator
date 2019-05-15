@@ -17,7 +17,13 @@ class AnalyzeField : public QWidget
 public:
     explicit AnalyzeField(vector<vector<Tile>>& tile, vector<vector<Agent>>& agent, Field& field, QWidget *parent = nullptr);
     ~AnalyzeField();
-    void setupField();
+    void setup();
+    void setField();
+    void setAgent();
+    void setUi();
+
+protected:
+    void paintEvent(QPaintEvent *event);
 
 private:
     Ui::AnalyzeField *ui;
@@ -29,6 +35,10 @@ private:
     vector<vector<Tile>>& tile;
     vector<vector<Agent>>& agent;
     Field& field;
+    QPainter *painter;
+    void drowField();
+    QPixmap *fieldPixmap;
+    unsigned int mag;
 };
 
 #endif // ANALYZEFIELD_H
