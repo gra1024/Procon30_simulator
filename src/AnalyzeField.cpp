@@ -178,7 +178,6 @@ void AnalyzeField::drowField(){
             else painter.setBrush(QBrush(QColor(0, 0, 204, 255), Qt::SolidPattern));
             painter.drawConvexPolygon(points, 4);
 
-
         }
     }
     painter.end();
