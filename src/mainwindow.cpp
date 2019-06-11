@@ -6,6 +6,8 @@
 
 extern QSettings config;
 
+PointCalculate *pointCalculate;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
