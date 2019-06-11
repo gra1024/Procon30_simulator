@@ -13,6 +13,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    /* 得点計算動作確認用
+    pointCalculate =new PointCalculate(tile,agent,field);
+    pointCalculate->debug();
+    */
 }
 
 MainWindow::~MainWindow()
