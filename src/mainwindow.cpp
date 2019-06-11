@@ -23,3 +23,10 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::on_startButton_clicked(){
+    AnalyzeField* AF;
+    AF = new AnalyzeField(tile, agent, field);
+    AF->setup();
+
+}

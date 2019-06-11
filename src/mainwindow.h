@@ -27,6 +27,10 @@ public:
     Field field;
 
 
+private slots:
+    void on_startButton_clicked();
+
+
 private:
     Ui::MainWindow *ui;
 
