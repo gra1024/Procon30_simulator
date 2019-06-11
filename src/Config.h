@@ -32,14 +32,18 @@ using namespace std;
 extern QSettings config;
 
 /* ### Define ### */
-#define WHITE -1
 #define RED 0
 #define BLUE 1
+#define WHITE -1
+
+#define CONFIG_PATH_OF_FIELD_TXT config.value("PATH_OF_FIELD_TXT").toString()
+#define CONFIG_PATH_OF_AGENT_TXT config.value("PATH_OF_AGENT_TXT").toString()
+#define CONFIG_MAGNIFICATION_OF_FIELD config.value("MAGNIFICATION_OF_FIELD").toInt()
 
 /* ### struct ### */
 struct Pos{
-    int x;
-    int y;
+    unsigned int x;
+    unsigned int y;
 };
 
 struct Tile{
@@ -48,15 +52,15 @@ struct Tile{
 };
 
 struct Agent{
-    int x;
-    int y;
-    int color;
+    unsigned int x;
+    unsigned int y;
 };
 
 struct Field{
-    int width;  //横
-    int height; //縦
-    int turn;
+    unsigned int width;  //横
+    unsigned int height; //縦
+    unsigned int turn;
+    int playerColor[2] = {RED,BLUE};
 };
 
 #endif // CONFIG_H
