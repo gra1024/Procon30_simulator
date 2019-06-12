@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "Config.h"
 
+
 namespace Ui {
 class MainWindow;
 }
@@ -29,7 +30,7 @@ public:
 
 private slots:
     void on_startButton_clicked();
-
+    void on_reloadButton_clicked();
 
 private:
     Ui::MainWindow *ui;
