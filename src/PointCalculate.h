@@ -2,7 +2,7 @@
 #define POINTCALCULATE_H
 
 #include "Config.h"
-#include "mainwindow.h"
+#include "MainWindow.h"
 
 class PointCalculate
 {
@@ -13,6 +13,7 @@ public:
     Pos makePos(int x,int y);
     int getTilePoints(int color);//タイルポイントを返す
     int getAreaPoints(int color);//領域ポイント計算関数...領域ポイントを返す
+    int getAllPoints(int color);
     int checkArea(Pos checkPos,int color);//領域ポイント計算関数...各マスの領域判定
 
 

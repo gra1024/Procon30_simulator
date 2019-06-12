@@ -74,6 +74,10 @@ int PointCalculate::getAreaPoints(int color){
     return areaPoint;
 }
 
+int PointCalculate::getAllPoints(int color){
+    return getAreaPoints(color)+getAreaPoints(color);
+}
+
 int PointCalculate::checkArea(Pos checkPos,int color){
     cout<<"currentPos..."<<checkPos.x<<","<<checkPos.y<<endl;
     Pos looking[]={

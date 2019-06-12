@@ -1,5 +1,5 @@
 #include "AnalyzeField.h"
-#include "ui_AnalyzeField.h"
+#include "ui_analyzefield.h"
 
 extern QSettings config;
 
