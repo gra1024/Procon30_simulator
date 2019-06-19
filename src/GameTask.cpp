@@ -5,8 +5,10 @@ GameTask::GameTask(int gameNumberCount, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::GameTask)
 {
-    this->gameNumberCount = gameNumberCount;
+    gnc = gameNumberCount;
     ui->setupUi(this);
+    string title = "GameTask" + to_string(gnc);
+    this->setWindowTitle(QString::fromStdString(title));
 }
 
 GameTask::~GameTask()
@@ -16,7 +18,6 @@ GameTask::~GameTask()
 
 void GameTask::on_pushButton_start_clicked()
 {
-    AF[gameNumberCount] = AnalyzeField::setup()
-    //GT[gameNumberCount]->show();
-    gameNumberCount++;
+    AF = new AnalyzeField(gnc, tile, agent, field);
+    AF->setup();
 }

@@ -28,7 +28,7 @@ private slots:
 
 private:
     Ui::GameTask *ui;
-    int gameNumberCount;
+    int gnc; //gameNumberCount
 };
 
 #endif // GAMETASK_H

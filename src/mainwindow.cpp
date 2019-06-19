@@ -35,5 +35,6 @@ void MainWindow::on_pushButton_createNewGame_clicked(){
     gameNumberCount++;
 }
 
-void on_pushButton_close_clicked(){
+void MainWindow::on_pushButton_close_clicked(){
+    qApp->closeAllWindows();
 }

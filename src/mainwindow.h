@@ -29,7 +29,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    int gameNumberCount = 0;
+    int gameNumberCount = 1;
 
 };
 

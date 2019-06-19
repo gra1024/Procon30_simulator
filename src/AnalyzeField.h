@@ -15,7 +15,11 @@ class AnalyzeField : public QWidget
     Q_OBJECT
 
 public:
-    explicit AnalyzeField(vector<vector<Tile>>& tile, vector<vector<Agent>>& agent, Field& field, QWidget *parent = nullptr);
+    explicit AnalyzeField(int gameNumberCount,
+                          vector<vector<Tile>>& tile,
+                          vector<vector<Agent>>& agent,
+                          Field& field,
+                          QWidget *parent = nullptr);
     ~AnalyzeField();
     void setup();
     void setField();
@@ -39,6 +43,7 @@ private:
     void drowField();
     QPixmap *fieldPixmap;
     unsigned int mag;
+    int gnc; //gameNumberCount
 };
 
 #endif // ANALYZEFIELD_H
