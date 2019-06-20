@@ -3,14 +3,21 @@
 
 extern QSettings config;
 
-AnalyzeField::AnalyzeField(vector<vector<Tile>>& tile, vector<vector<Agent>>& agent, Field& field, QWidget *parent) :
+AnalyzeField::AnalyzeField(int gameNumberCount,
+                           vector<vector<Tile>>& tile,
+                           vector<vector<Agent>>& agent,
+                           Field& field,
+                           QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AnalyzeField),
     tile(tile),
     agent(agent),
     field(field)
 {
+    gnc = gameNumberCount;
     ui->setupUi(this);
+    string title = "Field" + to_string(gnc);
+    this->setWindowTitle(QString::fromStdString(title));
 }
 
 AnalyzeField::~AnalyzeField()
@@ -58,7 +65,7 @@ void AnalyzeField::setUi()
 
 string AnalyzeField::LoadFieldFromTxt()
 {
-    string path = CONFIG_PATH_OF_FIELD_TXT.toStdString();
+    string path = CONFIG_PATH_OF_FIELD_TXT.toStdString() + to_string(gnc) + ".txt";
     QFile file(QString::fromStdString(path));
     if (! file.open(QIODevice::ReadOnly)) {
         return "ERROR";
@@ -100,7 +107,7 @@ void AnalyzeField::decodeField(string StrFieldFromLoadFile)
 
 string AnalyzeField::LoadAgentFromTxt()
 {
-    string path = CONFIG_PATH_OF_AGENT_TXT.toStdString();
+    string path = CONFIG_PATH_OF_AGENT_TXT.toStdString() + to_string(gnc) + ".txt";
     QFile file(QString::fromStdString(path));
     if (! file.open(QIODevice::ReadOnly)) {
         return "ERROR";

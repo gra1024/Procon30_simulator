@@ -2,7 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <GameTask.h>
 #include "Config.h"
+
 
 
 namespace Ui {
@@ -17,23 +19,17 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     vector<vector<Tile>> tile;
-    /*
-    vector<vector<Tile>> tile = {
-                                 {{2,0},{2,0},{2,0},{2,0}},
-                                 {{2,0},{2,1},{2,0},{2,1}},
-                                 {{2,1},{2,0},{2,1},{2,0}},
-                                 {{2,0},{2,1},{2,0},{2,0}}
-                                };//得点計算debug用*/
     vector<vector<Agent>> agent;
     Field field;
-
+    GameTask* GT[3];
 
 private slots:
-    void on_startButton_clicked();
-    void on_reloadButton_clicked();
+    void on_pushButton_createNewGame_clicked();
+    void on_pushButton_close_clicked();
 
 private:
     Ui::MainWindow *ui;
+    int gameNumberCount = 1;
 
 };
 
