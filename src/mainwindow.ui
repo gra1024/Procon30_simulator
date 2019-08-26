@@ -310,6 +310,19 @@
     <string>reset</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>282</x>
+     <y>10</y>
+     <width>111</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>FromJSON to C</string>
+   </property>
+  </widget>
   <zorder>label_Back_Blue_1</zorder>
   <zorder>label_Back_Red_1</zorder>
   <zorder>comboBox_TeamColor_1</zorder>
@@ -330,6 +343,7 @@
   <zorder>label_Turn_1</zorder>
   <zorder>display_Turn_1</zorder>
   <zorder>Button_Reset_1</zorder>
+  <zorder>pushButton</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

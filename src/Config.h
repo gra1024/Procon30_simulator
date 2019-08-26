@@ -27,6 +27,15 @@
 #include <QGraphicsScene>
 #include <QDir>
 
+/* ### JSON reader ### */
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QTextStream>
+#include <QDebug>
+#include <QDate>
+#include <QIODevice>
+
 using namespace std;
 
 extern QSettings config;
@@ -47,6 +56,10 @@ struct Pos{
 };
 
 struct Tile{
+
+    //unsigned int tiled[20][20];  teamidによる座標の色識別？
+
+
     int point;
     int color;
 };
@@ -59,8 +72,68 @@ struct Agent{
 struct Field{
     unsigned int width;  //横
     unsigned int height; //縦
-    unsigned int turn;
+    unsigned int turn; //経過ターン
+
+    unsigned int startedAtUnixTime; //謎
+
+
+
     int playerColor[2] = {RED,BLUE};
 };
+
+
+//JSONファイルからそのまま
+//フィールド情報_turn0.json
+struct FieldInformation{
+    unsigned int width;  //横
+    unsigned int height; //縦
+
+    unsigned int points[20][20];
+    unsigned int startedAtunixTime;
+
+    unsigned int turn;
+    unsigned int tiled[20][20];
+};
+struct Agents{
+    unsigned int agentID  ;
+    unsigned int x;
+    unsigned int y;
+};
+struct Team{
+    unsigned int teamID;
+
+    struct Agents first_agents;
+    struct Agents second_agents;
+
+    unsigned int tilePoint;
+    unsigned int areaPoint;
+};
+
+//構造体を二個宣言すればいいため省略
+/*
+struct Teams{
+    struct Team myteam;
+    struct Team enemyteam;
+};*/
+
+struct Actions{};
+
+//行動情報_ID5.json
+struct Agent_actions{
+    unsigned int agentID;
+    unsigned char type[10];
+    unsigned int dx;
+    unsigned int dy;
+};
+
+//構造体を二個宣言すればいいため省略
+/*
+struct actions{
+    struct Agent_actions firstagents;
+    struct Agent_actions secondagents;
+}
+*/
+
+
 
 #endif // CONFIG_H
