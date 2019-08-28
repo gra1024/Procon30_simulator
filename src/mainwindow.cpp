@@ -46,7 +46,28 @@ void MainWindow::on_pushButton_clicked()
 
     //QJson形式の配列を作成。フィールド情報にあるpointsをコピー？
     QJsonArray Field_points = QFieldfileobj.value("points").toArray();
-    //FieldInformaitionTurn0.points = Field_points.p 
+    QJsonArray Field_color=QFieldfileobj.value("tiled").toArray();
+
+
+
+
+
+    /*
+    for(int i=0;i<20;i++)for(int j=0;j<20;j++) {
+    FieldInformaitionTurn0.points[i][j]=Field_points.at(0).toDouble();
+    qDebug()<<FieldInformaitionTurn0.points[i][j];
+}*/
+
+    //FieldInformaitionTurn0.points = Field_points.p
+    QJsonArray TileArray = QFieldfileobj.value("tiled").toArray();
+    QJsonArray teamsArray=QFieldfileobj.value("teams").toArray();
+    //QJsonValue teamsArrayfirst=teamsArray.at(0);
+    QJsonValue teamsArrayfirst=teamsArray.at(0);
+    //qDebug()<<teamsArray;
+
+    //qDebug()<<teamsArrayfirst;
+    QJsonValue teamsArraysecode=teamsArray.at(1);
+    //qDebug()<<teamsArray.at(0);
 
     /*QJSON形式をこちらで定義した変数に合わせて入れる(先輩たちが用意した変数)*/
     field.width= QFieldfileobj.value("width").toDouble();
@@ -54,15 +75,37 @@ void MainWindow::on_pushButton_clicked()
     field.startedAtUnixTime= QFieldfileobj.value("startedAtUnixTime").toDouble();
     field.turn= QFieldfileobj.value("turn").toDouble();
 
+
+
     /*QJSON形式をこちらで定義した変数に合わせて入れる(visual studioの形式を再現。フィールド情報)*/
     FieldInformaitionTurn0.width= QFieldfileobj.value("width").toDouble();
     FieldInformaitionTurn0.height= QFieldfileobj.value("height").toDouble();
-    //QJsonArray PointsArray = QFieldfileobj.value("points").toArray();
+
+    QJsonArray points_line[20];
+    for (int i=0;i<FieldInformaitionTurn0.height;i++) {
+     points_line[i]=Field_points.at(i).toArray();
+    }
+    for (int i=0;i<FieldInformaitionTurn0.height;i++) {for(int j=0;j<FieldInformaitionTurn0.width;j++){
+     FieldInformaitionTurn0.points[i][j]=points_line[i].at(j).toDouble();
+     //std::cout<<FieldInformaitionTurn0.points[i][j];
+    }    }
     FieldInformaitionTurn0.startedAtunixTime= QFieldfileobj.value("height").toDouble();
+
+    QJsonArray color_line[20];
+    for (int i=0;i<FieldInformaitionTurn0.height;i++) {
+     color_line[i]=Field_color.at(i).toArray();
+    }
+    for (int i=0;i<FieldInformaitionTurn0.height;i++) {for(int j=0;j<FieldInformaitionTurn0.width;j++){
+     FieldInformaitionTurn0.tiled[i][j]=color_line[i].at(j).toDouble();
+     std::cout<<FieldInformaitionTurn0.tiled[i][j];
+    }    }
+
     FieldInformaitionTurn0.turn= QFieldfileobj.value("turn").toDouble();
-    //QJsonArray TileArray = QFieldfileobj.value("tile").toArray();
+
+
     //↑おそらくjson形式の構造体に数値が入ってる
     Myteam.teamID=QFieldfileobj.value("teamID").toDouble();
+
 
 
     /*QJSON形式をこちらで定義した変数に合わせて入れる(visual studioの形式を再現。行動情報)*/
@@ -100,10 +143,11 @@ void MainWindow::on_pushButton_clicked()
 */
 
     QByteArray data = Fieldfile.readAll();
-    //QJsonDocument jsonDoc(QJsonDocument::fromJson(data));
-    //QString jsonStr=jsonDoc.toJson(QJsonDocument::Compact);
-    //qDebug()<<jsonStr;
-
+/*
+    QJsonDocument jsonDoc(QJsonDocument::fromJson(data));
+    QString jsonStr=jsonDoc.toJson(QJsonDocument::Compact);
+    qDebug()<<jsonStr;
+*/
 
 Fieldfile.close();
 ID5_Movefile.close();

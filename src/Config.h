@@ -51,6 +51,7 @@ extern QSettings config;
 
 /* ### struct ### */
 struct Pos{
+    unsigned int agentID;
     unsigned int x;
     unsigned int y;
 };
@@ -65,6 +66,7 @@ struct Tile{
 };
 
 struct Agent{
+    unsigned int agentID;
     unsigned int x;
     unsigned int y;
 };
@@ -88,7 +90,7 @@ struct FieldInformation{
     unsigned int width;  //横
     unsigned int height; //縦
 
-    unsigned int points[20][20];
+    double points[20][20];
     unsigned int startedAtunixTime;
 
     unsigned int turn;
