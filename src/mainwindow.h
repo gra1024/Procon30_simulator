@@ -27,6 +27,7 @@ public:
     vector<vector<Agent>> agent;
 
     Field field;
+    //VSの再現(そのまま)
     FieldInformation FieldInformaitionTurn0;
     Team Myteam;
     Team Enemyteam;

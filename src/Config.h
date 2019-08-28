@@ -96,6 +96,7 @@ struct FieldInformation{
     unsigned int turn;
     unsigned int tiled[20][20];
 };
+//struct Agentsはteam内にまとめるために最初に宣言した。
 struct Agents{
     unsigned int agentID  ;
     unsigned int x;
@@ -123,7 +124,7 @@ struct Actions{};
 //行動情報_ID5.json
 struct Agent_actions{
     unsigned int agentID;
-    unsigned char type[10];
+    string type;
     unsigned int dx;
     unsigned int dy;
 };
