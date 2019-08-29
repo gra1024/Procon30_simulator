@@ -35,6 +35,7 @@
 #include <QDebug>
 #include <QDate>
 #include <QIODevice>
+#include <QString>
 
 using namespace std;
 
@@ -59,16 +60,17 @@ struct Pos{
 struct Tile{
 
     //unsigned int tiled[20][20];  teamidによる座標の色識別？
-
-
     int point;
     int color;
 };
 
 struct Agent{
+    unsigned int teamID;
     unsigned int agentID;
     unsigned int x;
     unsigned int y;
+    unsigned int tilePoint;
+    unsigned int areaPoint;
 };
 
 struct Field{
@@ -124,7 +126,7 @@ struct Actions{};
 //行動情報_ID5.json
 struct Agent_actions{
     unsigned int agentID;
-    string type;
+    QString type;
     unsigned int dx;
     unsigned int dy;
 };

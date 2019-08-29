@@ -21,7 +21,8 @@ public:
     void setField();
     void setAgent();
     void setUi();
-
+    void reload(Field Fieldinformaition,Tile TilePointColor,Agent our,Agent our_second,Agent enemy,Agent enemy_second
+                ,Pos our_pos,Pos our_second_pos,Pos enemy_pos,Pos enemy_second_pos);
 protected:
     void paintEvent(QPaintEvent *event);
 
