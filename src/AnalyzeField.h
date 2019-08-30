@@ -15,14 +15,18 @@ class AnalyzeField : public QWidget
     Q_OBJECT
 
 public:
-    explicit AnalyzeField(vector<vector<Tile>>& tile, vector<vector<Agent>>& agent, Field& field, QWidget *parent = nullptr);
+    explicit AnalyzeField(int gameNumberCount,
+                          vector<vector<Tile>>& tile,
+                          vector<vector<Agent>>& agent,
+                          Field& field,
+                          QWidget *parent = nullptr);
     ~AnalyzeField();
     void setup();
     void setField();
     void setAgent();
     void setUi();
-    void reload(Field Fieldinformaition,Tile TilePointColor,Agent our,Agent our_second,Agent enemy,Agent enemy_second
-                ,Pos our_pos,Pos our_second_pos,Pos enemy_pos,Pos enemy_second_pos);
+    void reload(Field Fieldinformaition,vector<vector<Tile>> tilepoint,vector<vector<Agent>> agent);
+
 protected:
     void paintEvent(QPaintEvent *event);
 
@@ -40,6 +44,7 @@ private:
     void drowField();
     QPixmap *fieldPixmap;
     unsigned int mag;
+    int gnc; //gameNumberCount
 };
 
 #endif // ANALYZEFIELD_H
