@@ -154,7 +154,6 @@ void AnalyzeField::decodeAgent(string StrAgentFromLoadFile)
 }
 
 void AnalyzeField::drowField(){
-
     this->fieldPixmap=new QPixmap(QSize(static_cast<int>(mag*field.width) + 1, static_cast<int>(mag*field.height) + 1));
     QPainter painter(this->fieldPixmap);
 
@@ -172,7 +171,8 @@ void AnalyzeField::drowField(){
 
             painter.drawConvexPolygon(points, 4);
         }
-    }
+    }//タイルの色塗りつぶす
+
     for(unsigned int i=0; i<2; ++i){
         for(unsigned int j=0; j < agent[0].size(); ++j){
             QPointF points[4] = {
@@ -181,12 +181,30 @@ void AnalyzeField::drowField(){
                 QPointF((agent[i][j].x - 1)*mag+mag, (agent[i][j].y - 1)*mag+mag),
                 QPointF((agent[i][j].x - 1)*mag, (agent[i][j].y - 1)*mag+mag)
             };
-            if(i==0) painter.setBrush(QBrush(QColor(204, 0, 0, 255), Qt::SolidPattern));
-            else painter.setBrush(QBrush(QColor(0, 0, 204, 255), Qt::SolidPattern));
+            if(i==0) painter.setBrush(QBrush(QColor(255, 56, 56, 255), Qt::SolidPattern));
+            else painter.setBrush(QBrush(QColor(56, 56, 255, 255), Qt::SolidPattern));
             painter.drawConvexPolygon(points, 4);
 
         }
-    }
+    }//エージェントの現在地を塗りつぶす
+    QString str;
+    QFont font = painter.font();
+    font.setPixelSize(static_cast<int>(mag*0.4));
+    painter.setFont(font);
+    for(unsigned int y=0; y<field.height; ++y){
+        for(unsigned int x=0; x<field.width; ++x){
+            str = QString::fromStdString(to_string(tile[x][y].point));
+            painter.drawText(static_cast<int>(x*mag+mag*0.3), static_cast<int>(y*mag+mag*0.4),str);
+        }
+    }//タイルのポイントを描写
+
+    for(unsigned int i=0; i<2; ++i){
+        for(unsigned int j=0; j < agent[0].size(); ++j){
+            str = QString::fromStdString(to_string(j+1));
+            painter.drawText(static_cast<int>((agent[i][j].x*mag)-mag*0.4), static_cast<int>((agent[i][j].y*mag)-mag*0.1),str);
+        }
+    }//エージェントナンバーを描写
+
     painter.end();
 }
 
