@@ -2,9 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <GameTask.h>
 #include "Config.h"
-
+#include "AnalyzeField.h"
 
 
 namespace Ui {
@@ -18,10 +17,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    vector<vector<Tile>> tile;
-    vector<vector<Agent>> agent;
-    Field field;
-    GameTask* GT[3];
+    AnalyzeField* AF = nullptr;
 
 private slots:
     void on_pushButton_createNewGame_clicked();
@@ -29,7 +25,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    int gameNumberCount = 1;
 
 };
 

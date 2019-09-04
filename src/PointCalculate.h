@@ -21,8 +21,8 @@ public:
     vector<vector<int>> checkedData;
 
     //以下の定義はのちに削除する
-    int height =4;//仮の縦幅
-    int width =4;//仮の横幅
+    unsigned int height =4;//仮の縦幅
+    unsigned int width = 4;//仮の横幅
     void debug();//動作確認用
 
 private:
