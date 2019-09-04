@@ -1,5 +1,5 @@
 #include "AnalyzeField.h"
-#include "ui_analyzefield.h"
+#include "ui_AnalyzeField.h"
 
 static vector<vector<Tile>> tile;
 static vector<vector<Agent>> agent;
