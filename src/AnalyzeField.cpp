@@ -62,7 +62,7 @@ string AnalyzeField::LoadFieldFromTxt()
     string path = CONFIG_PATH_OF_FIELD_TXT.toStdString() + ".txt";
     QFile file(QString::fromStdString(path));
     if (! file.open(QIODevice::ReadOnly)) {
-        return "LEAD ERROR";
+        return "LEADERROR";
     }
     QTextStream in(&file);
     QString qstr = in.readAll();
@@ -205,7 +205,7 @@ void AnalyzeField::drowField(){
 void AnalyzeField::reload(vector<vector<Tile>> tile,vector<vector<Agent>> agent,Field field)
 {
     //ファイルの読み込み フィールド情報
-    QFile Fieldfile("フィールド情報_turn0.json");
+    QFile Fieldfile("fieldInfo_turn0.json");
     Fieldfile.open(QFile::ReadOnly);
     QTextStream FieldfileText (&Fieldfile);
 
