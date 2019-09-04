@@ -20,8 +20,11 @@ public:
     AnalyzeField* AF = nullptr;
 
 private slots:
-    void on_pushButton_createNewGame_clicked();
+    void on_pushButton_start_clicked();
+    void on_pushButton_reload_clicked();
     void on_pushButton_close_clicked();
+
+
 
 private:
     Ui::MainWindow *ui;

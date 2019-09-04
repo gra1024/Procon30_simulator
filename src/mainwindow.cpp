@@ -1,5 +1,5 @@
 #include "MainWindow.h"
-#include "ui_mainwindow.h"
+#include "ui_MainWindow.h"
 
 //#include "AnalyzeField.h"
 //#include "PointCalculate.h"
@@ -20,10 +20,15 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButton_createNewGame_clicked(){
+void MainWindow::on_pushButton_start_clicked(){
     AF = new AnalyzeField();
     AF->setup();
 }
 
+void MainWindow::on_pushButton_reload_clicked(){
+
+}
+
 void MainWindow::on_pushButton_close_clicked(){
     qApp->closeAllWindows();
+}
