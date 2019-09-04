@@ -34,7 +34,7 @@
     <string>close</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_config">
+  <widget class="QPushButton" name="pushButton_reload">
    <property name="geometry">
     <rect>
      <x>220</x>
@@ -47,7 +47,7 @@
     <string>Reload</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_createNewGame">
+  <widget class="QPushButton" name="pushButton_start">
    <property name="enabled">
     <bool>true</bool>
    </property>
