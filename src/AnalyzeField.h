@@ -15,16 +15,15 @@ class AnalyzeField : public QWidget
     Q_OBJECT
 
 public:
-    explicit AnalyzeField(int gameNumberCount,
-                          vector<vector<Tile>>& tile,
-                          vector<vector<Agent>>& agent,
-                          Field& field,
-                          QWidget *parent = nullptr);
+    explicit AnalyzeField(QWidget *parent = nullptr);
     ~AnalyzeField();
     void setup();
     void setField();
     void setAgent();
     void setUi();
+    vector<vector<Tile>> tile;
+    vector<vector<Agent>> agent;
+    Field field;
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -36,14 +35,11 @@ private:
     string LoadAgentFromTxt();
     void decodeAgent(string);
     vector<string> split(const string &str, char sep);
-    vector<vector<Tile>>& tile;
-    vector<vector<Agent>>& agent;
-    Field& field;
     QPainter *painter;
     void drowField();
     QPixmap *fieldPixmap;
     unsigned int mag;
-    int gnc; //gameNumberCount
+
 };
 
 #endif // ANALYZEFIELD_H
