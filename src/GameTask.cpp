@@ -21,3 +21,10 @@ void GameTask::on_pushButton_start_clicked()
     AF = new AnalyzeField(gnc, tile, agent, field);
     AF->setup();
 }
+
+void GameTask::on_pushButton_reload_clicked()
+{
+   /*AF->drowField();*/
+    AF->reload(tile,agent,field);
+
+}

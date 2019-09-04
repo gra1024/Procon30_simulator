@@ -33,6 +33,7 @@ void MainWindow::on_pushButton_createNewGame_clicked(){
     GT[gameNumberCount] = new GameTask(gameNumberCount);
     GT[gameNumberCount]->show();
     gameNumberCount++;
+
 }
 
 void MainWindow::on_pushButton_close_clicked(){

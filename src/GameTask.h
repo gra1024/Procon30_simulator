@@ -26,6 +26,8 @@ public:
 private slots:
     void on_pushButton_start_clicked();
 
+    void on_pushButton_reload_clicked();
+
 private:
     Ui::GameTask *ui;
     int gnc; //gameNumberCount

@@ -41,9 +41,9 @@ using namespace std;
 extern QSettings config;
 
 /* ### Define ### */
-#define RED 0
-#define BLUE 1
-#define WHITE -1
+#define RED 5
+#define BLUE 6
+#define WHITE 0
 
 #define CONFIG_PATH_OF_FIELD_TXT config.value("PATH_OF_FIELD_TXT").toString()
 #define CONFIG_PATH_OF_AGENT_TXT config.value("PATH_OF_AGENT_TXT").toString()
@@ -51,6 +51,7 @@ extern QSettings config;
 
 /* ### struct ### */
 struct Pos{
+    //行動情報から取り出した情報を代入する。
     unsigned int agentID;
     unsigned int x;
     unsigned int y;

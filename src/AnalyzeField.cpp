@@ -63,14 +63,14 @@ void AnalyzeField::setUi()
     drowField();
 }
 
-void AnalyzeField::reload(Field Fieldinformaition,vector<vector<Tile>> tilepoint,vector<vector<Agent>> agent)
+void AnalyzeField::reload(vector<vector<Tile>> tile,vector<vector<Agent>> agent,Field field)
 {
-    /*ファイルの読み込み フィールド情報 */
+    //ファイルの読み込み フィールド情報
     QFile Fieldfile("フィールド情報_turn0.json");
     Fieldfile.open(QFile::ReadOnly);
     QTextStream FieldfileText (&Fieldfile);
 
-    /*Fieldfile から取り出した textstream をQtクラスのJSON形式に変換 */
+    //Fieldfile から取り出した textstream をQtクラスのJSON形式に変換
     QJsonDocument QFieldfileDoc = QJsonDocument::fromJson(FieldfileText.readAll().toUtf8());
     QJsonObject QFieldfileobj = QFieldfileDoc.object();
     QStringList QFieldfilekeys =QFieldfileobj.keys();
@@ -80,74 +80,59 @@ void AnalyzeField::reload(Field Fieldinformaition,vector<vector<Tile>> tilepoint
     QJsonArray Field_color=QFieldfileobj.value("tiled").toArray();
     QJsonArray Field_teams=QFieldfileobj.value("teams").toArray();
 
-    /*QJSON形式をこちらで定義した変数に合わせて入れる struct Field*/
-    Fieldinformaition.width= QFieldfileobj.value("width").toDouble();
-    Fieldinformaition.height= QFieldfileobj.value("height").toDouble();
-    Fieldinformaition.startedAtUnixTime= QFieldfileobj.value("startedAtUnixTime").toDouble();
-    Fieldinformaition.turn= QFieldfileobj.value("turn").toDouble();
+    //qDebug()<<static_cast<unsigned int>(QFieldfileobj.value("width").toDouble());
 
-    /*QJSON形式をこちらで定義した変数に合わせて入れる struct Tile*/
-    QJsonArray points_line[20];
-    for (int i=0;i<Fieldinformaition.height;i++) {
-     points_line[i]=Field_points.at(i).toArray();
+    //QJSON形式をこちらで定義した変数に合わせて入れる struct Field
+    field.width=static_cast<unsigned int>(QFieldfileobj.value("width").toDouble());
+
+    field.height=static_cast<unsigned int>(QFieldfileobj.value("height").toDouble());
+    field.startedAtUnixTime= static_cast<unsigned int>(QFieldfileobj.value("startedAtUnixTime").toDouble());
+    field.turn= static_cast<unsigned int>(QFieldfileobj.value("turn").toDouble());
+
+    //QJSON形式をこちらで定義した変数に合わせて入れる struct Tile pushとかを使ってた
+    for (unsigned int i=0;i<field.height;i++) {
+        vector<Tile> tileline;
+        for(unsigned int j=0;j<static_cast<unsigned int>(field.width);j++){
+            Tile tileData;
+            tileData.point=static_cast<int>(Field_points.at(static_cast<int>(i)).toArray().at(static_cast<int>(j)).toDouble());
+            tileData.color=WHITE;
+
+            tileline.push_back(tileData);
+        }
+        tile.push_back(tileline);
+    }
+    //QJSON形式をこちらで定義した変数に合わせて入れる struct Agent
+    for(int i=0;i<2;i++){
+        vector<Agent> agentline;
+        for(int j=0;j<Field_teams.at(0).toObject().value("agents").toArray().size();j++){
+            Agent agentData;
+            int k=i*(j+1)+j;
+            agentData.teamID=static_cast<unsigned int>(Field_teams.at(0).toObject().value("teamID").toDouble());
+            QJsonArray agent_array=Field_teams.at(i).toObject().value("agents").toArray();
+            agentData.agentID=static_cast<unsigned int>(agent_array.at(k).toObject().value("agentID").toDouble());
+            agentData.x=static_cast<unsigned int>(agent_array.at(k).toObject().value("x").toDouble());
+            agentData.y=static_cast<unsigned int>(agent_array.at(k).toObject().value("y").toDouble());
+            agentData.tilePoint=static_cast<unsigned int>(Field_teams.at(i).toObject().value("tilePoint").toDouble());
+            agentData.areaPoint=static_cast<unsigned int>(Field_teams.at(i).toObject().value("areaPoint").toDouble());
+            agentline.push_back(agentData);
+        }
+        agent.push_back(agentline);
     }
 
-    for (int i=0;i<Fieldinformaition.height;i++) {for(int j=0;j<Fieldinformaition.width;j++){
-     tilepoint[i][j].point=points_line[i].at(j).toDouble();
-     //std::cout<<FieldInformaitionTurn0.points[i][j];
-    }    }
-
-
-    QJsonArray color_line[20];
-    for (int i=0;i<Fieldinformaition.height;i++) {
-     color_line[i]=Field_color.at(i).toArray();
+/*
+    先輩のプログラム　参考に
+    for(auto itr1 = numberList.begin()+1;itr1 != numberList.end(); ++itr1){
+        vector<Tile> tileList;
+        for(auto itr2 = (*itr1).begin();itr2 != (*itr1).end(); ++itr2){
+            Tile tileData;
+            string s = *itr2;
+            tileData.point =atoi(s.c_str());
+            tileData.color = WHITE;
+            tileList.push_back(tileData);
+        }
+        tile.push_back(tileList);
     }
-
-    for (int i=0;i<Fieldinformaition.height;i++) {for(int j=0;j<Fieldinformaition.width;j++){
-     tilepoint[i][j].color=color_line[i].at(j).toDouble();
-     //std::cout<<FieldInformaitionTurn0.tiled[i][j];
-    }    }
-
-
-    /*QJSON形式をこちらで定義した変数に合わせて入れる struct Agent*/
-    //自身の一人目のAgent
-    agent[0][0].teamID= Field_teams.at(0).toObject().value("teamID").toDouble();
-    QJsonArray our_array=Field_teams.at(0).toObject().value("agents").toArray();
-    agent[0][0].agentID=our_array.at(0).toObject().value("agentID").toDouble();
-    agent[0][0].x=our_array.at(0).toObject().value("x").toDouble();
-    agent[0][0].y=our_array.at(0).toObject().value("y").toDouble();
-    agent[0][0].tilePoint=Field_teams.at(0).toObject().value("tilePoint").toDouble();
-    agent[0][0].areaPoint=Field_teams.at(0).toObject().value("areaPoint").toDouble();
-
-    //自身の二人目のAgent
-    agent[0][1].teamID= Field_teams.at(0).toObject().value("teamID").toDouble();
-    QJsonArray our_second_array=Field_teams.at(0).toObject().value("agents").toArray();
-    agent[0][1].agentID=our_second_array.at(1).toObject().value("agentID").toDouble();
-    agent[0][1].x=our_second_array.at(1).toObject().value("x").toDouble();
-    agent[0][1].y=our_second_array.at(1).toObject().value("y").toDouble();
-    agent[0][1].tilePoint=Field_teams.at(0).toObject().value("tilePoint").toDouble();
-    agent[0][1].areaPoint=Field_teams.at(0).toObject().value("areaPoint").toDouble();
-
-    //相手の一人目のAgent
-    agent[1][0].teamID= Field_teams.at(1).toObject().value("teamID").toDouble();
-    QJsonArray enmey_array=Field_teams.at(1).toObject().value("agents").toArray();
-    agent[1][0].agentID=enmey_array.at(2).toObject().value("agentID").toDouble();
-    agent[1][0].x=our_array.at(2).toObject().value("x").toDouble();
-    agent[1][0].y=our_array.at(2).toObject().value("y").toDouble();
-    agent[1][0].tilePoint=Field_teams.at(1).toObject().value("tilePoint").toDouble();
-    agent[1][0].areaPoint=Field_teams.at(1).toObject().value("areaPoint").toDouble();
-
-    //相手の二人目のAgent
-    agent[1][1].teamID= Field_teams.at(1).toObject().value("teamID").toDouble();
-    QJsonArray enemy_second_array=Field_teams.at(1).toObject().value("agents").toArray();
-    agent[1][1].agentID=enemy_second_array.at(3).toObject().value("agentID").toDouble();
-    agent[1][1].x=our_second_array.at(3).toObject().value("x").toDouble();
-    agent[1][1].y=our_second_array.at(3).toObject().value("y").toDouble();
-    agent[1][1].tilePoint=Field_teams.at(1).toObject().value("tilePoint").toDouble();
-    agent[1][1].areaPoint=Field_teams.at(1).toObject().value("areaPoint").toDouble();
-
-
-    /*QJSON形式をこちらで定義した変数に合わせて入れる(visual studioの形式を再現。フィールド情報)
+    //QJSON形式をこちらで定義した変数に合わせて入れる(visual studioの形式を再現。フィールド情報)
     FieldInformaitionTurn0.width= QFieldfileobj.value("width").toDouble();
     FieldInformaitionTurn0.height= QFieldfileobj.value("height").toDouble();
     QJsonArray points_line[20];
@@ -195,56 +180,55 @@ void AnalyzeField::reload(Field Fieldinformaition,vector<vector<Tile>> tilepoint
     Enemyteam.areaPoint=Field_teams.at(0).toObject().value("areaPoint").toDouble();
     //↑おそらくjson形式の構造体に数値が入ってる
     Myteam.teamID=QFieldfileobj.value("teamID").toDouble();
-*/
-    /*QJSON形式をこちらで定義した変数に合わせて入れる(visual studioの形式を再現。行動情報)
-    QFile MoveInformationID5("行動情報_ID5.json");
-    MoveInformationID5.open(QFile::ReadOnly);
-    QTextStream MoveInformationTextID5 (&MoveInformationID5);
-    //MoveInformationID5 から取り出した textstream をQtクラスのJSON形式に変換
-    QJsonDocument QMoveInformationID5Doc = QJsonDocument::fromJson(MoveInformationTextID5.readAll().toUtf8());
-    QJsonObject QMoveInformationID5obj = QMoveInformationID5Doc.object();
-    QStringList QMoveInformationID5keys =QMoveInformationID5obj.keys();
-    //配列actionsを作成
-    QJsonObject actions_array = QMoveInformationID5obj.value("actions").toArray().at(0).toObject();
-    //qDebug()<<QMoveInformationID5Doc;
-    We_first_agent_actions.agentID= actions_array.value("teamID").toDouble();
-    QJsonArray We_first_agent_actions_Array=actions_array.value("actions").toArray();
-    QJsonObject We_first_agent[8];
-    for (int i=0;i<We_first_agent_actions_Array.size();i++) {
-     We_first_agent[i]=We_first_agent_actions_Array.at(i).toObject();
-     //qDebug()<<our_agents[i];
-     We_first_agent_actions.type=our_agents[i].value("type").toString();
-     //actionsのtypeができてない！
-     //qDebug()<<our_agents[i].value("type").toString();
-     We_first_agent_actions.dx=our_agents[i].value("dx").toDouble();
-     We_first_agent_actions.dy=our_agents[i].value("dy").toDouble();
-    }
-    //ファイルの読み込み 行動情報(ID6)
-    QFile MoveInformationID6("行動情報_ID6.json");
-    MoveInformationID6.open(QFile::ReadOnly);
-    QTextStream MoveInformationTextID6 (&MoveInformationID6);
-    //MoveInformationID6 から取り出した textstream をQtクラスのJSON形式に変換
-    QJsonDocument QMoveInformationID6Doc = QJsonDocument::fromJson(MoveInformationTextID6.readAll().toUtf8());
-    QJsonObject QMoveInformationID6obj = QMoveInformationID6Doc.object();
-    QStringList QMoveInformationID6keys =QMoveInformationID6obj.keys();
-    //配列actionsを作成
-    QJsonArray actions_arrayID6 = QMoveInformationID6obj.value("actions").toArray();
-    We_second_agent_actions.agentID= actions_arrayID6.at(0).toObject().value("teamID").toDouble();
-    QJsonArray We_second_agent_actions_Array=actions_arrayID6.at(0).toObject().value("actions").toArray();
-    QJsonObject We_second_agent[8];
-    for (int i=0;i<We_second_agent_actions_Array.size();i++) {
-     We_second_agent[i]=We_second_agent_actions_Array.at(i).toObject();
-     //qDebug()<<our_agents[i];
-     We_first_agent_actions.type=We_second_agent[i].value("type").toString();
-     //actionsのtypeができてない！
-     qDebug()<<We_second_agent_actions.type;
-     We_second_agent_actions.dx=We_second_agent[i].value("dx").toDouble();
-     We_second_agent_actions.dy=We_second_agent[i].value("dy").toDouble();
-    }
-*/
-    //actionsのtypeができてない！
-    //qDebug()<<We_second_agent[1].value("type");
 
+     //QJSON形式をこちらで定義した変数に合わせて入れる(visual studioの形式を再現。行動情報)
+        QFile MoveInformationID5("行動情報_ID5.json");
+        MoveInformationID5.open(QFile::ReadOnly);
+        QTextStream MoveInformationTextID5 (&MoveInformationID5);
+        //MoveInformationID5 から取り出した textstream をQtクラスのJSON形式に変換
+        QJsonDocument QMoveInformationID5Doc = QJsonDocument::fromJson(MoveInformationTextID5.readAll().toUtf8());
+        QJsonObject QMoveInformationID5obj = QMoveInformationID5Doc.object();
+        QStringList QMoveInformationID5keys =QMoveInformationID5obj.keys();
+        //配列actionsを作成
+        QJsonObject actions_array = QMoveInformationID5obj.value("actions").toArray().at(0).toObject();
+        //qDebug()<<QMoveInformationID5Doc;
+        We_first_agent_actions.agentID= actions_array.value("teamID").toDouble();
+        QJsonArray We_first_agent_actions_Array=actions_array.value("actions").toArray();
+        QJsonObject We_first_agent[8];
+        for (int i=0;i<We_first_agent_actions_Array.size();i++) {
+         We_first_agent[i]=We_first_agent_actions_Array.at(i).toObject();
+         //qDebug()<<our_agents[i];
+         We_first_agent_actions.type=our_agents[i].value("type").toString();
+         //actionsのtypeができてない！
+         //qDebug()<<our_agents[i].value("type").toString();
+         We_first_agent_actions.dx=our_agents[i].value("dx").toDouble();
+         We_first_agent_actions.dy=our_agents[i].value("dy").toDouble();
+        }
+        //ファイルの読み込み 行動情報(ID6)
+        QFile MoveInformationID6("行動情報_ID6.json");
+        MoveInformationID6.open(QFile::ReadOnly);
+        QTextStream MoveInformationTextID6 (&MoveInformationID6);
+        //MoveInformationID6 から取り出した textstream をQtクラスのJSON形式に変換
+        QJsonDocument QMoveInformationID6Doc = QJsonDocument::fromJson(MoveInformationTextID6.readAll().toUtf8());
+        QJsonObject QMoveInformationID6obj = QMoveInformationID6Doc.object();
+        QStringList QMoveInformationID6keys =QMoveInformationID6obj.keys();
+        //配列actionsを作成
+        QJsonArray actions_arrayID6 = QMoveInformationID6obj.value("actions").toArray();
+        We_second_agent_actions.agentID= actions_arrayID6.at(0).toObject().value("teamID").toDouble();
+        QJsonArray We_second_agent_actions_Array=actions_arrayID6.at(0).toObject().value("actions").toArray();
+        QJsonObject We_second_agent[8];
+        for (int i=0;i<We_second_agent_actions_Array.size();i++) {
+         We_second_agent[i]=We_second_agent_actions_Array.at(i).toObject();
+         //qDebug()<<our_agents[i];
+         We_first_agent_actions.type=We_second_agent[i].value("type").toString();
+         //actionsのtypeができてない！
+         qDebug()<<We_second_agent_actions.type;
+         We_second_agent_actions.dx=We_second_agent[i].value("dx").toDouble();
+         We_second_agent_actions.dy=We_second_agent[i].value("dy").toDouble();
+        }
+
+
+*/
 Fieldfile.close();
 
 }

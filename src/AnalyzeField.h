@@ -25,7 +25,8 @@ public:
     void setField();
     void setAgent();
     void setUi();
-    void reload(Field Fieldinformaition,vector<vector<Tile>> tilepoint,vector<vector<Agent>> agent);
+    void reload(vector<vector<Tile>> tile,vector<vector<Agent>> agent,Field field);
+    void drowField();
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -41,7 +42,7 @@ private:
     vector<vector<Agent>>& agent;
     Field& field;
     QPainter *painter;
-    void drowField();
+
     QPixmap *fieldPixmap;
     unsigned int mag;
     int gnc; //gameNumberCount
