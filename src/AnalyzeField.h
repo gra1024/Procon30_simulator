@@ -21,6 +21,8 @@ public:
     void setField();
     void setAgent();
     void setUi();
+    void reload(vector<vector<Tile>> tile,vector<vector<Agent>> agent,Field field);
+    void drowField();
     vector<vector<Tile>> tile;
     vector<vector<Agent>> agent;
     Field field;
@@ -36,7 +38,6 @@ private:
     void decodeAgent(string);
     vector<string> split(const string &str, char sep);
     QPainter *painter;
-    void drowField();
     QPixmap *fieldPixmap;
     unsigned int mag;
 

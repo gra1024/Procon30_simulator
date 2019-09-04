@@ -27,14 +27,23 @@
 #include <QGraphicsScene>
 #include <QDir>
 
+/* ### JSON reader ### */
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QTextStream>
+#include <QDebug>
+#include <QDate>
+#include <QIODevice>
+
 using namespace std;
 
 extern QSettings config;
 
 /* ### Define ### */
-#define RED 0
-#define BLUE 1
-#define WHITE -1
+#define RED 5
+#define BLUE 6
+#define WHITE 0
 
 #define CONFIG_PATH_OF_FIELD_TXT config.value("PATH_OF_FIELD_TXT").toString()
 #define CONFIG_PATH_OF_AGENT_TXT config.value("PATH_OF_AGENT_TXT").toString()
@@ -42,6 +51,8 @@ extern QSettings config;
 
 /* ### struct ### */
 struct Pos{
+    //行動情報から取り出した情報を代入する。
+    unsigned int agentID;
     unsigned int x;
     unsigned int y;
 };
@@ -52,14 +63,19 @@ struct Tile{
 };
 
 struct Agent{
+    unsigned int teamID;
+    unsigned int agentID;
     unsigned int x;
     unsigned int y;
+    unsigned int tilePoint;
+    unsigned int areaPoint;
 };
 
 struct Field{
     unsigned int width;  //横
     unsigned int height; //縦
     unsigned int turn;
+    unsigned int startedAtUnixTime; //謎
     int playerColor[2] = {RED,BLUE};
 };
 

@@ -27,4 +27,3 @@ void MainWindow::on_pushButton_createNewGame_clicked(){
 
 void MainWindow::on_pushButton_close_clicked(){
     qApp->closeAllWindows();
-}
