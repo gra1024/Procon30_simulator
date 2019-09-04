@@ -28,20 +28,17 @@ SOURCES += \
     Main.cpp \
     AnalyzeField.cpp \
     PointCalculate.cpp \
-    MainWindow.cpp \
-    GameTask.cpp
+    MainWindow.cpp
 
 HEADERS += \
     Config.h \
     AnalyzeField.h \
     PointCalculate.h \
-    MainWindow.h \
-    GameTask.h
+    MainWindow.h
 
 FORMS += \
     AnalyzeField.ui \
-    MainWindow.ui \
-    GameTask.ui
+    MainWindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

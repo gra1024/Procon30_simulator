@@ -53,11 +53,10 @@ extern QSettings config;
 
 /* ### struct ### */
 struct Pos{
-    //行動情報から取り出した情報を代入する。
     unsigned int agentID;
     unsigned int x;
     unsigned int y;
-};
+}; //行動情報から取り出した情報を代入する。
 
 struct Tile{
     int point;
