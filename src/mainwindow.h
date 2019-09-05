@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "Config.h"
 #include "AnalyzeField.h"
+#include "NetworkManager.h"
 
 
 namespace Ui {
@@ -18,6 +19,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     AnalyzeField* AF = nullptr;
+    NetworkManager* manager;
 
 private slots:
     void on_pushButton_start_clicked();

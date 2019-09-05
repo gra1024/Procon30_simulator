@@ -5,6 +5,8 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += network
+QT       += network networkauth
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,12 +29,14 @@ CONFIG += c++11
 SOURCES += \
     Main.cpp \
     AnalyzeField.cpp \
+    NetworkManager.cpp \
     PointCalculate.cpp \
     MainWindow.cpp
 
 HEADERS += \
     Config.h \
     AnalyzeField.h \
+    NetworkManager.h \
     PointCalculate.h \
     MainWindow.h
 
