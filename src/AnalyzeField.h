@@ -33,6 +33,8 @@ public:
     Field field;
     int red,blue,colorPattern;
 
+    void encode(int type[],int dx[],int dy[]);
+
 protected:
     void paintEvent(QPaintEvent *event);
 
