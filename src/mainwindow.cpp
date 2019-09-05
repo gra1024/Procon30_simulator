@@ -26,7 +26,8 @@ void MainWindow::on_pushButton_start_clicked(){
 }
 
 void MainWindow::on_pushButton_reload_clicked(){
-
+    manager = new NetworkManager();
+    manager->get();
 }
 
 void MainWindow::on_pushButton_close_clicked(){
