@@ -4,7 +4,12 @@
 #include <QWidget>
 #include "Config.h"
 
+//#include "mainwindow.h"
+#include "ui_MainWindow.h"
+
 using namespace std;
+
+class MainWindow;
 
 namespace Ui {
 class AnalyzeField;
@@ -15,31 +20,32 @@ class AnalyzeField : public QWidget
     Q_OBJECT
 
 public:
-    explicit AnalyzeField(QWidget *parent = nullptr);
+    explicit AnalyzeField(Ui::MainWindow *uiMainWindow, QWidget *parent = nullptr);
     ~AnalyzeField();
     void setup();
-    void setField();
-    void setAgent();
     void setUi();
-    void reload(vector<vector<Tile>> tile,vector<vector<Agent>> agent,Field field);
     void drowField();
+    void pushReload();
+    string decodeAndSet();
+    string decodeAndUpdate();
     vector<vector<Tile>> tile;
-    vector<vector<Agent>> agent;
+    Teams teams[2];
     Field field;
+    int red,blue,colorPattern;
+
+    void encode(int type[],int dx[],int dy[]);
 
 protected:
     void paintEvent(QPaintEvent *event);
 
 private:
     Ui::AnalyzeField *ui;
-    string LoadFieldFromTxt();
-    void decodeField(string);
-    string LoadAgentFromTxt();
-    void decodeAgent(string);
+    Ui::MainWindow *uiMainWindow;
     vector<string> split(const string &str, char sep);
     QPainter *painter;
     QPixmap *fieldPixmap;
     unsigned int mag;
+
 
 };
 

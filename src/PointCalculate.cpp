@@ -114,6 +114,7 @@ int PointCalculate::checkArea(Pos checkPos,int color){
 }
 
 void PointCalculate::debug(){
+    /*
     int tilePoint=getTilePoints(RED);
     int areaPoint=getAreaPoints(RED);
     cout<<"RED.tilePoint..."<<tilePoint<<endl;
@@ -122,6 +123,7 @@ void PointCalculate::debug(){
     areaPoint=getAreaPoints(BLUE);
     cout<<"BLUE.tilePoint..."<<tilePoint<<endl;
     cout<<"BLUE.areaPoint..."<<areaPoint<<endl;
+    */
 }
 
 //#endif // POINTCALCULATE_H

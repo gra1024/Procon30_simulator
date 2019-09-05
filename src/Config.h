@@ -1,5 +1,3 @@
-
-
 #ifndef CONFIG_H
 #define CONFIG_H
 
@@ -52,8 +50,6 @@ using namespace std;
 extern QSettings config;
 
 /* ### Define ### */
-#define RED 5
-#define BLUE 6
 #define WHITE 0
 
 #define CONFIG_PATH_OF_FIELD_TXT config.value("PATH_OF_FIELD_TXT").toString()
@@ -73,20 +69,23 @@ struct Tile{
 };
 
 struct Agent{
-    unsigned int teamID;
-    unsigned int agentID;
+    int agentID;
     unsigned int x;
     unsigned int y;
-    unsigned int tilePoint;
-    unsigned int areaPoint;
+};
+
+struct Teams{
+    int teamID;
+    vector<Agent> agents;
 };
 
 struct Field{
     unsigned int width;  //横
     unsigned int height; //縦
+    unsigned int startedAtUnixTime;
     unsigned int turn;
-    unsigned int startedAtUnixTime; //謎
-    int playerColor[2] = {RED,BLUE};
+    int playerColor[2] = {};
+    int TeamColorNumber[2]={};//[自軍のteamID][敵軍のteamID]
 };
 
 #endif // CONFIG_H
