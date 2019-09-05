@@ -250,3 +250,49 @@ void AnalyzeField::paintEvent(QPaintEvent *event)
     painter.drawPixmap(0, 0, *fieldPixmap);
     painter.end();
 }
+
+void AnalyzeField::encode(int type[],int dx[],int dy[]){
+
+    int agentID_int;
+    QString type_string;
+    int dx_int;
+    int dy_int;
+    QJsonArray jsonarr;
+    QJsonObject actions_obj;
+    vector<QJsonObject> actions_vector;
+    for (unsigned int i=0;i<teams[0].agents.size();i++) {
+        agentID_int = teams[0].agents[i].agentID;
+        switch (type[i]) {
+        case 0 :
+            type_string="stay";
+            break;
+        case 1:
+            type_string="move";
+            break;
+        case 2 :
+            type_string="remove";
+            break;
+        }
+        dx_int=dx[i];
+        dy_int=dy[i];
+        QJsonObject agent_obj={
+            {"teamID",agentID_int},
+            {"type",type_string},
+            {"dx",dx_int},
+            {"dy",dy_int},
+        };
+        actions_vector.push_back(agent_obj);
+    }
+    for(auto name:actions_vector)
+    {
+        jsonarr.append(name);
+    }
+    actions_obj["actions"]=jsonarr;
+    QJsonDocument jsonDoc(actions_obj);
+    //json形式
+    QByteArray data(jsonDoc.toJson());
+    QFile savefile("..\\data\\AgentMoveing.json");
+    savefile.open(QIODevice::WriteOnly);
+    savefile.write(data);
+    savefile.close();
+}
