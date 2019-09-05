@@ -43,19 +43,21 @@ public:
     QLCDNumber *lcdNumber_3;
     QLabel *label_color_white;
     QLabel *label_color_white_2;
+    QLabel *label_teamID;
+    QSpinBox *spinBox_teamID;
 
     void setupUi(QWidget *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
         MainWindow->setWindowModality(Qt::NonModal);
-        MainWindow->resize(850, 260);
+        MainWindow->resize(850, 320);
         QFont font;
         font.setFamily(QString::fromUtf8("MS UI Gothic"));
         MainWindow->setFont(font);
         pushButton_close = new QPushButton(MainWindow);
         pushButton_close->setObjectName(QString::fromUtf8("pushButton_close"));
-        pushButton_close->setGeometry(QRect(640, 210, 200, 40));
+        pushButton_close->setGeometry(QRect(640, 260, 200, 40));
         pushButton_reload = new QPushButton(MainWindow);
         pushButton_reload->setObjectName(QString::fromUtf8("pushButton_reload"));
         pushButton_reload->setGeometry(QRect(220, 10, 200, 40));
@@ -74,10 +76,10 @@ public:
         label_teamColor->setGeometry(QRect(10, 110, 200, 40));
         label_time = new QLabel(MainWindow);
         label_time->setObjectName(QString::fromUtf8("label_time"));
-        label_time->setGeometry(QRect(10, 160, 200, 40));
+        label_time->setGeometry(QRect(10, 210, 200, 40));
         label_maxTurn = new QLabel(MainWindow);
         label_maxTurn->setObjectName(QString::fromUtf8("label_maxTurn"));
-        label_maxTurn->setGeometry(QRect(10, 210, 200, 40));
+        label_maxTurn->setGeometry(QRect(10, 260, 200, 40));
         comboBox_algolithm = new QComboBox(MainWindow);
         comboBox_algolithm->addItem(QString());
         comboBox_algolithm->addItem(QString());
@@ -90,10 +92,10 @@ public:
         comboBox_teamColor->setGeometry(QRect(220, 110, 200, 40));
         spinBox_time = new QSpinBox(MainWindow);
         spinBox_time->setObjectName(QString::fromUtf8("spinBox_time"));
-        spinBox_time->setGeometry(QRect(220, 160, 200, 40));
+        spinBox_time->setGeometry(QRect(220, 210, 200, 40));
         spinBox_maxTurn = new QSpinBox(MainWindow);
         spinBox_maxTurn->setObjectName(QString::fromUtf8("spinBox_maxTurn"));
-        spinBox_maxTurn->setGeometry(QRect(220, 210, 200, 40));
+        spinBox_maxTurn->setGeometry(QRect(220, 260, 200, 40));
         label_color_red = new QLabel(MainWindow);
         label_color_red->setObjectName(QString::fromUtf8("label_color_red"));
         label_color_red->setGeometry(QRect(430, 10, 200, 20));
@@ -130,6 +132,13 @@ public:
         label_color_white_2->setObjectName(QString::fromUtf8("label_color_white_2"));
         label_color_white_2->setGeometry(QRect(430, 180, 200, 20));
         label_color_white_2->setStyleSheet(QString::fromUtf8("background:#fff"));
+        label_teamID = new QLabel(MainWindow);
+        label_teamID->setObjectName(QString::fromUtf8("label_teamID"));
+        label_teamID->setGeometry(QRect(10, 160, 200, 40));
+        spinBox_teamID = new QSpinBox(MainWindow);
+        spinBox_teamID->setObjectName(QString::fromUtf8("spinBox_teamID"));
+        spinBox_teamID->setGeometry(QRect(220, 160, 200, 40));
+        spinBox_teamID->setMaximum(999999999);
 
         retranslateUi(MainWindow);
 
@@ -158,6 +167,7 @@ public:
         label_color_blue_2->setText(QString());
         label_color_white->setText(QString());
         label_color_white_2->setText(QString());
+        label_teamID->setText(QApplication::translate("MainWindow", "TeamID", nullptr));
     } // retranslateUi
 
 };

@@ -21,12 +21,12 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_pushButton_start_clicked(){
-    AF = new AnalyzeField();
+    AF = new AnalyzeField(ui);
     AF->setup();
 }
 
 void MainWindow::on_pushButton_reload_clicked(){
-
+    AF->pushReload();
 }
 
 void MainWindow::on_pushButton_close_clicked(){
