@@ -27,6 +27,14 @@
 #include <QGraphicsScene>
 #include <QDir>
 
+/* ### Network Library ### */
+
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QEventLoop>
+#include <QUrl>
+
 /* ### JSON reader ### */
 #include <QJsonDocument>
 #include <QJsonObject>

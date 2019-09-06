@@ -29,6 +29,8 @@ void MainWindow::on_pushButton_start_clicked(){
 
 void MainWindow::on_pushButton_reload_clicked(){
     AF->pushReload();
+    manager = new NetworkManager();
+    manager->get();
 }
 
 void MainWindow::on_pushButton_close_clicked(){

@@ -5,6 +5,7 @@
 #include "Config.h"
 #include "AnalyzeField.h"
 #include "Computer.h"
+#include "NetworkManager.h"
 
 
 namespace Ui {
@@ -20,6 +21,7 @@ public:
     ~MainWindow();
     AnalyzeField* AF = nullptr;
     Computer* C=nullptr;
+    NetworkManager* manager;
     vector<vector<Tile>> tile;
     Teams teams[2];
     Field field;
