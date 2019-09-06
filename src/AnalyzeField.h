@@ -25,6 +25,7 @@ public:
     void pushReload();
     string decodeAndSet();
     string decodeAndUpdate();
+    void encode(int type[],int dx[],int dy[]);
     vector<vector<Tile>> *tile;
     Teams *teams;
     Field *field;
