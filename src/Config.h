@@ -67,10 +67,17 @@ struct Tile{
     int color;
 };
 
+struct Actions{
+    int type;
+    int dx;
+    int dy;
+};
+
 struct Agent{
     int agentID;
     unsigned int x;
     unsigned int y;
+    Actions actions;
 };
 
 struct Teams{
@@ -85,12 +92,6 @@ struct Field{
     unsigned int turn;
     int playerColor[2] = {};
     int TeamColorNumber[2]={};//[自軍のteamID][敵軍のteamID]
-};
-
-struct Actions{
-    int type;
-    int dx;
-    int dy;
 };
 
 #endif // CONFIG_H

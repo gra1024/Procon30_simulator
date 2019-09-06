@@ -25,6 +25,8 @@ void MainWindow::on_pushButton_start_clicked(){
     AF->setup(&tile, teams, &field);
     C = new Computer(ui);
     C->setup(&tile, teams, &field);
+    UF = new UnficationField();
+    UF->setup(&tile, teams, &field);
 }
 
 void MainWindow::on_pushButton_reload_clicked(){
