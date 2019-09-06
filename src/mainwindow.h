@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include "Config.h"
 #include "AnalyzeField.h"
-#include "NetworkManager.h"
+#include "Computer.h"
 
 
 namespace Ui {
@@ -19,7 +19,10 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     AnalyzeField* AF = nullptr;
-    NetworkManager* manager;
+    Computer* C=nullptr;
+    vector<vector<Tile>> tile;
+    Teams teams[2];
+    Field field;
 
 private slots:
     void on_pushButton_start_clicked();

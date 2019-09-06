@@ -5,8 +5,6 @@
 #-------------------------------------------------
 
 QT       += core gui
-QT       += network
-QT       += network networkauth
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    Computer.cpp \
     Main.cpp \
     AnalyzeField.cpp \
     NetworkManager.cpp \
@@ -34,6 +33,7 @@ SOURCES += \
     MainWindow.cpp
 
 HEADERS += \
+    Computer.h \
     Config.h \
     AnalyzeField.h \
     NetworkManager.h \
