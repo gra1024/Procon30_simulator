@@ -41,6 +41,7 @@ void AnalyzeField::setup(vector<vector<Tile>> *tile, Teams *teams, Field *field)
 void AnalyzeField::pushReload(){
     decodeAndUpdate();
     drowField();
+    repaint();
 }
 
 string AnalyzeField::decodeAndSet(){
@@ -132,14 +133,16 @@ string AnalyzeField::decodeAndUpdate(){
 
     for (unsigned int i=0;i<field->height;i++) {
         for(unsigned int j=0;j<field->width;j++){
-            tile->at(i).at(j).point=arrTiled.at(static_cast<int>(i)).toArray().at(static_cast<int>(j)).toInt();
+            tile->at(i).at(j).color=arrTiled.at(static_cast<int>(i)).toArray().at(static_cast<int>(j)).toInt();
         }
     }
 
     for(int i=0;i<2;++i){
         for(int j=0;j<arrTeams.at(i).toObject().value("agents").toArray().size();++j){
-            teams[i].agents[static_cast<unsigned>(j)].x = static_cast<unsigned>(arrTeams.at(i).toObject().value("x").toInt());
-            teams[i].agents[static_cast<unsigned>(j)].y = static_cast<unsigned>(arrTeams.at(i).toObject().value("y").toInt());
+            teams[i].agents[static_cast<unsigned>(j)].x
+                    = static_cast<unsigned>(arrTeams.at(i).toObject().value("agents").toArray().at(j).toObject().value("x").toInt());
+            teams[i].agents[static_cast<unsigned>(j)].y
+                    = static_cast<unsigned>(arrTeams.at(i).toObject().value("agents").toArray().at(j).toObject().value("y").toInt());
         }
     }
     file.close();
@@ -154,33 +157,33 @@ void AnalyzeField::setUi()
 }
 
 void AnalyzeField::drowField(){
-   /*
-    cout<<"turn"<<field.turn<<endl;
-    cout<<"width"<<field.width<<endl;
-    cout<<"height"<<field.height<<endl;
-    cout<<"sut"<<field.startedAtUnixTime<<endl;
+
+    cout<<"turn"<<field->turn<<endl;
+    cout<<"width"<<field->width<<endl;
+    cout<<"height"<<field->height<<endl;
+    cout<<"sut"<<field->startedAtUnixTime<<endl;
     cout<<"color"<<endl;
-    for(unsigned int y=0; y<field.height; ++y){
-        for(unsigned int x=0; x<field.width; ++x){
-            cout<<tile[y][x].color;
+    for(unsigned int y=0; y<field->height; ++y){
+        for(unsigned int x=0; x<field->width; ++x){
+            cout<<tile->at(y).at(x).color;
         }
         cout<<endl;
     }
     cout<<"point"<<endl;
-    for(unsigned int y=0; y<field.height; ++y){
+    for(unsigned int y=0; y<field->height; ++y){
 
-        for(unsigned int x=0; x<field.width; ++x){
-            cout<< tile[y][x].point;
+        for(unsigned int x=0; x<field->width; ++x){
+            cout<< tile->at(y).at(x).point;
         }
         cout<<endl;
     }
     for(int i=0;i<2;++i){
         cout<<"teamID["<<i<<"] "<< teams[i].teamID<<endl;
-        for(int j=0;j<teams[i].agents.size();++j){
+        for(unsigned int j=0; j<teams->agents.size();++j){
             cout<<"agent["<<i<<"]["<<j<<"] "<< " "<<teams[i].agents[j].agentID <<" "<< teams[i].agents[j].x<<" " << teams[i].agents[j].y<<endl;
         }
     }
-    */
+
 
     this->fieldPixmap=new QPixmap(QSize(static_cast<int>(mag*field->width) + 1, static_cast<int>(mag*field->height) + 1));
     QPainter painter(this->fieldPixmap);
@@ -232,7 +235,7 @@ void AnalyzeField::drowField(){
 
     for(unsigned int i=0; i<2; ++i){
         for(unsigned int j=0; j < teams[i].agents.size(); ++j){
-            str = QString::fromStdString(to_string(j+1));
+            str = QString::fromStdString(to_string(j));
             painter.drawText(static_cast<int>((teams[i].agents[j].x*mag)-mag*0.4), static_cast<int>((teams[i].agents[j].y*mag)-mag*0.1),str);
         }
     }//エージェントナンバーを描写
