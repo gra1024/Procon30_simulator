@@ -2,14 +2,12 @@
 #define POINTCALCULATE_H
 
 #include "Config.h"
-#include "MainWindow.h"
 
 class PointCalculate
 {
 public:
-    PointCalculate(vector<vector<Tile>>& tile,vector<vector<Agent>>& agent,Field& field);
-
-    MainWindow *mainWindow;
+    explicit PointCalculate();
+    void setup(vector<vector<Tile>> *tile, Teams *teams, Field *field);
     Pos makePos(int x,int y);
     int getTilePoints(int color);//タイルポイントを返す
     int getAreaPoints(int color);//領域ポイント計算関数...領域ポイントを返す
@@ -20,15 +18,12 @@ public:
     vector<vector<bool>> areaData;
     vector<vector<int>> checkedData;
 
-    //以下の定義はのちに削除する
-    unsigned int height =4;//仮の縦幅
-    unsigned int width = 4;//仮の横幅
     void debug();//動作確認用
 
 private:
-    vector<vector<Tile>>& tile;
-    vector<vector<Agent>>& agent;
-    Field& field;
+    vector<vector<Tile>> *tile;
+    Teams *teams;
+    Field *field;
 
 };
 #endif // POINTCALCULATE_H
