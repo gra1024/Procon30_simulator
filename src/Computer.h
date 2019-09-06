@@ -1,7 +1,6 @@
 #ifndef COMPUTER_H
 #define COMPUTER_H
 
-#include <QWidget>
 #include "Config.h"
 
 #include "ui_MainWindow.h"
