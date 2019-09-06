@@ -35,7 +35,6 @@
 #include <QEventLoop>
 #include <QUrl>
 
-
 /* ### JSON reader ### */
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -86,6 +85,12 @@ struct Field{
     unsigned int turn;
     int playerColor[2] = {};
     int TeamColorNumber[2]={};//[自軍のteamID][敵軍のteamID]
+};
+
+struct Actions{
+    int type;
+    int dx;
+    int dy;
 };
 
 #endif // CONFIG_H

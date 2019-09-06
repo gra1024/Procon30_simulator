@@ -21,11 +21,14 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_pushButton_start_clicked(){
-    AF = new AnalyzeField();
-    AF->setup();
+    AF = new AnalyzeField(ui);
+    AF->setup(&tile, teams, &field);
+    C = new Computer(ui);
+    C->setup(&tile, teams, &field);
 }
 
 void MainWindow::on_pushButton_reload_clicked(){
+    AF->pushReload();
     manager = new NetworkManager();
     manager->get();
 }
