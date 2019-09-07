@@ -21,13 +21,16 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_pushButton_start_clicked(){
+    /*
     AF = new AnalyzeField();
     AF->setup();
+    */
 }
 
 void MainWindow::on_pushButton_reload_clicked(){
-    manager = new NetworkManager();
+    manager = new NetworkManager(ui);
     manager->get();
+    manager->post();
 }
 
 void MainWindow::on_pushButton_close_clicked(){
