@@ -31,7 +31,7 @@ void NetworkManager::get()//試合情報の取得
     qDebug()<<jsonStr;//応答(試合情報)をQStringで表示
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonStr.toUtf8());
-    matchReply = jsonDoc.object();//これをAnalizeFieldでデコードする
+    matchReply = jsonDoc.object();//これをAnalyzeFieldでデコードする
 
     //この後computerクラスで最善手の計算を行い、QString actionをpost()が受け取る流れ
     //試合事前情報の取得ではjson変換はなし、この結果を見てMainWindowでteamID等を入力する形式の予定
