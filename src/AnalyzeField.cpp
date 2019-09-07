@@ -34,12 +34,20 @@ void AnalyzeField::setup(vector<vector<Tile>> *tile, Teams *teams, Field *field)
     this->field = field;
     decodeAndSet();
     setUi();
-    drowField();
-    repaint();
 }
 
 void AnalyzeField::pushReload(){
     decodeAndUpdate();
+}
+
+void AnalyzeField::setUi()
+{
+    mag = CONFIG_MAGNIFICATION_OF_FIELD/100*50;
+    setFixedSize(QSize(mag*field->width + 1, mag*field->height+ 1));
+    show();
+}
+
+void AnalyzeField::drow(){
     drowField();
     repaint();
 }
@@ -54,10 +62,10 @@ string AnalyzeField::decodeAndSet(){
     QJsonDocument jsonDoc = QJsonDocument::fromJson(in.readAll().toUtf8());
     QJsonObject obj = jsonDoc.object();
 
-    field->width = static_cast<unsigned>(obj["width"].toInt());
-    field->height = static_cast<unsigned>(obj["height"].toInt());
-    field->startedAtUnixTime = static_cast<unsigned>(obj["startedAtUnixTime"].toInt());
-    field->turn = static_cast<unsigned>(obj["turn"].toInt());
+    field->width = obj["width"].toInt();
+    field->height = obj["height"].toInt();
+    field->startedAtUnixTime = obj["startedAtUnixTime"].toInt();
+    field->turn = obj["turn"].toInt();
 
     QJsonArray arrPoints = obj["points"].toArray();
     QJsonArray arrTiled = obj["tiled"].toArray();
@@ -80,8 +88,8 @@ string AnalyzeField::decodeAndSet(){
         for(int j=0;j<arrTeams.at(i).toObject().value("agents").toArray().size();++j){
             Agent agentData;
             agentData.agentID = arrTeams.at(i).toObject().value("agents").toArray().at(j).toObject().value("agentID").toInt();
-            agentData.x = static_cast<unsigned>(arrTeams.at(i).toObject().value("agents").toArray().at(j).toObject().value("x").toInt());
-            agentData.y = static_cast<unsigned>(arrTeams.at(i).toObject().value("agents").toArray().at(j).toObject().value("y").toInt());
+            agentData.x = arrTeams.at(i).toObject().value("agents").toArray().at(j).toObject().value("x").toInt();
+            agentData.y = arrTeams.at(i).toObject().value("agents").toArray().at(j).toObject().value("y").toInt();
             teams[i].agents.push_back(agentData);
         }
     }
@@ -131,29 +139,22 @@ string AnalyzeField::decodeAndUpdate(){
     QJsonArray arrTiled = obj["tiled"].toArray();
     QJsonArray arrTeams = obj["teams"].toArray();
 
-    for (unsigned int i=0;i<field->height;i++) {
-        for(unsigned int j=0;j<field->width;j++){
-            tile->at(i).at(j).color=arrTiled.at(static_cast<int>(i)).toArray().at(static_cast<int>(j)).toInt();
+    for (int i=0;i<field->height;i++) {
+        for(int j=0;j<field->width;j++){
+            tile->at(static_cast<unsigned>(i)).at(static_cast<unsigned>(j)).color=arrTiled.at(i).toArray().at(j).toInt();
         }
     }
 
     for(int i=0;i<2;++i){
         for(int j=0;j<arrTeams.at(i).toObject().value("agents").toArray().size();++j){
             teams[i].agents[static_cast<unsigned>(j)].x
-                    = static_cast<unsigned>(arrTeams.at(i).toObject().value("agents").toArray().at(j).toObject().value("x").toInt());
+                    = arrTeams.at(i).toObject().value("agents").toArray().at(j).toObject().value("x").toInt();
             teams[i].agents[static_cast<unsigned>(j)].y
-                    = static_cast<unsigned>(arrTeams.at(i).toObject().value("agents").toArray().at(j).toObject().value("y").toInt());
+                    = arrTeams.at(i).toObject().value("agents").toArray().at(j).toObject().value("y").toInt();
         }
     }
     file.close();
     return "";
-}
-
-void AnalyzeField::setUi()
-{
-    mag = static_cast<unsigned>(CONFIG_MAGNIFICATION_OF_FIELD)/100*50;
-    setFixedSize(QSize(static_cast<int>(mag*field->width) + 1, static_cast<int>(mag*field->height) + 1));
-    show();
 }
 
 void AnalyzeField::drowField(){
@@ -163,17 +164,17 @@ void AnalyzeField::drowField(){
     cout<<"height"<<field->height<<endl;
     cout<<"sut"<<field->startedAtUnixTime<<endl;
     cout<<"color"<<endl;
-    for(unsigned int y=0; y<field->height; ++y){
-        for(unsigned int x=0; x<field->width; ++x){
-            cout<<tile->at(y).at(x).color;
+    for(int y=0; y<field->height; ++y){
+        for(int x=0; x<field->width; ++x){
+            cout<<tile->at(static_cast<unsigned>(y)).at(static_cast<unsigned>(x)).color;
         }
         cout<<endl;
     }
     cout<<"point"<<endl;
-    for(unsigned int y=0; y<field->height; ++y){
+    for(int y=0; y<field->height; ++y){
 
-        for(unsigned int x=0; x<field->width; ++x){
-            cout<< tile->at(y).at(x).point;
+        for(int x=0; x<field->width; ++x){
+            cout<< tile->at(static_cast<unsigned>(y)).at(static_cast<unsigned>(x)).point;
         }
         cout<<endl;
     }
@@ -187,16 +188,18 @@ void AnalyzeField::drowField(){
 
     this->fieldPixmap=new QPixmap(QSize(static_cast<int>(mag*field->width) + 1, static_cast<int>(mag*field->height) + 1));
     QPainter painter(this->fieldPixmap);
-    for(unsigned int y=0; y<field->height; ++y){
-        for(unsigned int x=0; x<field->width; ++x){
+    for(int y=0; y<field->height; ++y){
+        for(int x=0; x<field->width; ++x){
             QPointF points[4] = {
                 QPointF(x*mag, y*mag),
                 QPointF(x*mag+mag, y*mag),
                 QPointF(x*mag+mag, y*mag+mag),
                 QPointF(x*mag, y*mag+mag)
             };
-            if(tile->at(y).at(x).color==red) painter.setBrush(QBrush(QColor(255, 102, 102, 255), Qt::SolidPattern));
-            else if(tile->at(y).at(x).color==blue) painter.setBrush(QBrush(QColor(102, 102, 255, 255), Qt::SolidPattern));
+            if(tile->at(static_cast<unsigned>(y)).at(static_cast<unsigned>(x)).color==red)
+                painter.setBrush(QBrush(QColor(255, 102, 102, 255), Qt::SolidPattern));
+            else if(tile->at(static_cast<unsigned>(y)).at(static_cast<unsigned>(x)).color==blue)
+                painter.setBrush(QBrush(QColor(102, 102, 255, 255), Qt::SolidPattern));
             else painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
             painter.drawConvexPolygon(points, 4);
         }
@@ -226,14 +229,14 @@ void AnalyzeField::drowField(){
     QFont font = painter.font();
     font.setPixelSize(static_cast<int>(mag*0.4));
     painter.setFont(font);
-    for(unsigned int y=0; y<field->height; ++y){
-        for(unsigned int x=0; x<field->width; ++x){
-            str = QString::fromStdString(to_string(tile->at(y).at(x).point));
+    for(int y=0; y<field->height; ++y){
+        for(int x=0; x<field->width; ++x){
+            str = QString::fromStdString(to_string(tile->at(static_cast<unsigned>(y)).at(static_cast<unsigned>(x)).point));
             painter.drawText(static_cast<int>(x*mag+mag*0.3), static_cast<int>(y*mag+mag*0.4),str);
         }
     }//タイルのポイントを描写
 
-    for(unsigned int i=0; i<2; ++i){
+    for(int i=0; i<2; ++i){
         for(unsigned int j=0; j < teams[i].agents.size(); ++j){
             str = QString::fromStdString(to_string(j));
             painter.drawText(static_cast<int>((teams[i].agents[j].x*mag)-mag*0.4), static_cast<int>((teams[i].agents[j].y*mag)-mag*0.1),str);
