@@ -18,7 +18,8 @@ void NetworkManager::get()//試合情報の取得
         QString matchIDStr;
         QString urlStr = QString("%1%2%3").arg(url.toString()).arg("/").arg(matchIDStr.setNum(matchID));
         url=QUrl(urlStr);
-        cout<<urlStr.toLocal8Bit().constData()<<endl;//QString to std::string urlCheck
+        //cout<<urlStr.toLocal8Bit().constData()<<endl;//QString to std::string urlCheck
+        qDebug()<<"URL:"<<urlStr;
     }
 
     QNetworkRequest request(url);
@@ -36,14 +37,14 @@ void NetworkManager::get()//試合情報の取得
     matchReply = jsonDoc.object();//これをAnalizeFieldでデコードする
 
     //試合事前情報の取得ではjson変換はなし、この結果を見てMainWindowでteamID等を入力する形式の予定
-    //試合情報の取得ではjson変換する、これをAnalyzefieldへ送信し、計算用変数へデコードしてもらう
+    //試合情報の取得ではjson変換する、これをAnalyzefieldへ送信し、デコード、盤面更新を行う
 }
 
-void NetworkManager::post()//actionの提出(POST)、行動結果の取得
+void NetworkManager::post()//actionの提出(POST)
 {
     if(matchID==0)return;//試合事前情報取得時のpostを防ぐ
     QString postDataStr = "{\"actions\":[{\"agentID\":2,\"dx\":1,\"dy\":1,\"type\":\"move\"},{\"agentID\":3,\"dx\":1,\"dy\":1,\"type\":\"move\"}]}";
-    //ここはAnalizeFieldのエンコードよりactionのQstringを取得できるようにする
+    //↑ここはcomputerクラスよりactionのQstringを取得できるようにする
     QByteArray postData = postDataStr.toUtf8();
 
     QNetworkAccessManager* manager = new QNetworkAccessManager();
@@ -56,7 +57,8 @@ void NetworkManager::post()//actionの提出(POST)、行動結果の取得
     QString matchIDStr;
     QString urlStr = QString("%1%2%3%4").arg(url.toString()).arg("/").arg(matchIDStr.setNum(matchID)).arg("/action");
     url=QUrl(urlStr);
-    cout<<urlStr.toLocal8Bit().constData()<<endl;//QString to std::string
+    //cout<<urlStr.toLocal8Bit().constData()<<endl;//QString to std::string
+    qDebug()<<"URL:"<<urlStr;
 
     QNetworkRequest request(url);
 
@@ -66,8 +68,5 @@ void NetworkManager::post()//actionの提出(POST)、行動結果の取得
     eventLoop.exec();
 
     QString jsonStr = QString::fromUtf8(reply->readAll());
-    qDebug()<<jsonStr;//応答(行動結果)をQStringで表示
-
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonStr.toUtf8());
-    moveReply = jsonDoc.object();//これをAnalizeFieldでデコードする
+    qDebug()<<jsonStr;//応答(行動結果)をQStringで表示...この応答はAnalyzeで使わないので送信の合否確認程度に
 }
