@@ -18,7 +18,6 @@ void NetworkManager::get()//試合情報の取得
         QString matchIDStr;
         QString urlStr = QString("%1%2%3").arg(url.toString()).arg("/").arg(matchIDStr.setNum(matchID));
         url=QUrl(urlStr);
-        //cout<<urlStr.toLocal8Bit().constData()<<endl;//QString to std::string urlCheck
         qDebug()<<"URL:"<<urlStr;
     }
 
@@ -31,13 +30,12 @@ void NetworkManager::get()//試合情報の取得
     QString jsonStr = QString::fromUtf8(reply->readAll());
     qDebug()<<jsonStr;//応答(試合情報)をQStringで表示
 
-    //この後replyをAnalyzeFieldに送ってデータデコード、computerクラスで最善手の計算を行い、AnalyzeFieldで行動のエンコード、それをpost()が受け取る流れ
-
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonStr.toUtf8());
     matchReply = jsonDoc.object();//これをAnalizeFieldでデコードする
 
+    //この後computerクラスで最善手の計算を行い、QString actionをpost()が受け取る流れ
     //試合事前情報の取得ではjson変換はなし、この結果を見てMainWindowでteamID等を入力する形式の予定
-    //試合情報の取得ではjson変換する、これをAnalyzefieldへ送信し、デコード、盤面更新を行う
+    //試合情報の取得ではjson変換する、これをAnalyzefieldでデコードし、各ターンの盤面更新を自動で行う
 }
 
 void NetworkManager::post()//actionの提出(POST)
@@ -57,7 +55,6 @@ void NetworkManager::post()//actionの提出(POST)
     QString matchIDStr;
     QString urlStr = QString("%1%2%3%4").arg(url.toString()).arg("/").arg(matchIDStr.setNum(matchID)).arg("/action");
     url=QUrl(urlStr);
-    //cout<<urlStr.toLocal8Bit().constData()<<endl;//QString to std::string
     qDebug()<<"URL:"<<urlStr;
 
     QNetworkRequest request(url);
