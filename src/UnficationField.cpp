@@ -23,17 +23,17 @@ void UnficationField::start(){
     provisionalMove();
     while(1){
         if(check()) break;
+
     }
-        cout << "YUYUI" << endl;
     move();
     encode();
-
 }
 
 string UnficationField::load(int teamNum, string path){
     QFile file(QString::fromStdString(path));
     if (! file.open(QFile::ReadOnly)) {
-        return "ERROR --UnficationField::load-- ";
+        cout << "ERROR --UnficationField::load-- " << endl;
+        return "ERROR";
     }
     QTextStream in(&file);
 
@@ -43,16 +43,16 @@ string UnficationField::load(int teamNum, string path){
     QJsonArray arrTeams = obj["actions"].toArray();
 
     for(unsigned int j=0;j<static_cast<unsigned>(arrTeams.at(teamNum).toObject().size());++j){
-
         string str = arrTeams.at(teamNum).toObject().value("type").toString().toStdString();
         if(str=="move") teams[teamNum].agents[j].actions.type = 1;
         else if(str=="remove") teams[teamNum].agents[j].actions.type = 2;
         else if(str=="stay") teams[teamNum].agents[j].actions.type = 0;
         else teams[teamNum].agents[j].actions.type = -1;
 
-        teams[teamNum].agents[j].actions.dx= arrTeams.at(teamNum).toObject().value("dx").toInt();
-        teams[teamNum].agents[j].actions.dy= arrTeams.at(teamNum).toObject().value("dy").toInt();
+        teams[teamNum].agents[j].actions.dx = arrTeams.at(teamNum).toObject().value("dx").toInt();
+        teams[teamNum].agents[j].actions.dy = arrTeams.at(teamNum).toObject().value("dy").toInt();
         teams[teamNum].agents[j].actions.apply=1;
+        cout << arrTeams.at(teamNum).toObject().value("dx").toInt() << endl;
     }
     file.close();
     return "";
@@ -61,8 +61,9 @@ string UnficationField::load(int teamNum, string path){
 void UnficationField::provisionalMove(){
     for(int i=0;i<2;++i){
         for(unsigned int j=0;j<(teams[i].agents.size());++j){
-            provisionalTeams[i].agents[j].x+=teams[i].agents[j].actions.dx;
+            provisionalTeams[i].agents[j].x += teams[i].agents[j].actions.dx;
             provisionalTeams[i].agents[j].y+=teams[i].agents[j].actions.dy;
+
             if((provisionalTeams[i].agents[j].x<0 && provisionalTeams[i].agents[j].x>=field->width)
                     &&(provisionalTeams[i].agents[j].y<0 && provisionalTeams[i].agents[j].y>=field->height)){
                 provisionalTeams[i].agents[j].x -= teams[i].agents[j].actions.dx;

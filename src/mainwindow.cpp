@@ -21,16 +21,13 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_pushButton_start_clicked(){
+    AF = new AnalyzeField(ui);
+    AF->setup(&tile, teams, &field);
+    AF->drow();
     if(ui->checkBox_practice->checkState()==0){
-        AF = new AnalyzeField(ui);
-        AF->setup(&tile, teams, &field);
-        AF->drow();
         C = new Computer(ui);
         C->setup(&tile, teams, &field);
     }else{
-        AF = new AnalyzeField(ui);
-        AF->setup(&tile, teams, &field);
-        AF->drow();
         UF = new UnficationField();
         UF->setup(&tile, teams, &field);
     }
@@ -41,8 +38,10 @@ void MainWindow::on_pushButton_reload_clicked(){
     if(ui->checkBox_practice->checkState()==0){
         AF->pushReload();
         AF->drow();
+
         manager = new NetworkManager();
         manager->get();
+
     }else{
         UF->start();
         AF->drow();
