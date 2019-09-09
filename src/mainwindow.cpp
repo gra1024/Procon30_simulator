@@ -21,6 +21,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_pushButton_start_clicked(){
+
     AF = new AnalyzeField(ui);
     AF->setup(&tile, teams, &field);
     C = new Computer(ui);
@@ -31,6 +32,7 @@ void MainWindow::on_pushButton_reload_clicked(){
     AF->pushReload();
     NM = new NetworkManager();
     NM->get();
+    NM->post();
 }
 
 void MainWindow::on_pushButton_close_clicked(){
