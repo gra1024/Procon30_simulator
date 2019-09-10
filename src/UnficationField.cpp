@@ -42,17 +42,16 @@ string UnficationField::load(int teamNum, string path){
 
     QJsonArray arrTeams = obj["actions"].toArray();
 
-    for(unsigned int j=0;j<static_cast<unsigned>(arrTeams.at(teamNum).toObject().size());++j){
-        string str = arrTeams.at(teamNum).toObject().value("type").toString().toStdString();
-        if(str=="move") teams[teamNum].agents[j].actions.type = 1;
-        else if(str=="remove") teams[teamNum].agents[j].actions.type = 2;
-        else if(str=="stay") teams[teamNum].agents[j].actions.type = 0;
-        else teams[teamNum].agents[j].actions.type = -1;
+    for(int j=0;j<arrTeams.size();++j){
+        string str = arrTeams.at(j).toObject().value("type").toString().toStdString();
+        if(str=="move") teams[teamNum].agents[static_cast<unsigned>(j)].actions.type = 1;
+        else if(str=="remove") teams[teamNum].agents[static_cast<unsigned>(j)].actions.type = 2;
+        else if(str=="stay") teams[teamNum].agents[static_cast<unsigned>(j)].actions.type = 0;
+        else teams[teamNum].agents[static_cast<unsigned>(j)].actions.type = -1;
 
-        teams[teamNum].agents[j].actions.dx = arrTeams.at(teamNum).toObject().value("dx").toInt();
-        teams[teamNum].agents[j].actions.dy = arrTeams.at(teamNum).toObject().value("dy").toInt();
-        teams[teamNum].agents[j].actions.apply=1;
-        cout << arrTeams.at(teamNum).toObject().value("dx").toInt() << endl;
+        teams[teamNum].agents[static_cast<unsigned>(j)].actions.dx = arrTeams.at(j).toObject().value("dx").toInt();
+        teams[teamNum].agents[static_cast<unsigned>(j)].actions.dy = arrTeams.at(j).toObject().value("dy").toInt();
+        teams[teamNum].agents[static_cast<unsigned>(j)].actions.apply=1;
     }
     file.close();
     return "";
