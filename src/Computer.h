@@ -17,7 +17,7 @@ public:
     Field *field;
     Agent *agent;
     Actions *action;
-    void startAlgo(unsigned int AlgoNumber);
+    void startAlgo(int AlgoNumber);
 
 private:
     Ui::MainWindow *uiMainWindow;

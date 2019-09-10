@@ -18,7 +18,7 @@ void Computer::setup(vector<vector<Tile>> *tile, Teams *teams, Field *field,Acti
     this->action = action;
 }
 
-void Computer::startAlgo(unsigned int AlgoNumber){
+void Computer::startAlgo(int AlgoNumber){
     switch(AlgoNumber){
     case 0:
         greedy();
@@ -26,6 +26,7 @@ void Computer::startAlgo(unsigned int AlgoNumber){
     case 1:
         ;
     }
+
 }
 void Computer::greedy(){
     unsigned int i,j;

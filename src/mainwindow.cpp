@@ -31,7 +31,9 @@ void MainWindow::on_pushButton_reload_clicked(){
     AF->pushReload();
     manager = new NetworkManager();
     manager->get();
-    C->startAlgo(AlgoNumber);
+    if(ui->comboBox_algolithm->currentText()=="Algolithm1"){
+        C->startAlgo(0);
+    }
 }
 
 void MainWindow::on_pushButton_close_clicked(){
