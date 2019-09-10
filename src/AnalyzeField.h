@@ -40,6 +40,7 @@ private:
     vector<string> split(const string &str, char sep);
     QPainter *painter;
     QPixmap *fieldPixmap;
+
     unsigned int mag;
 
 

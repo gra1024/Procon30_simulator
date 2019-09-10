@@ -2,24 +2,13 @@
 #define NETWORKMANAGER_H
 
 #include "Config.h"
-#include "ui_MainWindow.h"
 
 class NetworkManager:public QObject
 {
 public:
-    QObject object;
-
-    NetworkManager(Ui::MainWindow *uiMainWindow);
+    NetworkManager();
     void get();//Reloadを押すと試合情報が返ってくる
     void post();//Reloadを押すとactionを送信し、行動結果を取得する
-
-    int matchID;
-
-    QJsonObject matchReply;
-    QJsonObject moveReply;
-
-private:
-    Ui::MainWindow *uiMainWindow;
 
 };
 

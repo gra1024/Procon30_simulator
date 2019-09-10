@@ -21,18 +21,17 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_pushButton_start_clicked(){
-
     AF = new AnalyzeField(ui);
     AF->setup(&tile, teams, &field);
     C = new Computer(ui);
-    C->setup(&tile, teams, &field);
+    C->setup(&tile, teams, &field, &action);    
 }
 
 void MainWindow::on_pushButton_reload_clicked(){
     AF->pushReload();
-    NM = new NetworkManager(ui);
-    NM->get();
-    NM->post();
+    manager = new NetworkManager();
+    manager->get();
+    C->startAlgo(AlgoNumber);
 }
 
 void MainWindow::on_pushButton_close_clicked(){

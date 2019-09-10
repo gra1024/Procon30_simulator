@@ -20,11 +20,12 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     AnalyzeField* AF = nullptr;
-    Computer* C = nullptr;
-    NetworkManager* NM = nullptr;
+    Computer* C=nullptr;
+    NetworkManager* manager;
     vector<vector<Tile>> tile;
     Teams teams[2];
     Field field;
+    Actions action;
 
 private slots:
     void on_pushButton_start_clicked();
@@ -35,7 +36,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-
 };
 
 #endif // MAINWINDOW_H

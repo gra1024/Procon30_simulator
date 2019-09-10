@@ -34,7 +34,6 @@
 #include <QNetworkRequest>
 #include <QEventLoop>
 #include <QUrl>
-#include <QUrlQuery>
 
 /* ### JSON reader ### */
 #include <QJsonDocument>
