@@ -1,0 +1,28 @@
+{
+    "actions": [
+        {
+            "dx": 1,
+            "dy": 1,
+            "teamID": 9,
+            "type": "stay"
+        },
+        {
+            "dx": 1,
+            "dy": 1,
+            "teamID": 10,
+            "type": "stay"
+        },
+        {
+            "dx": 1,
+            "dy": 1,
+            "teamID": 11,
+            "type": "stay"
+        },
+        {
+            "dx": 1,
+            "dy": 1,
+            "teamID": 12,
+            "type": "stay"
+        }
+    ]
+}
