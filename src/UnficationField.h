@@ -19,7 +19,7 @@ private:
     void provisionalMove();
     int check();
     void move();
-    void encode();
+    void encode(string path);
     void copy();
     vector<vector<Tile>> *tile;
     Teams *teams;

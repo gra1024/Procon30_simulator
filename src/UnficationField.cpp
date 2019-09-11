@@ -43,7 +43,7 @@ void UnficationField::start(){
         cout << "1234567890" << endl;
     move();
     cout << "34567890-" << endl;
-    encode();
+    encode(CONFIG_PATH_OF_FIELD_JSON);
 }
 
 string UnficationField::load(int teamNum, string path){
@@ -91,42 +91,37 @@ void UnficationField::copy(){
 
 void UnficationField::provisionalMove(){
     for(int i=0;i<2;++i){
-        for(unsigned int j=0;j<(teams[i].agents.size());++j){
+        for(unsigned int j = 0; j < (teams[i].agents.size()); ++j){
             provisionalTeams[i].agents[j].x += teams[i].agents[j].actions.dx;
             provisionalTeams[i].agents[j].y += teams[i].agents[j].actions.dy;
             if(provisionalTeams[i].agents[j].x <= 0
-                    && provisionalTeams[i].agents[j].x > field->width
-                    && provisionalTeams[i].agents[j].y <= 0
-                    && provisionalTeams[i].agents[j].y > field->height){
+                    || provisionalTeams[i].agents[j].x > field->width
+                    || provisionalTeams[i].agents[j].y <= 0
+                    || provisionalTeams[i].agents[j].y > field->height){ //if(枠外にエージェントがいたら)
                 provisionalTeams[i].agents[j].x -= teams[i].agents[j].actions.dx;
                 provisionalTeams[i].agents[j].y -= teams[i].agents[j].actions.dy;
-                teams[i].agents[j].actions.apply=-1;
+                teams[i].agents[j].actions.apply = -1;
             }
         }
     }
 }
 
 int UnficationField::check(){
-    int x,y;
+    int x, y;
     int check = 0;
     for(int i=0;i<2;++i){
         for(unsigned int j=0;j<(teams[i].agents.size());++j){
-
-            if(teams[i].agents[j].actions.apply!=-1){
+            if(teams[i].agents[j].actions.apply != -1){
                 x = provisionalTeams[i].agents[j].x;
                 y = provisionalTeams[i].agents[j].y;
-
-                for(unsigned int k=0;k<(teams[i].agents.size());++k){
-
-                    if(teams[i].agents[k].actions.apply!=-1){
-                        if(j!=k){
-                            if(x==provisionalTeams[i].agents[k].x && y==provisionalTeams[i].agents[k].y){
-                                provisionalTeams[i].agents[k].x -= teams[i].agents[j].actions.dx;
-                                provisionalTeams[i].agents[k].y -= teams[i].agents[j].actions.dy;
-                                teams[i].agents[j].actions.apply = 0;
-                                check=1;
-                                break;
-                            }
+                for(unsigned int k=0; k < teams[i].agents.size(); ++k){
+                    if(j != k){
+                        if(x == provisionalTeams[i].agents[k].x && y == provisionalTeams[i].agents[k].y){
+                            provisionalTeams[i].agents[k].x -= teams[i].agents[j].actions.dx;
+                            provisionalTeams[i].agents[k].y -= teams[i].agents[j].actions.dy;
+                            teams[i].agents[j].actions.apply = 0;
+                            check = 1;
+                            break;
                         }
                     }
                 }
@@ -138,16 +133,16 @@ int UnficationField::check(){
 
 void UnficationField::move(){
     int dx,dy;
-    for(int i=0;i<2;++i){
-        for(unsigned int j=0;j<teams[i].agents.size();++j){
+    for(int i=0; i<2; ++i){
+        for(unsigned int j=0; j < teams[i].agents.size(); ++j){
             dx = teams[i].agents[j].actions.dx;
             dy = teams[i].agents[j].actions.dy;
-            if(teams[i].agents[j].actions.apply==1){ //apply=1
-                if(teams[i].agents[j].actions.type==1){ //move
-                    teams[i].agents[j].x+=dx;
-                    teams[i].agents[j].y+=dy;
+            if(teams[i].agents[j].actions.apply == 1){ //apply==1
+                if(teams[i].agents[j].actions.type == 1){ //move
+                    teams[i].agents[j].x += dx;
+                    teams[i].agents[j].y += dy;
                     cout << teams[i].agents[j].y << " "<< teams[i].agents[j].x << endl;
-                    tile->at(static_cast<unsigned>(teams[i].agents[j].y)-1).at(static_cast<unsigned>(teams[i].agents[j].x)-1).color
+                    tile->at(static_cast<unsigned>(teams[i].agents[j].y) - 1).at(static_cast<unsigned>(teams[i].agents[j].x) - 1).color
                             =teams[i].teamID;
                 }else if(teams[i].agents[j].actions.type==2){ //remove
                     tile->at(static_cast<unsigned>(teams[i].agents[j].y+dy)-1).at(static_cast<unsigned>(teams[i].agents[j].x+dx)-1).color
@@ -155,14 +150,13 @@ void UnficationField::move(){
                 }else{ //stay
 
                 }
-
             }
         }
     }
 }
 
-void UnficationField::encode(){
-  int agentID_int;
+void UnficationField::encode(string path){
+    int agentID_int;
     QString type_string;
     int dx_int;
     int dy_int;
@@ -206,7 +200,7 @@ void UnficationField::encode(){
     QJsonDocument jsonDoc(actions_obj);
     //json形式
     QByteArray data(jsonDoc.toJson());
-    QFile savefile("..\\data\\actions.json");
+    QFile savefile(QString::fromStdString(path));
     savefile.open(QIODevice::WriteOnly);
     savefile.write(data);
     savefile.close();

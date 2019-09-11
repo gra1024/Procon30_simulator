@@ -53,6 +53,7 @@ extern QSettings config;
 
 #define CONFIG_PATH_OF_AGENT_TXT_1 config.value("PATH_OF_AGENT_TXT_1").toString().toStdString()
 #define CONFIG_PATH_OF_AGENT_TXT_2 config.value("PATH_OF_AGENT_TXT_2").toString().toStdString()
+#define CONFIG_PATH_OF_FIELD_JSON config.value("PATH_OF_FIELD_JSON").toString().toStdString()
 #define CONFIG_MAGNIFICATION_OF_FIELD config.value("MAGNIFICATION_OF_FIELD").toInt()
 
 /* ### struct ### */

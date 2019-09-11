@@ -158,36 +158,6 @@ string AnalyzeField::decodeAndUpdate(){
 }
 
 void AnalyzeField::drowField(){
-
-
-    cout<<"turn"<<field->turn<<endl;
-    cout<<"width"<<field->width<<endl;
-    cout<<"height"<<field->height<<endl;
-    cout<<"sut"<<field->startedAtUnixTime<<endl;
-    cout<<"color"<<endl;
-    for(int y=0; y<field->height; ++y){
-        for(int x=0; x<field->width; ++x){
-            cout<<tile->at(static_cast<unsigned>(y)).at(static_cast<unsigned>(x)).color;
-        }
-        cout<<endl;
-    }
-    cout<<"point"<<endl;
-    for(int y=0; y<field->height; ++y){
-
-        for(int x=0; x<field->width; ++x){
-            cout<< tile->at(static_cast<unsigned>(y)).at(static_cast<unsigned>(x)).point;
-        }
-        cout<<endl;
-    }
-    for(int i=0;i<2;++i){
-        cout<<"teamID["<<i<<"] "<< teams[i].teamID<<endl;
-        for(unsigned int j=0; j<teams->agents.size();++j){
-            cout<<"agent["<<i<<"]["<<j<<"] "<< " "<<teams[i].agents[j].agentID <<" "<< teams[i].agents[j].x<<" " << teams[i].agents[j].y<<endl;
-        }
-    }
-
-
-
     this->fieldPixmap=new QPixmap(QSize(static_cast<int>(mag*field->width) + 1, static_cast<int>(mag*field->height) + 1));
     QPainter painter(this->fieldPixmap);
     for(int y=0; y<field->height; ++y){
