@@ -30,7 +30,7 @@ void MainWindow::on_pushButton_start_clicked(){
 
 void MainWindow::on_pushButton_reload_clicked(){
     AF->pushReload();
-    NM = new NetworkManager();
+    NM = new NetworkManager(ui);
     NM->get();
     NM->post();
 }
