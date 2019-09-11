@@ -31,7 +31,8 @@ void MainWindow::on_pushButton_reload_clicked(){
     AF->pushReload();
     NM = new NetworkManager(ui);
     NM->get();
-    NM->post();
+    AF->encode(type,dx,dy);
+    NM->post(AF->actionData);
     if(ui->comboBox_algolithm->currentText()=="Algolithm1"){
         C->startAlgo(0);
     }

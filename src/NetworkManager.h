@@ -11,7 +11,7 @@ public:
 
     NetworkManager(Ui::MainWindow *uiMainWindow);
     void get();//Reloadを押すと試合情報が返ってくる
-    void post();//Reloadを押すとactionを送信し、行動結果を取得する
+    void post(QByteArray actionData);//Reloadを押すとactionを送信し、行動結果を取得する
 
     int matchID;
 

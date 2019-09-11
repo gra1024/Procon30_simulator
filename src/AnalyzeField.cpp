@@ -282,10 +282,10 @@ void AnalyzeField::encode(int type[],int dx[],int dy[]){
     actions_obj["actions"]=jsonarr;
     QJsonDocument jsonDoc(actions_obj);
     //json形式
-    QByteArray data(jsonDoc.toJson());
+    QByteArray actionData = jsonDoc.toJson();
     QFile savefile("..\\data\\AgentMoveing.json");
     savefile.open(QIODevice::WriteOnly);
-    savefile.write(data);
+    savefile.write(actionData);
     savefile.close();
 }
 

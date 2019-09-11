@@ -32,18 +32,15 @@ void NetworkManager::get()//試合情報の取得
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonStr.toUtf8());
     matchReply = jsonDoc.object();//これをAnalyzeFieldでデコードする
-
-    //この後computerクラスで最善手の計算を行い、QString actionをpost()が受け取る流れ
-    //試合事前情報の取得ではjson変換はなし、この結果を見てMainWindowでteamID等を入力する形式の予定
-    //試合情報の取得ではjson変換する、これをAnalyzefieldでデコードし、各ターンの盤面更新を自動で行う
 }
 
-void NetworkManager::post()//actionの提出(POST)
+void NetworkManager::post(QByteArray actionData)//actionの提出(POST)
 {
     if(matchID==0)return;//試合事前情報取得時のpostを防ぐ
-    QString postDataStr = "{\"actions\":[{\"agentID\":2,\"dx\":1,\"dy\":1,\"type\":\"move\"},{\"agentID\":3,\"dx\":1,\"dy\":1,\"type\":\"move\"}]}";
+    //QString postDataStr = "{\"actions\":[{\"agentID\":2,\"dx\":1,\"dy\":1,\"type\":\"move\"},{\"agentID\":3,\"dx\":1,\"dy\":1,\"type\":\"move\"}]}";
     //↑ここはcomputerクラスよりactionのQstringを取得できるようにする
-    QByteArray postData = postDataStr.toUtf8();
+    //QByteArray postData = postDataStr.toUtf8();
+    qDebug() << QString::fromUtf8(actionData);
 
     QNetworkAccessManager* manager = new QNetworkAccessManager();
     QEventLoop eventLoop;
@@ -61,7 +58,7 @@ void NetworkManager::post()//actionの提出(POST)
 
     request.setRawHeader("Authorization", "procon30_example_token");//トークンの追加
     request.setRawHeader("Content-Type","application/json");//Content-Typeの指定
-    QNetworkReply *reply = manager->post(request,postData);
+    QNetworkReply *reply = manager->post(request,actionData);
     eventLoop.exec();
 
     QString jsonStr = QString::fromUtf8(reply->readAll());

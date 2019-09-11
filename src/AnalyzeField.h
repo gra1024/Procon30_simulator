@@ -30,6 +30,7 @@ public:
     Teams *teams;
     Field *field;
     int red,blue,colorPattern;
+    QByteArray actionData;
 
 protected:
     void paintEvent(QPaintEvent *event);
