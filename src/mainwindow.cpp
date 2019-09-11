@@ -29,8 +29,9 @@ void MainWindow::on_pushButton_start_clicked(){
 
 void MainWindow::on_pushButton_reload_clicked(){
     AF->pushReload();
-    manager = new NetworkManager();
-    manager->get();
+    NM = new NetworkManager(ui);
+    NM->get();
+    NM->post();
     if(ui->comboBox_algolithm->currentText()=="Algolithm1"){
         C->startAlgo(0);
     }
