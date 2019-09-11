@@ -20,10 +20,11 @@ private:
     int check();
     void move();
     void encode();
+    void copy();
     vector<vector<Tile>> *tile;
     Teams *teams;
     Field *field;
-    Teams provisionalTeams[2];
+    Teams provisionalTeams[2] = {};
 };
 
 #endif // UNFICATIONFIELD_H

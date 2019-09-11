@@ -42,7 +42,7 @@ private:
     QPainter *painter;
     QPixmap *fieldPixmap;
     int mag;
-
+    void debug();
 
 };
 
