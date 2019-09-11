@@ -162,6 +162,54 @@ void UnficationField::move(){
 }
 
 void UnficationField::encode(){
+  int agentID_int;
+    QString type_string;
+    int dx_int;
+    int dy_int;
+    int turn_int;
+    int apply_int;
+    QJsonArray jsonarr;
+    QJsonObject actions_obj;
+    vector<QJsonObject> actions_vector;
+    for (unsigned int i=0;i<teams[0].agents.size();i++) {
+        agentID_int = teams[0].agents[i].agentID;
+        switch (teams[0].agents[i].actions.type) {
+        case 0 :
+            type_string="stay";
+            break;
+        case 1:
+            type_string="move";
+            break;
+        case 2 :
+            type_string="remove";
+            break;
+        }
+        dx_int=teams[0].agents[i].actions.dx;
+        dy_int=teams[0].agents[i].actions.dy;
+        turn_int=field->turn+1;
+        apply_int=teams[0].agents[i].actions.apply;
+        QJsonObject agent_obj={
+            {"agentID",agentID_int},
+            {"type",type_string},
+            {"dx",dx_int},
+            {"dy",dy_int},
+            {"turn",turn_int},
+            {"apply",apply_int}
+        };
+        actions_vector.push_back(agent_obj);
+    }
+    for(auto name:actions_vector)
+    {
+        jsonarr.append(name);
+    }
+    actions_obj["actions"]=jsonarr;
+    QJsonDocument jsonDoc(actions_obj);
+    //json形式
+    QByteArray data(jsonDoc.toJson());
+    QFile savefile("..\\data\\actions.json");
+    savefile.open(QIODevice::WriteOnly);
+    savefile.write(data);
+    savefile.close();
 }
 
 void UnficationField::debug(){
