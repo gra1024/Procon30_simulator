@@ -348,6 +348,11 @@
     <number>999999999</number>
    </property>
   </widget>
+  <widget class="QCheckBox" name="checkBox_practice">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>210</y>
   <widget class="QLabel" name="label_matchID">
    <property name="geometry">
     <rect>
@@ -358,6 +363,7 @@
     </rect>
    </property>
    <property name="text">
+    <string>Practice</string>
     <string>matchID</string>
    </property>
   </widget>

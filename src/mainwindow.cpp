@@ -1,3 +1,4 @@
+
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
@@ -23,17 +24,29 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_start_clicked(){
     AF = new AnalyzeField(ui);
     AF->setup(&tile, teams, &field);
-    C = new Computer(ui);
-    C->setup(&tile, teams, &field, &action);    
+    AF->drow();
+    if(ui->checkBox_practice->checkState()==0){
+        C = new Computer(ui);
+        C->setup(&tile, teams, &field);
+    }else{
+        UF = new UnficationField();
+        UF->setup(&tile, teams, &field);
+    }
+
 }
 
 void MainWindow::on_pushButton_reload_clicked(){
-    AF->pushReload();
-    NM = new NetworkManager(ui);
-    NM->get();
-    NM->post();
-    if(ui->comboBox_algolithm->currentText()=="Algolithm1"){
-        C->startAlgo(0);
+    if(ui->checkBox_practice->checkState()==0){
+        AF->pushReload();
+        NM = new NetworkManager(ui);
+        NM->get();
+        NM->post();
+        if(ui->comboBox_algolithm->currentText()=="Algolithm1"){
+           C->startAlgo(0);
+        }
+    }else{
+        UF->start();
+        AF->drow();
     }
 }
 

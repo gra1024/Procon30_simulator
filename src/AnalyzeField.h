@@ -23,6 +23,7 @@ public:
     void setUi();
     void drowField();
     void pushReload();
+    void drow();
     string decodeAndSet();
     string decodeAndUpdate();
     void encode(int type[],int dx[],int dy[]);
@@ -40,9 +41,8 @@ private:
     vector<string> split(const string &str, char sep);
     QPainter *painter;
     QPixmap *fieldPixmap;
-
-    unsigned int mag;
-
+    int mag;
+    void debug();
 
 };
 

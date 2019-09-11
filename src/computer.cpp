@@ -11,6 +11,7 @@ Computer::~Computer()
 
 }
 
+
 void Computer::setup(vector<vector<Tile>> *tile, Teams *teams, Field *field,Actions *action){
     this->tile = tile;
     this->teams = teams;

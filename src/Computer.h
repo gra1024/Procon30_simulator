@@ -2,6 +2,7 @@
 #define COMPUTER_H
 
 #include "Config.h"
+
 #include "ui_MainWindow.h"
 
 using namespace std;

@@ -7,6 +7,7 @@
 class NetworkManager:public QObject
 {
 public:
+
     QObject object;
 
     NetworkManager(Ui::MainWindow *uiMainWindow);
