@@ -94,8 +94,10 @@ void UnficationField::provisionalMove(){
         for(unsigned int j=0;j<(teams[i].agents.size());++j){
             provisionalTeams[i].agents[j].x += teams[i].agents[j].actions.dx;
             provisionalTeams[i].agents[j].y += teams[i].agents[j].actions.dy;
-            if((provisionalTeams[i].agents[j].x<0 && provisionalTeams[i].agents[j].x>=field->width)
-                    &&(provisionalTeams[i].agents[j].y<0 && provisionalTeams[i].agents[j].y>=field->height)){
+            if(provisionalTeams[i].agents[j].x <= 0
+                    && provisionalTeams[i].agents[j].x > field->width
+                    && provisionalTeams[i].agents[j].y <= 0
+                    && provisionalTeams[i].agents[j].y > field->height){
                 provisionalTeams[i].agents[j].x -= teams[i].agents[j].actions.dx;
                 provisionalTeams[i].agents[j].y -= teams[i].agents[j].actions.dy;
                 teams[i].agents[j].actions.apply=-1;
@@ -144,12 +146,11 @@ void UnficationField::move(){
                 if(teams[i].agents[j].actions.type==1){ //move
                     teams[i].agents[j].x+=dx;
                     teams[i].agents[j].y+=dy;
-                                    cout << teams[i].agents[j].y << " "<< teams[i].agents[j].x << endl;
+                    cout << teams[i].agents[j].y << " "<< teams[i].agents[j].x << endl;
                     tile->at(static_cast<unsigned>(teams[i].agents[j].y)-1).at(static_cast<unsigned>(teams[i].agents[j].x)-1).color
                             =teams[i].teamID;
-
                 }else if(teams[i].agents[j].actions.type==2){ //remove
-                    tile->at(static_cast<unsigned>(teams[i].agents[j].y+dy)).at(static_cast<unsigned>(teams[i].agents[j].x+dx)).color
+                    tile->at(static_cast<unsigned>(teams[i].agents[j].y+dy)-1).at(static_cast<unsigned>(teams[i].agents[j].x+dx)-1).color
                             =WHITE;
                 }else{ //stay
 
