@@ -21,11 +21,10 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_pushButton_start_clicked(){
-
     AF = new AnalyzeField(ui);
     AF->setup(&tile, teams, &field);
     C = new Computer(ui);
-    C->setup(&tile, teams, &field);
+    C->setup(&tile, teams, &field, &action);    
 }
 
 void MainWindow::on_pushButton_reload_clicked(){
@@ -33,6 +32,9 @@ void MainWindow::on_pushButton_reload_clicked(){
     NM = new NetworkManager(ui);
     NM->get();
     NM->post();
+    if(ui->comboBox_algolithm->currentText()=="Algolithm1"){
+        C->startAlgo(0);
+    }
 }
 
 void MainWindow::on_pushButton_close_clicked(){

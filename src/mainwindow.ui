@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>850</width>
-    <height>370</height>
+    <height>320</height>
    </rect>
   </property>
   <property name="font">
@@ -346,29 +346,6 @@
    </property>
    <property name="maximum">
     <number>999999999</number>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_matchID">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>310</y>
-     <width>201</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>matchID</string>
-   </property>
-  </widget>
-  <widget class="QSpinBox" name="spinBox_matchID">
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>310</y>
-     <width>201</width>
-     <height>41</height>
-    </rect>
    </property>
   </widget>
  </widget>
