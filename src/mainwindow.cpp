@@ -1,4 +1,3 @@
-
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
@@ -38,6 +37,7 @@ void MainWindow::on_pushButton_start_clicked(){
 void MainWindow::on_pushButton_reload_clicked(){
     if(ui->checkBox_practice->checkState()==0){
         AF->pushReload();
+        AF->drow();
         NM = new NetworkManager(ui);
         NM->get();
         NM->post();

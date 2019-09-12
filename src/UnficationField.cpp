@@ -32,8 +32,8 @@ void UnficationField::setup(vector<vector<Tile>> *tile, Teams *teams, Field *fie
 }
 
 void UnficationField::start(){
-    load(0,CONFIG_PATH_OF_AGENT_TXT_1);
-    load(1,CONFIG_PATH_OF_AGENT_TXT_2);
+    load(0,CONFIG_PATH_OF_AGENT_JSON_1);
+    load(1,CONFIG_PATH_OF_AGENT_JSON_2);
     debug();
     copy();
     provisionalMove();

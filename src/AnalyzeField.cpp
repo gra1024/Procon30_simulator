@@ -16,28 +16,17 @@ AnalyzeField::~AnalyzeField()
     delete ui;
 }
 
-vector<string> AnalyzeField::split(const string &str, char sep)
-{
-    vector<std::string> v;
-    stringstream ss(str);
-    string buffer;
-    while( std::getline(ss, buffer, sep) ) {
-        v.push_back(buffer);
-    }
-    return v;
-}
-
 void AnalyzeField::setup(vector<vector<Tile>> *tile, Teams *teams, Field *field)
 {
     this->tile = tile;
     this->teams = teams;
     this->field = field;
-    decodeAndSet();
+    decodeAndSet(CONFIG_PATH_OF_FIELD_JSON);
     setUi();
 }
 
 void AnalyzeField::pushReload(){
-    decodeAndUpdate();
+    decodeAndUpdate(CONFIG_PATH_OF_FIELD_JSON);
 }
 
 void AnalyzeField::setUi()
@@ -52,8 +41,8 @@ void AnalyzeField::drow(){
     repaint();
 }
 
-string AnalyzeField::decodeAndSet(){
-    QFile file("../data/fieldInfo.json");
+string AnalyzeField::decodeAndSet(string path){
+    QFile file(QString::fromStdString(path));
     if (! file.open(QFile::ReadOnly)) {
         return "ERROR --decodeAndSet-- ";
     }
@@ -104,6 +93,13 @@ string AnalyzeField::decodeAndSet(){
         cout<<"ERROR --please set teamID--" << endl;
     }
 
+    if(field->TeamColorNumber[0] == teams[0].teamID){
+        field->myTeam = 0;
+    }else{
+        field->myTeam = 1;
+    }
+
+
     if((uiMainWindow->comboBox_teamColor->currentText()=="Red"
         && uiMainWindow->spinBox_teamID->value() == teams[0].teamID)
             || (uiMainWindow->comboBox_teamColor->currentText()=="Blue"
@@ -126,8 +122,8 @@ string AnalyzeField::decodeAndSet(){
     return "";
 }
 
-string AnalyzeField::decodeAndUpdate(){
-    QFile file("../data/fieldInfo.json");
+string AnalyzeField::decodeAndUpdate(string path){
+    QFile file(QString::fromStdString(path));
     if (! file.open(QFile::ReadOnly)) {
         return "ERROR --decoadAndUpdate--";
     }

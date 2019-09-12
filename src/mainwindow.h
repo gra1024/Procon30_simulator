@@ -21,9 +21,9 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     AnalyzeField* AF = nullptr;
-    Computer* C=nullptr;
+    Computer* C = nullptr;
     UnficationField* UF = nullptr;
-    NetworkManager* NM;
+    NetworkManager* NM = nullptr;
 
     vector<vector<Tile>> tile;
     Teams teams[2];

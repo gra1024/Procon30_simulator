@@ -51,8 +51,8 @@ extern QSettings config;
 /* ### Define ### */
 #define WHITE 0
 
-#define CONFIG_PATH_OF_AGENT_TXT_1 config.value("PATH_OF_AGENT_TXT_1").toString().toStdString()
-#define CONFIG_PATH_OF_AGENT_TXT_2 config.value("PATH_OF_AGENT_TXT_2").toString().toStdString()
+#define CONFIG_PATH_OF_AGENT_JSON_1 config.value("PATH_OF_AGENT_JSON_1").toString().toStdString()
+#define CONFIG_PATH_OF_AGENT_JSON_2 config.value("PATH_OF_AGENT_JSON_2").toString().toStdString()
 #define CONFIG_PATH_OF_FIELD_JSON config.value("PATH_OF_FIELD_JSON").toString().toStdString()
 #define CONFIG_MAGNIFICATION_OF_FIELD config.value("MAGNIFICATION_OF_FIELD").toInt()
 
@@ -94,6 +94,7 @@ struct Field{
     int turn;
     int playerColor[2] = {};
     int TeamColorNumber[2]={};//[自軍のteamID][敵軍のteamID]
+    int myTeam;
 };
 
 #endif // CONFIG_H

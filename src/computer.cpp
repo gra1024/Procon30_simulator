@@ -12,14 +12,29 @@ Computer::~Computer()
 }
 
 
-void Computer::setup(vector<vector<Tile>> *tile, Teams *teams, Field *field,Actions *action){
+void Computer::setup(vector<vector<Tile>> *tile, Teams *teams, Field *field){
     this->tile = tile;
     this->teams = teams;
     this->field = field;
-    this->action = action;
+    //this->action = action;
+    for(int i=0; i<2; ++i){
+        provisionalTeams.teamID = 0;
+        for(unsigned int j=0; j < teams[i].agents.size(); ++j){
+            Agent agentLine;
+            agentLine.x = 0;
+            agentLine.y = 0;
+            agentLine.agentID = 0;
+            agentLine.actions.dx = 0;
+            agentLine.actions.dy = 0;
+            agentLine.actions.type = 0;
+            agentLine.actions.apply = 0;
+            provisionalTeams.agents.push_back(agentLine);
+        }
+    }
 }
 
 void Computer::startAlgo(int AlgoNumber){
+    copy();
     switch(AlgoNumber){
     case 0:
         greedy();
@@ -30,6 +45,7 @@ void Computer::startAlgo(int AlgoNumber){
 
 }
 void Computer::greedy(){
+    /*
     unsigned int i,j;
     int angle[8][2]={{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}};
     int maximum=-100,tilepoint=0,teamcolor;
@@ -51,19 +67,63 @@ void Computer::greedy(){
                 if(tilepoint>maximum)
                 {
                     maximum=tilepoint;
-                    action->dx=-1+angle[i][0];
-                    action->dy=-1+angle[i][1];
+                    //action->dx=-1+angle[i][0];
+                    //action->dy=-1+angle[i][1];
                     if(tile->at(teams[0].agents[j].y+static_cast<unsigned>(action->dy)).at(teams[0].agents[j].x+static_cast<unsigned>(action->dx)).color==teamcolor||tile->at(teams[0].agents[j].y+static_cast<unsigned>(action->dy)).at(teams[0].agents[j].x+static_cast<unsigned>(action->dx)).color==WHITE)
-                        action->type=1;
-                    else
-                        action->type=2;
+                        //action->type=1;
+                    else{
+                        //action->type=2;
+                    }
                 }
             }
         }
     }
+    */
+}
+
+void Computer::greedy2(){
+    /*
+    int color = field->TeamColorNumber[0];
+    int myTeam = field->myTeam;
+    for(unsigned int i=0; i < teams[myTeam].agents.size(); ++i){
+        for(int j=0; j<9; ++j){
+            provisionalTeams.agents[i].x = teams[myTeam].agents[i].x;
+            provisionalTeams.agents[i].y = teams[myTeam].agents[i].y;
+            provisionalTeams.agents[i].x += angle[j][0];
+            provisionalTeams.agents[i].y += angle[j][1];
+            if(outLange(provisionalTeams.agents[i].x, provisionalTeams.agents[i].y)){
+                result[j][0] = 1;
+            }else{
+                result[j][1] = tile->at(provisionalTeams.agents[i].y).at(provisionalTeams.agents[i].x).point;
+            }
+        }
+    }
+    */
+}
+
+void Computer::copy(){
+    int myTeam = field->myTeam;
+    provisionalTeams.teamID = teams[myTeam].teamID;
+    for(unsigned int i=0; i < teams[myTeam].agents.size(); ++i){
+        provisionalTeams.agents[i].x = teams[myTeam].agents[i].x;
+        provisionalTeams.agents[i].y = teams[myTeam].agents[i].y;
+        provisionalTeams.agents[i].agentID = teams[myTeam].agents[i].agentID;
+        provisionalTeams.agents[i].actions.dx = teams[myTeam].agents[i].actions.dx;
+        provisionalTeams.agents[i].actions.dy = teams[myTeam].agents[i].actions.dy;
+        provisionalTeams.agents[i].actions.type = teams[myTeam].agents[i].actions.type;
+        provisionalTeams.agents[i].actions.apply = teams[myTeam].agents[i].actions.apply;
+    }
+}
+
+int Computer::outLange(int x, int y){
+    if(x <= 0 || x > field->width || y <= 0 || y > field->height){
+        return 1;
+    }
+    return 0;
 }
 
 int Computer::eightangle(int angle[8][2],int Ax,int Ay,unsigned int AgentNumber,int TURN){
+    /*
     unsigned int i;
     int maximum=-100,tilepoint=0;
     int teamcolor = teams[0].teamID;
@@ -94,4 +154,5 @@ int Computer::eightangle(int angle[8][2],int Ax,int Ay,unsigned int AgentNumber,
         angle[i][1]-=Ay;
     }
     return maximum;
+    */
 }

@@ -24,8 +24,8 @@ public:
     void drowField();
     void pushReload();
     void drow();
-    string decodeAndSet();
-    string decodeAndUpdate();
+    string decodeAndSet(string path);
+    string decodeAndUpdate(string path);
     void encode(int type[],int dx[],int dy[]);
     vector<vector<Tile>> *tile;
     Teams *teams;
@@ -38,7 +38,6 @@ protected:
 private:
     Ui::AnalyzeField *ui;
     Ui::MainWindow *uiMainWindow;
-    vector<string> split(const string &str, char sep);
     QPainter *painter;
     QPixmap *fieldPixmap;
     int mag;
