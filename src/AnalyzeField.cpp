@@ -27,18 +27,20 @@ vector<string> AnalyzeField::split(const string &str, char sep)
     return v;
 }
 
-void AnalyzeField::setup(vector<vector<Tile>> *tile, Teams *teams, Field *field)
+void AnalyzeField::setup(vector<vector<Tile>> *tile, Teams *teams, Field *field,QJsonObject matchReply)
 {
     this->tile = tile;
     this->teams = teams;
     this->field = field;
+    this->matchReply = matchReply;
     decodeAndSet();
     setUi();
     drowField();
     repaint();
 }
 
-void AnalyzeField::pushReload(){
+void AnalyzeField::pushReload(QJsonObject matchReply){
+    this->matchReply = matchReply;
     decodeAndUpdate();
     drowField();
     repaint();
@@ -53,6 +55,7 @@ string AnalyzeField::decodeAndSet(){
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(in.readAll().toUtf8());
     QJsonObject obj = jsonDoc.object();
+    obj = matchReply;
 
     field->width = static_cast<unsigned>(obj["width"].toInt());
     field->height = static_cast<unsigned>(obj["height"].toInt());
@@ -127,6 +130,7 @@ string AnalyzeField::decodeAndUpdate(){
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(in.readAll().toUtf8());
     QJsonObject obj = jsonDoc.object();
+    obj = matchReply;
 
     QJsonArray arrTiled = obj["tiled"].toArray();
     QJsonArray arrTeams = obj["teams"].toArray();
@@ -268,7 +272,7 @@ void AnalyzeField::encode(int type[],int dx[],int dy[]){
         dx_int=dx[i];
         dy_int=dy[i];
         QJsonObject agent_obj={
-            {"teamID",agentID_int},
+            {"agentID",agentID_int},
             {"type",type_string},
             {"dx",dx_int},
             {"dy",dy_int},
@@ -282,11 +286,12 @@ void AnalyzeField::encode(int type[],int dx[],int dy[]){
     actions_obj["actions"]=jsonarr;
     QJsonDocument jsonDoc(actions_obj);
     //json形式
-    QByteArray actionData = jsonDoc.toJson();
+    actionData = jsonDoc.toJson();
     QFile savefile("..\\data\\AgentMoveing.json");
     savefile.open(QIODevice::WriteOnly);
     savefile.write(actionData);
     savefile.close();
+    //return actionData;
 }
 
 void AnalyzeField::paintEvent(QPaintEvent *event)

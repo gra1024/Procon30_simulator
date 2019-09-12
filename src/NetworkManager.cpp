@@ -37,10 +37,6 @@ void NetworkManager::get()//試合情報の取得
 void NetworkManager::post(QByteArray actionData)//actionの提出(POST)
 {
     if(matchID==0)return;//試合事前情報取得時のpostを防ぐ
-    //QString postDataStr = "{\"actions\":[{\"agentID\":2,\"dx\":1,\"dy\":1,\"type\":\"move\"},{\"agentID\":3,\"dx\":1,\"dy\":1,\"type\":\"move\"}]}";
-    //↑ここはcomputerクラスよりactionのQstringを取得できるようにする
-    //QByteArray postData = postDataStr.toUtf8();
-    qDebug() << QString::fromUtf8(actionData);
 
     QNetworkAccessManager* manager = new QNetworkAccessManager();
     QEventLoop eventLoop;

@@ -32,11 +32,6 @@ private slots:
     void on_pushButton_reload_clicked();
     void on_pushButton_close_clicked();
 
-    //debug
-    int type[2] = {1,1};
-    int dx[2] = {1,1};
-    int dy[2] = {1,-1};
-
 private:
     Ui::MainWindow *ui;
 };

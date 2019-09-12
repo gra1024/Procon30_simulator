@@ -22,20 +22,27 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_start_clicked(){
     AF = new AnalyzeField(ui);
-    AF->setup(&tile, teams, &field);
+    NM = new NetworkManager(ui);
+    NM->get();
+    AF->setup(&tile, teams, &field,NM->matchReply);
     C = new Computer(ui);
     C->setup(&tile, teams, &field, &action);    
 }
 
 void MainWindow::on_pushButton_reload_clicked(){
-    AF->pushReload();
     NM = new NetworkManager(ui);
     NM->get();
-    AF->encode(type,dx,dy);
-    NM->post(AF->actionData);
+    AF->pushReload(NM->matchReply);
     if(ui->comboBox_algolithm->currentText()=="Algolithm1"){
         C->startAlgo(0);
     }
+    //debug
+    int type[2] = {1,1};
+    int dx[2] = {1,1};
+    int dy[2] = {1,-1};
+    AF->encode(type,dx,dy);
+    NM->post(AF->actionData);
+
 }
 
 void MainWindow::on_pushButton_close_clicked(){
