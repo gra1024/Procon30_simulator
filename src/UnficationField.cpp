@@ -40,9 +40,7 @@ void UnficationField::start(){
     while(1){
         if(check()==0) break;
     }
-        cout << "1234567890" << endl;
     move();
-    cout << "34567890-" << endl;
     encode(CONFIG_PATH_OF_FIELD_JSON);
 }
 
@@ -141,7 +139,6 @@ void UnficationField::move(){
                 if(teams[i].agents[j].actions.type == 1){ //move
                     teams[i].agents[j].x += dx;
                     teams[i].agents[j].y += dy;
-                    cout << teams[i].agents[j].y << " "<< teams[i].agents[j].x << endl;
                     tile->at(static_cast<unsigned>(teams[i].agents[j].y) - 1).at(static_cast<unsigned>(teams[i].agents[j].x) - 1).color
                             =teams[i].teamID;
                 }else if(teams[i].agents[j].actions.type==2){ //remove
@@ -222,7 +219,7 @@ void UnficationField::encode(string path){
     QJsonDocument jsonDoc(all_obj);
     //json形式
     QByteArray data(jsonDoc.toJson());
-    QFile savefile("..\\data\\actions.json");
+    QFile savefile(QString::fromStdString(path));
     savefile.open(QIODevice::WriteOnly);
     savefile.write(data);
     savefile.close();
