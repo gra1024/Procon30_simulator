@@ -162,9 +162,31 @@ void UnficationField::encode(string path){
     int dy_int;
     int turn_int;
     int apply_int;
+    QJsonArray points_array_min,points_array_mid;
+    QJsonArray color_array_min,color_array_mid;
     QJsonArray jsonarr;
     QJsonObject actions_obj;
     vector<QJsonObject> actions_vector;
+    QJsonObject all_obj;
+    all_obj["width"]=field->width;
+    all_obj["height"]=field->height;
+    for (unsigned int i=0;i<20;i++) {
+        for (unsigned int j=0;j<20;j++) {
+            points_array_min.push_back(tile->at(i).at(j).point);
+        }
+        points_array_mid.push_back(points_array_min[static_cast<int>(i)]);
+    }
+    all_obj["points"]=points_array_mid;
+    all_obj["startedAtUnixTime"]=field->startedAtUnixTime;
+    all_obj["turn"]=field->turn;
+    for (unsigned int i=0;i<20;i++) {
+        for (unsigned int j=0;j<20;j++) {
+            color_array_min.push_back(tile->at(i).at(j).color);
+        }
+        color_array_mid.push_back(color_array_min[static_cast<int>(i)]);
+    }
+    all_obj["tiled"]=color_array_mid;
+
     for (unsigned int i=0;i<teams[0].agents.size();i++) {
         agentID_int = teams[0].agents[i].agentID;
         switch (teams[0].agents[i].actions.type) {
@@ -196,11 +218,11 @@ void UnficationField::encode(string path){
     {
         jsonarr.append(name);
     }
-    actions_obj["actions"]=jsonarr;
-    QJsonDocument jsonDoc(actions_obj);
+    all_obj["actions"]=jsonarr;
+    QJsonDocument jsonDoc(all_obj);
     //json形式
     QByteArray data(jsonDoc.toJson());
-    QFile savefile(QString::fromStdString(path));
+    QFile savefile("..\\data\\actions.json");
     savefile.open(QIODevice::WriteOnly);
     savefile.write(data);
     savefile.close();
