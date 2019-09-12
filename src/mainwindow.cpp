@@ -24,6 +24,11 @@ void MainWindow::on_pushButton_start_clicked(){
     AF = new AnalyzeField(ui);
     AF->setup(&tile, teams, &field);
     AF->drow();
+    PC = new PointCalculate ();
+    PC->setup(&tile, teams, &field);
+    PC->updatePoint();
+    cout << "Point1 " << teams[0].tilePoint <<" "<< teams[0].areaPoint << endl;
+    cout << "Point2 " << teams[1].tilePoint <<" "<< teams[1].areaPoint << endl;
     if(ui->checkBox_practice->checkState()==0){
         C = new Computer(ui);
         C->setup(&tile, teams, &field);

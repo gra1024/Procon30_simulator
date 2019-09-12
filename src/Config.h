@@ -85,6 +85,8 @@ struct Agent{
 struct Teams{
     int teamID;
     vector<Agent> agents;
+    int tilePoint;
+    int areaPoint;
 };
 
 struct Field{

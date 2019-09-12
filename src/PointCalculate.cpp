@@ -18,6 +18,13 @@ Pos PointCalculate::makePos(int x,int y){
     return p;
 }
 
+void PointCalculate::updatePoint(){
+    teams[0].tilePoint = getTilePoints(teams[0].teamID);
+    teams[0].areaPoint = getAreaPoints(teams[0].teamID);
+    teams[1].tilePoint = getTilePoints(teams[1].teamID);
+    teams[1].areaPoint = getAreaPoints(teams[1].teamID);
+}
+
 int PointCalculate::getTilePoints(int color){
     int tilePoint=0;
     for(int y=0;y<field->height;y++){
