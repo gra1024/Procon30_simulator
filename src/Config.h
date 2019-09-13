@@ -51,15 +51,16 @@ extern QSettings config;
 /* ### Define ### */
 #define WHITE 0
 
-#define CONFIG_PATH_OF_FIELD_TXT config.value("PATH_OF_FIELD_TXT").toString()
-#define CONFIG_PATH_OF_AGENT_TXT config.value("PATH_OF_AGENT_TXT").toString()
+#define CONFIG_PATH_OF_AGENT_JSON_1 config.value("PATH_OF_AGENT_JSON_1").toString().toStdString()
+#define CONFIG_PATH_OF_AGENT_JSON_2 config.value("PATH_OF_AGENT_JSON_2").toString().toStdString()
+#define CONFIG_PATH_OF_FIELD_JSON config.value("PATH_OF_FIELD_JSON").toString().toStdString()
 #define CONFIG_MAGNIFICATION_OF_FIELD config.value("MAGNIFICATION_OF_FIELD").toInt()
 
 /* ### struct ### */
 struct Pos{
-    unsigned int agentID;
-    unsigned int x;
-    unsigned int y;
+    int agentID;
+    int x;
+    int y;
 }; //行動情報から取り出した情報を代入する。
 
 struct Tile{
@@ -84,13 +85,15 @@ struct Agent{
 struct Teams{
     int teamID;
     vector<Agent> agents;
+    int tilePoint;
+    int areaPoint;
 };
 
 struct Field{
-    unsigned int width;  //横
-    unsigned int height; //縦
-    unsigned int startedAtUnixTime;
-    unsigned int turn;
+    int width;  //横
+    int height; //縦
+    int startedAtUnixTime;
+    int turn;
     int playerColor[2] = {};
     int TeamColorNumber[2]={};//[自軍のteamID][敵軍のteamID]
     int myTeam;
