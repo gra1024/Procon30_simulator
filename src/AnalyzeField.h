@@ -19,10 +19,10 @@ class AnalyzeField : public QWidget
 public:
     explicit AnalyzeField(Ui::MainWindow *uiMainWindow, QWidget *parent = nullptr);
     ~AnalyzeField();
-    void setup(vector<vector<Tile>> *tile, Teams *teams, Field *field);
+    void setup(vector<vector<Tile>> *tile, Teams *teams, Field *field, QJsonObject matchReply);
     void setUi();
     void drowField();
-    void pushReload();
+    void pushReload(QJsonObject matchReply);
     void drow();
     string decodeAndSet(string path);
     string decodeAndUpdate(string path);
@@ -31,6 +31,8 @@ public:
     Teams *teams;
     Field *field;
     int red,blue,colorPattern;
+    QByteArray actionData;
+    QJsonObject matchReply;
 
 protected:
     void paintEvent(QPaintEvent *event);

@@ -37,8 +37,6 @@ private slots:
     void on_pushButton_reload_clicked();
     void on_pushButton_close_clicked();
 
-
-
 private:
     Ui::MainWindow *ui;
 };
