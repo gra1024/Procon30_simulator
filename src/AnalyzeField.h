@@ -23,8 +23,9 @@ public:
     void setUi();
     void drowField();
     void pushReload(QJsonObject matchReply);
-    string decodeAndSet();
-    string decodeAndUpdate();
+    void drow();
+    string decodeAndSet(string path);
+    string decodeAndUpdate(string path);
     void encode(int type[],int dx[],int dy[]);
     vector<vector<Tile>> *tile;
     Teams *teams;
@@ -39,12 +40,10 @@ protected:
 private:
     Ui::AnalyzeField *ui;
     Ui::MainWindow *uiMainWindow;
-    vector<string> split(const string &str, char sep);
     QPainter *painter;
     QPixmap *fieldPixmap;
-
-    unsigned int mag;
-
+    int mag;
+    void debug();
 
 };
 

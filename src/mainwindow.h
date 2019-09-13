@@ -6,6 +6,8 @@
 #include "AnalyzeField.h"
 #include "Computer.h"
 #include "NetworkManager.h"
+#include "UnficationField.h"
+#include "PointCalculate.h"
 
 
 namespace Ui {
@@ -21,7 +23,10 @@ public:
     ~MainWindow();
     AnalyzeField* AF = nullptr;
     Computer* C = nullptr;
-    NetworkManager* NM;
+    UnficationField* UF = nullptr;
+    NetworkManager* NM = nullptr;
+    PointCalculate* PC = nullptr;
+
     vector<vector<Tile>> tile;
     Teams teams[2];
     Field field;

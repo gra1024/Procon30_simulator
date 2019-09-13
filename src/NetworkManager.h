@@ -1,4 +1,3 @@
-#ifndef NETWORKMANAGER_H
 #define NETWORKMANAGER_H
 
 #include "Config.h"

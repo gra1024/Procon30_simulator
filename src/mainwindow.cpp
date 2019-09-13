@@ -21,20 +21,39 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_pushButton_start_clicked(){
-    AF = new AnalyzeField(ui);
     NM = new NetworkManager(ui);
     NM->get();
-    AF->setup(&tile, teams, &field,NM->matchReply);
-    C = new Computer(ui);
-    C->setup(&tile, teams, &field, &action);    
+    AF = new AnalyzeField(ui);
+    AF->setup(&tile, teams, &field);
+    AF->drow();
+    PC = new PointCalculate ();
+    PC->setup(&tile, teams, &field);
+    PC->updatePoint();
+    
+    cout << "Point1 " << teams[0].tilePoint <<" "<< teams[0].areaPoint << endl;
+    cout << "Point2 " << teams[1].tilePoint <<" "<< teams[1].areaPoint << endl;
+    if(ui->checkBox_practice->checkState()==0){
+        C = new Computer(ui);
+        C->setup(&tile, teams, &field);
+    }else{
+        UF = new UnficationField();
+        UF->setup(&tile, teams, &field);
+    }
+
 }
 
 void MainWindow::on_pushButton_reload_clicked(){
-    NM = new NetworkManager(ui);
-    NM->get();
-    AF->pushReload(NM->matchReply);
-    if(ui->comboBox_algolithm->currentText()=="Algolithm1"){
-        C->startAlgo(0);
+    if(ui->checkBox_practice->checkState()==0){
+        NM->get();
+        NM->post();
+        AF->pushReload();
+        AF->drow();
+        if(ui->comboBox_algolithm->currentText()=="Algolithm1"){
+           C->startAlgo(0);
+        }
+    }else{
+        UF->start();
+        AF->drow();
     }
     //debug
     int type[2] = {1,1};
