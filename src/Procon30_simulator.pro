@@ -32,8 +32,7 @@ SOURCES += \
     AnalyzeField.cpp \
     NetworkManager.cpp \
     PointCalculate.cpp \
-    MainWindow.cpp \
-    UnficationField.cpp
+    MainWindow.cpp
 
 HEADERS += \
     Computer.h \
@@ -41,8 +40,7 @@ HEADERS += \
     AnalyzeField.h \
     NetworkManager.h \
     PointCalculate.h \
-    MainWindow.h \
-    UnficationField.h
+    MainWindow.h
 
 FORMS += \
     AnalyzeField.ui \

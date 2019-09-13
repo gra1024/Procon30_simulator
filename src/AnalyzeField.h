@@ -22,10 +22,10 @@ public:
     void setup(vector<vector<Tile>> *tile, Teams *teams, Field *field);
     void setUi();
     void drowField();
+    void drowNextPosition();
     void pushReload();
-    void drow();
-    string decodeAndSet(string path);
-    string decodeAndUpdate(string path);
+    string decodeAndSet();
+    string decodeAndUpdate();
     void encode(int type[],int dx[],int dy[]);
     vector<vector<Tile>> *tile;
     Teams *teams;
@@ -38,10 +38,12 @@ protected:
 private:
     Ui::AnalyzeField *ui;
     Ui::MainWindow *uiMainWindow;
+    vector<string> split(const string &str, char sep);
     QPainter *painter;
     QPixmap *fieldPixmap;
-    int mag;
-    void debug();
+
+    unsigned int mag;
+
 
 };
 
