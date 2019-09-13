@@ -27,6 +27,7 @@ public:
     string decodeAndSet(string path);
     string decodeAndUpdate(string path);
     void encode(int type[],int dx[],int dy[]);
+    void drowNextPosition();
     vector<vector<Tile>> *tile;
     Teams *teams;
     Field *field;

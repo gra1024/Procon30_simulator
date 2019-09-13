@@ -300,3 +300,29 @@ void AnalyzeField::debug(){
     }
     cout << "///////////////////////////////////////" << endl;
 }
+
+void AnalyzeField::drowNextPosition(){
+    unsigned int i;
+    unsigned int MposX,MposY;
+    QPainter painter(this->fieldPixmap);
+    for(i=0;i<teams->agents.size();i++)
+    {
+    MposX=static_cast<unsigned>(static_cast<int>(teams[field->myTeam].agents[i].x)-1+teams[field->myTeam].agents[i].actions.dx);
+    MposY=static_cast<unsigned>(static_cast<int>(teams[field->myTeam].agents[i].y)-1+teams[field->myTeam].agents[i].actions.dy);
+    QPointF points[6] = {
+            QPointF(MposX*mag+2, MposY*mag+2),
+            QPointF(MposX*mag+mag-2, MposY*mag+2),
+            QPointF(MposX*mag+mag-2, MposY*mag+mag-2),
+            QPointF(MposX*mag+2, MposY*mag+mag-2),
+            QPointF(MposX*mag+mag/2, MposY*mag+mag/2),
+            QPointF((static_cast<unsigned>(teams[field->myTeam].agents[i].x)-1)*mag+mag/2,(static_cast<unsigned>(teams[field->myTeam].agents[i].y)-1)*mag+mag/2)
+        };
+        painter.setPen(QPen(QColor(255, 180, 0, 255),3));
+        painter.drawLine(points[0],points[1]);
+        painter.drawLine(points[1],points[2]);
+        painter.drawLine(points[2],points[3]);
+        painter.drawLine(points[3],points[0]);
+        painter.drawLine(points[4],points[5]);
+    }
+        painter.end();
+}
