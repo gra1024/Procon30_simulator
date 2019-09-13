@@ -45,23 +45,22 @@ void MainWindow::on_pushButton_start_clicked(){
 void MainWindow::on_pushButton_reload_clicked(){
     if(ui->checkBox_practice->checkState()==0){
         NM->get();
-        NM->post(AF->actionData);
         AF->pushReload(NM->matchReply);
         AF->drow();
         if(ui->comboBox_algolithm->currentText()=="Algolithm1"){
            C->startAlgo(0);
         }
+        //action(type,dx,dy)を仮指定
+        int type[2] = {1,1};
+        int dx[2] = {1,1};
+        int dy[2] = {1,-1};
+        AF->encode(type,dx,dy);
+        NM->post(AF->actionData);
+
     }else{
         UF->start();
         AF->drow();
     }
-    //debug
-    int type[2] = {1,1};
-    int dx[2] = {1,1};
-    int dy[2] = {1,-1};
-    AF->encode(type,dx,dy);
-    NM->post(AF->actionData);
-
 }
 
 void MainWindow::on_pushButton_close_clicked(){
