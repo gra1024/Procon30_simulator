@@ -24,12 +24,12 @@ void MainWindow::on_pushButton_start_clicked(){
     NM = new NetworkManager(ui);
     NM->get();
     AF = new AnalyzeField(ui);
-    AF->setup(&tile, teams, &field);
+    AF->setup(&tile, teams, &field,NM->matchReply);
     AF->drow();
     PC = new PointCalculate ();
     PC->setup(&tile, teams, &field);
     PC->updatePoint();
-    
+
     cout << "Point1 " << teams[0].tilePoint <<" "<< teams[0].areaPoint << endl;
     cout << "Point2 " << teams[1].tilePoint <<" "<< teams[1].areaPoint << endl;
     if(ui->checkBox_practice->checkState()==0){
@@ -45,8 +45,8 @@ void MainWindow::on_pushButton_start_clicked(){
 void MainWindow::on_pushButton_reload_clicked(){
     if(ui->checkBox_practice->checkState()==0){
         NM->get();
-        NM->post();
-        AF->pushReload();
+        NM->post(AF->actionData);
+        AF->pushReload(NM->matchReply);
         AF->drow();
         if(ui->comboBox_algolithm->currentText()=="Algolithm1"){
            C->startAlgo(0);
