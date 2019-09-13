@@ -134,6 +134,7 @@ string AnalyzeField::decodeAndUpdate(string path){
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(in.readAll().toUtf8());
     QJsonObject obj = jsonDoc.object();
+    obj = matchReply;
 
     QJsonArray arrTiled = obj["tiled"].toArray();
     QJsonArray arrTeams = obj["teams"].toArray();
@@ -261,7 +262,6 @@ void AnalyzeField::encode(int type[],int dx[],int dy[]){
     savefile.open(QIODevice::WriteOnly);
     savefile.write(actionData);
     savefile.close();
-    //return actionData;
 }
 
 void AnalyzeField::paintEvent(QPaintEvent *event)
