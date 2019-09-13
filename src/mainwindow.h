@@ -6,6 +6,8 @@
 #include "AnalyzeField.h"
 #include "Computer.h"
 #include "NetworkManager.h"
+#include "UnficationField.h"
+#include "PointCalculate.h"
 
 
 namespace Ui {
@@ -20,8 +22,11 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     AnalyzeField* AF = nullptr;
-    Computer* C=nullptr;
-    NetworkManager* manager;
+    Computer* C = nullptr;
+    UnficationField* UF = nullptr;
+    NetworkManager* NM = nullptr;
+    PointCalculate* PC = nullptr;
+
     vector<vector<Tile>> tile;
     Teams teams[2];
     Field field;
@@ -31,8 +36,6 @@ private slots:
     void on_pushButton_start_clicked();
     void on_pushButton_reload_clicked();
     void on_pushButton_close_clicked();
-
-
 
 private:
     Ui::MainWindow *ui;
