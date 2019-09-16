@@ -41,6 +41,7 @@ void UnficationField::start(){
         if(check()==0) break;
     }
     move();
+    field->turn++;
     encode(CONFIG_PATH_OF_FIELD_JSON);
 }
 
@@ -153,26 +154,9 @@ void UnficationField::move(){
 }
 
 void UnficationField::encode(string path){
-    int agentID_int;
-    QString type_string;
-    int dx_int;
-    int dy_int;
-    int turn_int;
-    int apply_int;
 
-    vector<QJsonArray> points_array_mid;
     QJsonArray Points;
-
-    vector<QJsonArray> color_array_mid;
-    QJsonArray Color;
-
-    QJsonArray jsonarr;
-    QJsonObject actions_obj;
-    vector<QJsonObject> actions_vector;
-    QJsonObject all_obj;
-    all_obj["width"]=field->width;
-    all_obj["height"]=field->height;
-
+    vector<QJsonArray> points_array_mid;
     for (unsigned int i=0;i<static_cast<unsigned int>(field->height);i++) {
         QJsonArray points_array_min;
         for (unsigned int j=0;j<static_cast<unsigned int>(field->width);j++) {
@@ -186,11 +170,10 @@ void UnficationField::encode(string path){
     for(auto name:points_array_mid)
     {
         Points.append(name);
-    }
+    } // points
 
-    all_obj["points"]=Points;
-    all_obj["startedAtUnixTime"]=field->startedAtUnixTime;
-    all_obj["turn"]=field->turn;
+    vector<QJsonArray> color_array_mid;
+    QJsonArray Color;
     for (unsigned int i=0;i<static_cast<unsigned int>(field->height);i++) {
         QJsonArray color_array_min;
         for (unsigned int j=0;j<static_cast<unsigned int>(field->width);j++) {
@@ -198,15 +181,26 @@ void UnficationField::encode(string path){
         }
         color_array_mid.push_back(color_array_min);
     }
-
     for(auto name:color_array_mid)
     {
         Color.append(name);
-    }
-    all_obj["tiled"]=Color;
-    for (unsigned int i=0;i<teams[0].agents.size();i++) {
-        agentID_int = teams[0].agents[i].agentID;
-        switch (teams[0].agents[i].actions.type) {
+    } // tiled
+
+    /////////////kokokara
+    QJsonArray teamsQJA;
+    for (;;) {
+
+    } // teams
+    /////////////kokkmade
+
+    QJsonArray jsonarr;
+    vector<QJsonObject> actions_vector;
+    int agentID_int;
+    QString type_string;
+    int dx_int, dy_int, turn_int, apply_int;
+    for (unsigned int j=0;j<teams[0].agents.size();j++) {
+        agentID_int = teams[0].agents[j].agentID;
+        switch (teams[0].agents[j].actions.type) {
             case 0 :
                 type_string="stay";
                 break;
@@ -217,10 +211,10 @@ void UnficationField::encode(string path){
                 type_string="remove";
                 break;
         }
-        dx_int=teams[0].agents[i].actions.dx;
-        dy_int=teams[0].agents[i].actions.dy;
-        turn_int=field->turn+1;
-        apply_int=teams[0].agents[i].actions.apply;
+        dx_int=teams[0].agents[j].actions.dx;
+        dy_int=teams[0].agents[j].actions.dy;
+        turn_int=field->turn - 1;
+        apply_int=teams[0].agents[j].actions.apply;
         QJsonObject agent_obj={
             {"agentID",agentID_int},
             {"type",type_string},
@@ -234,13 +228,21 @@ void UnficationField::encode(string path){
     for(auto name:actions_vector)
     {
         jsonarr.append(name);
-    }
-    all_obj["actions"]=jsonarr;/**/
+    } // actions
+
+    QJsonObject all_obj;
+    all_obj["width"] = field->width;
+    all_obj["height"] = field->height;
+    all_obj["points"] = Points;
+    all_obj["startedAtUnixTime"] = field->startedAtUnixTime;
+    all_obj["turn"] = field->turn;
+    all_obj["tiled"] = Color;
+    all_obj["teams"] = teamsQJA;
+    all_obj["actions"]=jsonarr;
+
     QJsonDocument jsonDoc(all_obj);
-    //json形式
     QByteArray data(jsonDoc.toJson());
     QFile savefile(QString::fromStdString(path));
-    /**/
     savefile.open(QIODevice::WriteOnly);
     savefile.write(data);
     savefile.close();

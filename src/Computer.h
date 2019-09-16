@@ -22,9 +22,9 @@ public:
 
 private:
     Ui::MainWindow *uiMainWindow;
-    void greedy();
+    //void greedy();
     void greedy2();
-    int eightangle(int angle[8][2],int Ax,int Ay,unsigned int Anumber,int TURN);
+    //int eightangle(int angle[8][2],int Ax,int Ay,unsigned int Anumber,int TURN);
 
     int angle[9][2] = { // x,y
         { -1, -1},{  0, -1},{  1, -1},

@@ -24,6 +24,7 @@ void AnalyzeField::setup(vector<vector<Tile>> *tile, Teams *teams, Field *field,
     this->matchReply = matchReply;
     decodeAndSet(CONFIG_PATH_OF_FIELD_JSON);
     setUi();
+    //debug();
 }
 
 void AnalyzeField::pushReload(QJsonObject matchReply){
@@ -52,7 +53,9 @@ string AnalyzeField::decodeAndSet(string path){
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(in.readAll().toUtf8());
     QJsonObject obj = jsonDoc.object();
-    obj = matchReply;
+    if(uiMainWindow->checkBox_practice->checkState() == 0){
+        obj = matchReply;
+    }
 
     field->width = obj["width"].toInt();
     field->height = obj["height"].toInt();
@@ -134,7 +137,9 @@ string AnalyzeField::decodeAndUpdate(string path){
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(in.readAll().toUtf8());
     QJsonObject obj = jsonDoc.object();
-    obj = matchReply;
+    if(uiMainWindow->checkBox_practice->checkState() == 0){
+        obj = matchReply;
+    }
 
     QJsonArray arrTiled = obj["tiled"].toArray();
     QJsonArray arrTeams = obj["teams"].toArray();
@@ -218,35 +223,58 @@ void AnalyzeField::drowField(){
     painter.end();
 }
 
-void AnalyzeField::encode(int type[],int dx[],int dy[]){
+void AnalyzeField::drowNextPosition(){
+    unsigned int i;
+    unsigned int MposX,MposY;
+    unsigned int mag = static_cast <unsigned>(this->mag);
+    QPainter painter(this->fieldPixmap);
+    for(i=0;i<teams->agents.size();i++)
+    {
+    MposX=static_cast<unsigned>(static_cast<int>(teams[field->myTeam].agents[i].x)-1+teams[field->myTeam].agents[i].actions.dx);
+    MposY=static_cast<unsigned>(static_cast<int>(teams[field->myTeam].agents[i].y)-1+teams[field->myTeam].agents[i].actions.dy);
+    QPointF points[6] = {
+            QPointF(MposX*mag+2, MposY*mag+2),
+            QPointF(MposX*mag+mag-2, MposY*mag+2),
+            QPointF(MposX*mag+mag-2, MposY*mag+mag-2),
+            QPointF(MposX*mag+2, MposY*mag+mag-2),
+            QPointF(MposX*mag+mag/2, MposY*mag+mag/2),
+            QPointF((static_cast<unsigned>(teams[field->myTeam].agents[i].x)-1)*mag+mag/2,(static_cast<unsigned>(teams[field->myTeam].agents[i].y)-1)*mag+mag/2)
+        };
+        if(teams[field->myTeam].agents[i].actions.type == 2) painter.setPen(QPen(QColor(0, 180, 0, 255),3)); // remove
+        else painter.setPen(QPen(QColor(255, 180, 0, 255),3)); // move or stay
+        painter.drawLine(points[0],points[1]);
+        painter.drawLine(points[1],points[2]);
+        painter.drawLine(points[2],points[3]);
+        painter.drawLine(points[3],points[0]);
+        painter.drawLine(points[4],points[5]);
+    }
+        painter.end();
+        repaint();
+}
 
-    int agentID_int;
+void AnalyzeField::encode(string path){
     QString type_string;
-    int dx_int;
-    int dy_int;
     QJsonArray jsonarr;
     QJsonObject actions_obj;
     vector<QJsonObject> actions_vector;
+    string strType;
     for (unsigned int i=0;i<teams[0].agents.size();i++) {
-        agentID_int = teams[0].agents[i].agentID;
-        switch (type[i]) {
+        switch (teams[field->myTeam].agents[i].actions.type) {
         case 0 :
-            type_string="stay";
+            strType = "stay";
             break;
         case 1:
-            type_string="move";
+            strType = "move";
             break;
         case 2 :
-            type_string="remove";
+            strType = "remove";
             break;
         }
-        dx_int=dx[i];
-        dy_int=dy[i];
         QJsonObject agent_obj={
-            {"agentID",agentID_int},
-            {"type",type_string},
-            {"dx",dx_int},
-            {"dy",dy_int},
+            {"agentID", teams[field->myTeam].agents[i].agentID},
+            {"type", QString::fromStdString(strType)},
+            {"dx", teams[field->myTeam].agents[i].actions.dx},
+            {"dy", teams[field->myTeam].agents[i].actions.dy},
         };
         actions_vector.push_back(agent_obj);
     }
@@ -254,15 +282,16 @@ void AnalyzeField::encode(int type[],int dx[],int dy[]){
     {
         jsonarr.append(name);
     }
-    actions_obj["actions"]=jsonarr;
+    actions_obj["actions"] = jsonarr;
     QJsonDocument jsonDoc(actions_obj);
-    //json形式
     actionData = jsonDoc.toJson();
-    QFile savefile("..\\data\\AgentMoveing.json");
+    QFile savefile(QString::fromStdString(path));
     savefile.open(QIODevice::WriteOnly);
     savefile.write(actionData);
     savefile.close();
 }
+
+
 
 void AnalyzeField::paintEvent(QPaintEvent *event)
 {
@@ -299,30 +328,4 @@ void AnalyzeField::debug(){
         }
     }
     cout << "///////////////////////////////////////" << endl;
-}
-
-void AnalyzeField::drowNextPosition(){
-    unsigned int i;
-    unsigned int MposX,MposY;
-    QPainter painter(this->fieldPixmap);
-    for(i=0;i<teams->agents.size();i++)
-    {
-    MposX=static_cast<unsigned>(static_cast<int>(teams[field->myTeam].agents[i].x)-1+teams[field->myTeam].agents[i].actions.dx);
-    MposY=static_cast<unsigned>(static_cast<int>(teams[field->myTeam].agents[i].y)-1+teams[field->myTeam].agents[i].actions.dy);
-    QPointF points[6] = {
-            QPointF(MposX*mag+2, MposY*mag+2),
-            QPointF(MposX*mag+mag-2, MposY*mag+2),
-            QPointF(MposX*mag+mag-2, MposY*mag+mag-2),
-            QPointF(MposX*mag+2, MposY*mag+mag-2),
-            QPointF(MposX*mag+mag/2, MposY*mag+mag/2),
-            QPointF((static_cast<unsigned>(teams[field->myTeam].agents[i].x)-1)*mag+mag/2,(static_cast<unsigned>(teams[field->myTeam].agents[i].y)-1)*mag+mag/2)
-        };
-        painter.setPen(QPen(QColor(255, 180, 0, 255),3));
-        painter.drawLine(points[0],points[1]);
-        painter.drawLine(points[1],points[2]);
-        painter.drawLine(points[2],points[3]);
-        painter.drawLine(points[3],points[0]);
-        painter.drawLine(points[4],points[5]);
-    }
-        painter.end();
 }

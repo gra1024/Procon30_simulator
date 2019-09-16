@@ -2,15 +2,15 @@
     "actions": [
         {
             "agentID": 9,
-            "type": "move",
-            "dx": 1,
-            "dy": 1
+            "dx": 0,
+            "dy": 1,
+            "type": "move"
         },
         {
             "agentID": 10,
-            "type": "move",
-            "dx": -1,
-            "dy": -1
+            "dx": 0,
+            "dy": -1,
+            "type": "move"
         }
     ]
 }

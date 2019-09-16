@@ -26,7 +26,7 @@ public:
     void drow();
     string decodeAndSet(string path);
     string decodeAndUpdate(string path);
-    void encode(int type[],int dx[],int dy[]);
+    void encode(string path);
     void drowNextPosition();
     vector<vector<Tile>> *tile;
     Teams *teams;

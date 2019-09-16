@@ -37,15 +37,16 @@ void Computer::startAlgo(int AlgoNumber){
     copy();
     switch(AlgoNumber){
     case 0:
-        greedy();
+        greedy2();
         break;
     case 1:
         ;
     }
-
 }
+
+/*
 void Computer::greedy(){
-    /*
+
     unsigned int i,j;
     int angle[8][2]={{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}};
     int maximum=-100,tilepoint=0,teamcolor;
@@ -78,14 +79,24 @@ void Computer::greedy(){
             }
         }
     }
-    */
+
 }
+*/
 
 void Computer::greedy2(){
 
-    int color = field->TeamColorNumber[0];
+    //int color = field->TeamColorNumber[0];
     int myTeam = field->myTeam;
+    int maxPoint;
+    int position;
+    unsigned int x, y;
     for(unsigned int i=0; i < teams[myTeam].agents.size(); ++i){
+        maxPoint = -999;
+        position = 0;
+        for(int j=0; j<9; ++j){
+            result[j][0]=0;
+            result[j][1]=0;
+        }
         for(int j=0; j<9; ++j){
             provisionalTeams.agents[i].x = teams[myTeam].agents[i].x;
             provisionalTeams.agents[i].y = teams[myTeam].agents[i].y;
@@ -94,15 +105,32 @@ void Computer::greedy2(){
             if(outLange(provisionalTeams.agents[i].x, provisionalTeams.agents[i].y)){
                 result[j][0] = 1;
             }else{
-                result[j][1] = tile->at(static_cast<unsigned>(provisionalTeams.agents[i].y))
-                        .at(static_cast<unsigned>(provisionalTeams.agents[i].x)).point;
+                result[j][1] += tile->at(static_cast<unsigned>(provisionalTeams.agents[i].y) - 1)
+                        .at(static_cast<unsigned>(provisionalTeams.agents[i].x) - 1).point;
             }
         }
         for(int j=0; j<9; ++j){
-        //最も点数の高いところ
+            //最も点数の高いところ
+            if(result[j][0] != 1){
+                if(result[j][1] >= maxPoint){
+                    maxPoint = result[j][1];
+                    position = j;
+                }
+            }
+        }
+        teams[myTeam].agents[i].actions.dx = angle[position][0];
+        teams[myTeam].agents[i].actions.dy = angle[position][1];
+        x = static_cast<unsigned>(teams[myTeam].agents[i].x) + static_cast<unsigned>(teams[myTeam].agents[i].actions.dx);
+        y = static_cast<unsigned>(teams[myTeam].agents[i].y) + static_cast<unsigned>(teams[myTeam].agents[i].actions.dy);
+        if(tile->at(y).at(x).color == field->TeamColorNumber[1]){
+            teams[myTeam].agents[i].actions.type = 2; //remove
+        }else{
+            teams[myTeam].agents[i].actions.type = 1; //move
+        }
+        if(position == 4){
+            teams[myTeam].agents[i].actions.type = 0; // stay
         }
     }
-
 }
 
 void Computer::copy(){
@@ -126,8 +154,10 @@ int Computer::outLange(int x, int y){
     return 0;
 }
 
+
+/*
 int Computer::eightangle(int angle[8][2],int Ax,int Ay,unsigned int AgentNumber,int TURN){
-    /*
+
     unsigned int i;
     int maximum=-100,tilepoint=0;
     int teamcolor = teams[0].teamID;
@@ -158,5 +188,5 @@ int Computer::eightangle(int angle[8][2],int Ax,int Ay,unsigned int AgentNumber,
         angle[i][1]-=Ay;
     }
     return maximum;
-    */
 }
+*/
