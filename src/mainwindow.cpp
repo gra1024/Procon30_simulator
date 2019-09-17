@@ -43,11 +43,11 @@ void MainWindow::on_pushButton_reload_clicked(){
     if(ui->checkBox_gameMaster->checkState()==0){
         NM->get();
         AF->pushReload(NM->matchReply);
-        AF->drow();
         if(ui->comboBox_algolithm->currentText()=="Algolithm1"){
            C->startAlgo(0);
         }
-        AF->drowNextPosition();
+        AF->drow();
+
         AF->encode(CONFIG_PATH_OF_AGENT_JSON_1);
         NM->post(AF->actionData);
     }else{
@@ -55,6 +55,13 @@ void MainWindow::on_pushButton_reload_clicked(){
         AF->drow();
     }
     cout << "Finish Reload" << endl;
+}
+
+void MainWindow::updateTeamPoints(){
+    ////kokokara2
+
+
+    /// kokomade2
 }
 
 void MainWindow::on_pushButton_close_clicked(){

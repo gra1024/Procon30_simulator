@@ -36,7 +36,7 @@ private slots:
     void on_pushButton_start_clicked();
     void on_pushButton_reload_clicked();
     void on_pushButton_close_clicked();
-
+    void updateTeamPoints();
 private:
     Ui::MainWindow *ui;
 };

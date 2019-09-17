@@ -21,13 +21,12 @@ public:
     ~AnalyzeField();
     void setup(vector<vector<Tile>> *tile, Teams *teams, Field *field, QJsonObject matchReply);
     void setUi();
-    void drowField();
     void pushReload(QJsonObject matchReply);
     void drow();
     string decodeAndSet(string path);
     string decodeAndUpdate(string path);
     void encode(string path);
-    void drowNextPosition();
+
     vector<vector<Tile>> *tile;
     Teams *teams;
     Field *field;
@@ -39,6 +38,9 @@ protected:
     void paintEvent(QPaintEvent *event);
 
 private:
+    void drowField();
+    void drowNextPosition();
+
     Ui::AnalyzeField *ui;
     Ui::MainWindow *uiMainWindow;
     QPainter *painter;
