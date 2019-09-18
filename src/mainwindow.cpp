@@ -45,7 +45,9 @@ void MainWindow::on_pushButton_reload_clicked(){
         AF->pushReload(NM->matchReply);
         if(ui->comboBox_algolithm->currentText()=="Algolithm1"){
            C->startAlgo(0);
-        }
+        }        
+        PC->updatePoint();
+        updateTeamPoints();
         AF->drow();
 
         AF->encode(CONFIG_PATH_OF_AGENT_JSON_1);
@@ -59,8 +61,8 @@ void MainWindow::on_pushButton_reload_clicked(){
 
 void MainWindow::updateTeamPoints(){
     ////kokokara2
-
-
+    ui->lcdNumber_red->display(teams[0].tilePoint+teams[0].areaPoint);
+    ui->lcdNumber_blue->display(teams[1].tilePoint+teams[1].areaPoint);
     /// kokomade2
 }
 
