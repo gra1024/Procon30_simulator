@@ -60,10 +60,8 @@ void MainWindow::on_pushButton_reload_clicked(){
 }
 
 void MainWindow::updateTeamPoints(){
-    ////kokokara2
     ui->lcdNumber_red->display(teams[0].tilePoint+teams[0].areaPoint);
     ui->lcdNumber_blue->display(teams[1].tilePoint+teams[1].areaPoint);
-    /// kokomade2
 }
 
 void MainWindow::on_pushButton_close_clicked(){
