@@ -51,9 +51,11 @@ extern QSettings config;
 /* ### Define ### */
 #define WHITE 0
 
-#define CONFIG_PATH_OF_AGENT_JSON_1 config.value("PATH_OF_AGENT_JSON_1").toString().toStdString()
-#define CONFIG_PATH_OF_AGENT_JSON_2 config.value("PATH_OF_AGENT_JSON_2").toString().toStdString()
-#define CONFIG_PATH_OF_FIELD_JSON config.value("PATH_OF_FIELD_JSON").toString().toStdString()
+#define CONFIG_PATH_OF_FILE_INPUT_FIELD_BY_PLAYER config.value("PATH_OF_FILE_INPUT_FIELD_BY_PLAYER").toString().toStdString()
+#define CONFIG_PATH_OF_FILE_INPUT_ACTIONS_1_BY_GAMEMASTER config.value("PATH_OF_FILE_INPUT_ACTIONS_1_BY_GAMEMASTER").toString().toStdString()
+#define CONFIG_PATH_OF_FILE_INPUT_ACTIONS_2_BY_GAMEMASTER config.value("PATH_OF_FILE_INPUT_ACTIONS_2_BY_GAMEMASTER").toString().toStdString()
+#define CONFIG_PATH_OF_FILE_OUTPUT_ACTIONS_BY_PLAYER config.value("PATH_OF_FILE_OUTPUT_ACTIONS_BY_PLAYER").toString().toStdString()
+#define CONFIG_PATH_OF_FILE_OUTPUT_FIELD_BY_GAMEMASTER config.value("PATH_OF_FILE_OUTPUT_FIELD_BY_GAMEMASTER").toString().toStdString()
 #define CONFIG_MAGNIFICATION_OF_FIELD config.value("MAGNIFICATION_OF_FIELD").toInt()
 
 /* ### struct ### */

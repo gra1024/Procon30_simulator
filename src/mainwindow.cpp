@@ -49,8 +49,8 @@ void MainWindow::on_pushButton_reload_clicked(){
         PC->updatePoint();
         updateTeamPoints();
         AF->drow();
-
-        AF->encode(CONFIG_PATH_OF_AGENT_JSON_1);
+        AF->drowNextPosition();
+        AF->encode(CONFIG_PATH_OF_FILE_OUTPUT_ACTIONS_BY_PLAYER);
         NM->post(AF->actionData);
     }else{
         UF->start();

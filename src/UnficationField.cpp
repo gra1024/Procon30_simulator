@@ -32,8 +32,8 @@ void UnficationField::setup(vector<vector<Tile>> *tile, Teams *teams, Field *fie
 }
 
 void UnficationField::start(){
-    load(0,CONFIG_PATH_OF_AGENT_JSON_1);
-    load(1,CONFIG_PATH_OF_AGENT_JSON_2);
+    load(0,CONFIG_PATH_OF_FILE_INPUT_ACTIONS_1_BY_GAMEMASTER);
+    load(1,CONFIG_PATH_OF_FILE_INPUT_ACTIONS_2_BY_GAMEMASTER);
     debug();
     copy();
     provisionalMove();
@@ -42,7 +42,7 @@ void UnficationField::start(){
     }
     move();
     field->turn++;
-    encode(CONFIG_PATH_OF_FIELD_JSON);
+    encode(CONFIG_PATH_OF_FILE_OUTPUT_FIELD_BY_GAMEMASTER);
 }
 
 string UnficationField::load(int teamNum, string path){
@@ -186,7 +186,6 @@ void UnficationField::encode(string path){
         Color.append(name);
     } // tiled
 
-    /////////////kokokara
     QJsonArray teamsQJA;
     for (unsigned int i=0;i<2;i++) {
         QJsonObject teamsObj;
@@ -204,7 +203,6 @@ void UnficationField::encode(string path){
         teamsObj["areaPoint"]=teams[i].areaPoint;
         teamsQJA.append(teamsObj);
     } // teams
-    /////////////kokkmade
 
     QJsonArray jsonarr;
     vector<QJsonObject> actions_vector;
@@ -226,7 +224,7 @@ void UnficationField::encode(string path){
         }
         dx_int=teams[0].agents[j].actions.dx;
         dy_int=teams[0].agents[j].actions.dy;
-        turn_int=field->turn - 1;
+        turn_int=field->turn;
         apply_int=teams[0].agents[j].actions.apply;
         QJsonObject agent_obj={
             {"agentID",agentID_int},

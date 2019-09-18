@@ -22,14 +22,14 @@ void AnalyzeField::setup(vector<vector<Tile>> *tile, Teams *teams, Field *field,
     this->teams = teams;
     this->field = field;
     this->matchReply = matchReply;
-    decodeAndSet(CONFIG_PATH_OF_FIELD_JSON);
+    decodeAndSet(CONFIG_PATH_OF_FILE_INPUT_FIELD_BY_PLAYER);
     setUi();
     //debug();
 }
 
 void AnalyzeField::pushReload(QJsonObject matchReply){
     this->matchReply = matchReply;
-    decodeAndUpdate(CONFIG_PATH_OF_FIELD_JSON);
+    decodeAndUpdate(CONFIG_PATH_OF_FILE_INPUT_FIELD_BY_PLAYER);
 }
 
 void AnalyzeField::setUi()
@@ -41,7 +41,6 @@ void AnalyzeField::setUi()
 
 void AnalyzeField::drow(){
     drowField();
-    drowNextPosition();
     repaint();
 }
 
@@ -250,6 +249,7 @@ void AnalyzeField::drowNextPosition(){
         painter.drawLine(points[4],points[5]);
     }
         painter.end();
+        repaint();
 }
 
 void AnalyzeField::encode(string path){

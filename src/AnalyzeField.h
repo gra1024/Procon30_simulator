@@ -23,6 +23,7 @@ public:
     void setUi();
     void pushReload(QJsonObject matchReply);
     void drow();
+    void drowNextPosition();
     string decodeAndSet(string path);
     string decodeAndUpdate(string path);
     void encode(string path);
@@ -39,7 +40,6 @@ protected:
 
 private:
     void drowField();
-    void drowNextPosition();
 
     Ui::AnalyzeField *ui;
     Ui::MainWindow *uiMainWindow;
