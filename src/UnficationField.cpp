@@ -188,8 +188,21 @@ void UnficationField::encode(string path){
 
     /////////////kokokara
     QJsonArray teamsQJA;
-    for (;;) {
-
+    for (unsigned int i=0;i<2;i++) {
+        QJsonObject teamsObj;
+        QJsonArray agentsArr;
+        teamsObj["teamID"]=teams[i].teamID;
+        for(unsigned int j=0;j<teams[0].agents.size();j++){
+            QJsonObject agentsObj;
+            agentsObj["agentID"]=teams[i].agents[j].agentID;
+            agentsObj["x"]=teams[i].agents[j].x;
+            agentsObj["y"]=teams[i].agents[j].y;
+            agentsArr.append(agentsObj);
+        }
+        teamsObj["agents"]=agentsArr;
+        teamsObj["tilePoint"]=teams[i].tilePoint;
+        teamsObj["areaPoint"]=teams[i].areaPoint;
+        teamsQJA.append(teamsObj);
     } // teams
     /////////////kokkmade
 
@@ -263,3 +276,4 @@ void UnficationField::debug(){
     }
     cout << "/////////////////////////////" << endl;
 }
+
