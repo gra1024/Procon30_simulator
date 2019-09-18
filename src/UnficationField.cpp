@@ -209,32 +209,34 @@ void UnficationField::encode(string path){
     int agentID_int;
     QString type_string;
     int dx_int, dy_int, turn_int, apply_int;
-    for (unsigned int j=0;j<teams[0].agents.size();j++) {
-        agentID_int = teams[0].agents[j].agentID;
-        switch (teams[0].agents[j].actions.type) {
-            case 0 :
-                type_string="stay";
-                break;
-            case 1:
-                type_string="move";
-                break;
-            case 2 :
-                type_string="remove";
-                break;
+    for (unsigned int i=0;i<2;i++){
+        for (unsigned int j=0;j<teams[0].agents.size();j++) {
+            agentID_int = teams[i].agents[j].agentID;
+            switch (teams[i].agents[j].actions.type) {
+                case 0 :
+                    type_string="stay";
+                    break;
+                case 1:
+                    type_string="move";
+                    break;
+                case 2 :
+                    type_string="remove";
+                    break;
+            }
+            dx_int=teams[i].agents[j].actions.dx;
+            dy_int=teams[i].agents[j].actions.dy;
+            turn_int=field->turn;
+            apply_int=teams[i].agents[j].actions.apply;
+            QJsonObject agent_obj={
+                {"agentID",agentID_int},
+                {"type",type_string},
+                {"dx",dx_int},
+                {"dy",dy_int},
+                {"turn",turn_int},
+                {"apply",apply_int}
+            };
+            actions_vector.push_back(agent_obj);
         }
-        dx_int=teams[0].agents[j].actions.dx;
-        dy_int=teams[0].agents[j].actions.dy;
-        turn_int=field->turn;
-        apply_int=teams[0].agents[j].actions.apply;
-        QJsonObject agent_obj={
-            {"agentID",agentID_int},
-            {"type",type_string},
-            {"dx",dx_int},
-            {"dy",dy_int},
-            {"turn",turn_int},
-            {"apply",apply_int}
-        };
-        actions_vector.push_back(agent_obj);
     }
     for(auto name:actions_vector)
     {
