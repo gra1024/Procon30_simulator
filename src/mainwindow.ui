@@ -263,6 +263,12 @@
    <property name="styleSheet">
     <string notr="true">background:#fff</string>
    </property>
+   <property name="segmentStyle">
+    <enum>QLCDNumber::Filled</enum>
+   </property>
+   <property name="intValue" stdset="0">
+    <number>0</number>
+   </property>
   </widget>
   <widget class="QLCDNumber" name="lcdNumber_blue">
    <property name="geometry">
@@ -288,6 +294,18 @@
    </property>
    <property name="styleSheet">
     <string notr="true">background:#fff</string>
+   </property>
+   <property name="smallDecimalPoint">
+    <bool>false</bool>
+   </property>
+   <property name="digitCount">
+    <number>5</number>
+   </property>
+   <property name="mode">
+    <enum>QLCDNumber::Dec</enum>
+   </property>
+   <property name="intValue" stdset="0">
+    <number>0</number>
    </property>
   </widget>
   <widget class="QLabel" name="label_color_white">

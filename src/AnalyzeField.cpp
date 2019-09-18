@@ -41,6 +41,7 @@ void AnalyzeField::setUi()
 
 void AnalyzeField::drow(){
     drowField();
+    drowNextPosition();
     repaint();
 }
 
@@ -249,7 +250,6 @@ void AnalyzeField::drowNextPosition(){
         painter.drawLine(points[4],points[5]);
     }
         painter.end();
-        repaint();
 }
 
 void AnalyzeField::encode(string path){

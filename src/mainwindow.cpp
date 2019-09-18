@@ -43,11 +43,13 @@ void MainWindow::on_pushButton_reload_clicked(){
     if(ui->checkBox_gameMaster->checkState()==0){
         NM->get();
         AF->pushReload(NM->matchReply);
-        AF->drow();
         if(ui->comboBox_algolithm->currentText()=="Algolithm1"){
            C->startAlgo(0);
-        }
-        AF->drowNextPosition();
+        }        
+        PC->updatePoint();
+        updateTeamPoints();
+        AF->drow();
+
         AF->encode(CONFIG_PATH_OF_AGENT_JSON_1);
         NM->post(AF->actionData);
     }else{
@@ -55,6 +57,11 @@ void MainWindow::on_pushButton_reload_clicked(){
         AF->drow();
     }
     cout << "Finish Reload" << endl;
+}
+
+void MainWindow::updateTeamPoints(){
+    ui->lcdNumber_red->display(teams[0].tilePoint+teams[0].areaPoint);
+    ui->lcdNumber_blue->display(teams[1].tilePoint+teams[1].areaPoint);
 }
 
 void MainWindow::on_pushButton_close_clicked(){
