@@ -1,8 +1,13 @@
 #include "NetworkManager.h"
 
-NetworkManager::NetworkManager(Ui::MainWindow *uiMainWindow):
-    uiMainWindow(uiMainWindow)
+NetworkManager::NetworkManager()
 {
+
+}
+
+void NetworkManager::setup(Ui::MainWindow *uiMainWindow, Network *network){
+    this->uiMainWindow = uiMainWindow;
+    this->network = network;
     matchID = uiMainWindow->spinBox_matchID->value();
 }
 
@@ -31,10 +36,10 @@ void NetworkManager::get()//試合情報の取得
     qDebug()<<jsonStr;//応答(試合情報)をQStringで表示
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonStr.toUtf8());
-    matchReply = jsonDoc.object();//これをAnalyzeFieldでデコードする
+    network->matchReply = jsonDoc.object();//これをAnalyzeFieldでデコードする
 }
 
-void NetworkManager::post(QByteArray actionData)//actionの提出(POST)
+void NetworkManager::post()//actionの提出(POST)
 {
     if(matchID==0)return;//試合事前情報取得時のpostを防ぐ
 
@@ -54,7 +59,7 @@ void NetworkManager::post(QByteArray actionData)//actionの提出(POST)
 
     request.setRawHeader("Authorization", "procon30_example_token");//トークンの追加
     request.setRawHeader("Content-Type","application/json");//Content-Typeの指定
-    QNetworkReply *reply = manager->post(request,actionData);
+    QNetworkReply *reply = manager->post(request,network->actionData);
     eventLoop.exec();
 
     QString jsonStr = QString::fromUtf8(reply->readAll());

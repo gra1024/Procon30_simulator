@@ -17,23 +17,18 @@ class AnalyzeField : public QWidget
     Q_OBJECT
 
 public:
-    explicit AnalyzeField(Ui::MainWindow *uiMainWindow, QWidget *parent = nullptr);
+    explicit AnalyzeField(QWidget *parent = nullptr);
     ~AnalyzeField();
-    void setup(vector<vector<Tile>> *tile, Teams *teams, Field *field, QJsonObject matchReply);
+    void setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, Teams *teams, Field *field, Network *network);
     void setUi();
-    void pushReload(QJsonObject matchReply);
+    void pushReload();
     void drow();
     void drowNextPosition();
     string decodeAndSet(string path);
     string decodeAndUpdate(string path);
     void encode(string path);
 
-    vector<vector<Tile>> *tile;
-    Teams *teams;
-    Field *field;
-    int red,blue,colorPattern;
-    QByteArray actionData;
-    QJsonObject matchReply;
+
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -47,6 +42,13 @@ private:
     QPixmap *fieldPixmap;
     int mag;
     void debug();
+
+    vector<vector<Tile>> *tile;
+    Teams *teams;
+    Field *field;
+    int red,blue,colorPattern;
+
+    Network *network;
 
 };
 

@@ -10,18 +10,19 @@ using namespace std;
 class Computer
 {
 public:
-    explicit Computer(Ui::MainWindow *uiMainWindow);
+    explicit Computer();
     ~Computer();
-    void setup(vector<vector<Tile>> *tile, Teams *teams, Field *field);
-    vector<vector<Tile>> *tile;
-    Teams *teams;
-    Field *field;
-    Agent *agent;
+    void setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, Teams *teams, Field *field);
+
     //Actions *action;
     void startAlgo(int AlgoNumber);
 
 private:
     Ui::MainWindow *uiMainWindow;
+    vector<vector<Tile>> *tile;
+    Teams *teams;
+    Field *field;
+    Agent *agent;
     //void greedy();
     void greedy2();
     //int eightangle(int angle[8][2],int Ax,int Ay,unsigned int Anumber,int TURN);

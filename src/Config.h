@@ -101,4 +101,9 @@ struct Field{
     int myTeam;
 };
 
+struct Network{
+    QJsonObject matchReply;
+    QByteArray actionData;
+};
+
 #endif // CONFIG_H

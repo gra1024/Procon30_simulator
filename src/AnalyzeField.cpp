@@ -1,10 +1,9 @@
 #include "AnalyzeField.h"
 #include "ui_AnalyzeField.h"
 
-AnalyzeField::AnalyzeField(Ui::MainWindow *uiMainWindow, QWidget *parent) :
+AnalyzeField::AnalyzeField(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::AnalyzeField),
-    uiMainWindow(uiMainWindow)
+    ui(new Ui::AnalyzeField)
 {
     ui->setupUi(this);
     string title = "Field";
@@ -16,19 +15,19 @@ AnalyzeField::~AnalyzeField()
     delete ui;
 }
 
-void AnalyzeField::setup(vector<vector<Tile>> *tile, Teams *teams, Field *field,QJsonObject matchReply)
+void AnalyzeField::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, Teams *teams, Field *field, Network *network)
 {
+    this->uiMainWindow = uiMainWindow;
     this->tile = tile;
     this->teams = teams;
     this->field = field;
-    this->matchReply = matchReply;
+    this->network = network;
     decodeAndSet(CONFIG_PATH_OF_FILE_INPUT_FIELD_BY_PLAYER);
     setUi();
     //debug();
 }
 
-void AnalyzeField::pushReload(QJsonObject matchReply){
-    this->matchReply = matchReply;
+void AnalyzeField::pushReload(){
     decodeAndUpdate(CONFIG_PATH_OF_FILE_INPUT_FIELD_BY_PLAYER);
 }
 
@@ -54,7 +53,7 @@ string AnalyzeField::decodeAndSet(string path){
     QJsonDocument jsonDoc = QJsonDocument::fromJson(in.readAll().toUtf8());
     QJsonObject obj = jsonDoc.object();
     if(uiMainWindow->checkBox_practice->checkState() == 0){
-        obj = matchReply;
+        obj = network->matchReply;
     }
 
     field->width = obj["width"].toInt();
@@ -138,7 +137,7 @@ string AnalyzeField::decodeAndUpdate(string path){
     QJsonDocument jsonDoc = QJsonDocument::fromJson(in.readAll().toUtf8());
     QJsonObject obj = jsonDoc.object();
     if(uiMainWindow->checkBox_practice->checkState() == 0){
-        obj = matchReply;
+        obj = network->matchReply;
     }
 
     QJsonArray arrTiled = obj["tiled"].toArray();
@@ -284,10 +283,10 @@ void AnalyzeField::encode(string path){
     }
     actions_obj["actions"] = jsonarr;
     QJsonDocument jsonDoc(actions_obj);
-    actionData = jsonDoc.toJson();
+    network->actionData = jsonDoc.toJson();
     QFile savefile(QString::fromStdString(path));
     savefile.open(QIODevice::WriteOnly);
-    savefile.write(actionData);
+    savefile.write(network->actionData);
     savefile.close();
 }
 

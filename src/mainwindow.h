@@ -31,6 +31,7 @@ public:
     Teams teams[2];
     Field field;
     Actions action;
+    Network network;
 
 private slots:
     void on_pushButton_start_clicked();

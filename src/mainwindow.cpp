@@ -21,17 +21,18 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_pushButton_start_clicked(){
-    NM = new NetworkManager(ui);
+    NM = new NetworkManager();
+    NM->setup(ui, &network);
     NM->get();
-    AF = new AnalyzeField(ui);
-    AF->setup(&tile, teams, &field,NM->matchReply);
+    AF = new AnalyzeField();
+    AF->setup(ui, &tile, teams, &field, &network);
     AF->drow();
     PC = new PointCalculate ();
     PC->setup(&tile, teams, &field);
     PC->updatePoint();
     if(ui->checkBox_gameMaster->checkState()==0){
-        C = new Computer(ui);
-        C->setup(&tile, teams, &field);
+        C = new Computer();
+        C->setup(ui, &tile, teams, &field);
     }else{
         UF = new UnficationField();
         UF->setup(&tile, teams, &field);
@@ -42,7 +43,7 @@ void MainWindow::on_pushButton_start_clicked(){
 void MainWindow::on_pushButton_reload_clicked(){
     if(ui->checkBox_gameMaster->checkState()==0){
         NM->get();
-        AF->pushReload(NM->matchReply);
+        AF->pushReload();
         if(ui->comboBox_algolithm->currentText()=="Algolithm1"){
            C->startAlgo(0);
         }        
@@ -51,7 +52,7 @@ void MainWindow::on_pushButton_reload_clicked(){
         AF->drow();
         AF->drowNextPosition();
         AF->encode(CONFIG_PATH_OF_FILE_OUTPUT_ACTIONS_BY_PLAYER);
-        NM->post(AF->actionData);
+        NM->post();
     }else{
         UF->start();
         AF->drow();
