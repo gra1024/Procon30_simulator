@@ -41,7 +41,7 @@ CMakeLists.txt.user*
 compile_commands.json
 # QtCreator local machine specific files for imported projects 
 *creator.user*
-.dropbox
+*.dropbox
 /data/fromGra/*
 !/data/fromGra/.gitkeep
 /data/fromRui/*
