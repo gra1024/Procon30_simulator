@@ -22,6 +22,7 @@ private:
     Ui::MainWindow *uiMainWindow;
     Network *network;
     int matchID;
+    bool checkState;
 
 };
 
