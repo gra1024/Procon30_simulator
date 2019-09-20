@@ -122,7 +122,7 @@ void Computer::greedy2(){
         teams[myTeam].agents[i].actions.dy = angle[position][1];
         x = static_cast<unsigned>(teams[myTeam].agents[i].x) + static_cast<unsigned>(teams[myTeam].agents[i].actions.dx);
         y = static_cast<unsigned>(teams[myTeam].agents[i].y) + static_cast<unsigned>(teams[myTeam].agents[i].actions.dy);
-        if(tile->at(y).at(x).color == field->TeamColorNumber[1]){
+        if(tile->at(y-1).at(x-1).color == field->TeamColorNumber[1]){
             teams[myTeam].agents[i].actions.type = 2; //remove
         }else{
             teams[myTeam].agents[i].actions.type = 1; //move
@@ -130,6 +130,7 @@ void Computer::greedy2(){
         if(position == 4){
             teams[myTeam].agents[i].actions.type = 0; // stay
         }
+                        cout << "333" << endl;
     }
 }
 
