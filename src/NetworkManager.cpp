@@ -10,11 +10,13 @@ void NetworkManager::setup(Ui::MainWindow *uiMainWindow, Network *network){
     this->uiMainWindow = uiMainWindow;
     this->network = network;
     matchID = uiMainWindow->spinBox_matchID->value();
+    checkState = uiMainWindow->checkBox_practice->checkState();
 }
 
 /*　### サーバーへ接続し、フィールド情報を取得する ###　*/
 void NetworkManager::get()
 {
+    if(checkState==1)return;//practice時の接続を防ぐ
     QNetworkAccessManager* manager = new QNetworkAccessManager();
     QEventLoop eventLoop;
     connect(manager, SIGNAL(finished(QNetworkReply*)),&eventLoop, SLOT(quit()));
@@ -43,6 +45,7 @@ void NetworkManager::get()
 /*　### サーバーへ接続し、アルゴリズムによる計算結果を送信する ###　*/
 void NetworkManager::post()
 {
+    if(checkState==1)return;//practice時の接続を防ぐ
     if(matchID==0)return;//試合事前情報取得時のpostを防ぐ
 
     QNetworkAccessManager* manager = new QNetworkAccessManager();
