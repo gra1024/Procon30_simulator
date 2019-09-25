@@ -15,11 +15,8 @@ public:
     int checkArea(Pos checkPos,int color);//領域ポイント計算関数...各マスの領域判定
     void updatePoint();
 
-
     vector<vector<bool>> areaData;
     vector<vector<int>> checkedData;
-
-    void debug();//動作確認用
 
 private:
     vector<vector<Tile>> *tile;
