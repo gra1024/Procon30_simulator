@@ -15,6 +15,7 @@ AnalyzeField::~AnalyzeField()
     delete ui;
 }
 
+/* ### 初期設定 ### */
 void AnalyzeField::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, Teams *teams, Field *field, Network *network)
 {
     this->uiMainWindow = uiMainWindow;
@@ -27,10 +28,12 @@ void AnalyzeField::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *til
     //debug();
 }
 
+/* ### pushreloadを押した時にdecodeを行う ### */
 void AnalyzeField::pushReload(){
     decodeAndUpdate(CONFIG_PATH_OF_FILE_INPUT_FIELD_BY_PLAYER);
 }
 
+/* ### 初期設定 ### */
 void AnalyzeField::setUi()
 {
     mag = CONFIG_MAGNIFICATION_OF_FIELD/100*50;
@@ -38,11 +41,13 @@ void AnalyzeField::setUi()
     show();
 }
 
+/* ### マップ表示 ### */
 void AnalyzeField::drow(){
     drowField();
     repaint();
 }
 
+/* ### GUIの操作内容 ### */
 string AnalyzeField::decodeAndSet(string path){
     QFile file(QString::fromStdString(path));
     if (! file.open(QFile::ReadOnly)) {
@@ -127,6 +132,7 @@ string AnalyzeField::decodeAndSet(string path){
     return "";
 }
 
+/* ### agentの位置、タイルの色を更新 ### */
 string AnalyzeField::decodeAndUpdate(string path){
     QFile file(QString::fromStdString(path));
     if (! file.open(QFile::ReadOnly)) {
@@ -161,6 +167,7 @@ string AnalyzeField::decodeAndUpdate(string path){
     return "";
 }
 
+/* ### 現在のマップを描写 ### */
 void AnalyzeField::drowField(){
     this->fieldPixmap=new QPixmap(QSize(static_cast<int>(mag*field->width) + 1, static_cast<int>(mag*field->height) + 1));
     QPainter painter(this->fieldPixmap);
@@ -222,6 +229,7 @@ void AnalyzeField::drowField(){
     painter.end();
 }
 
+/* ### アルゴリズムが算出した次の手を表示 ### */
 void AnalyzeField::drowNextPosition(){
     unsigned int i;
     unsigned int MposX,MposY;
@@ -251,6 +259,7 @@ void AnalyzeField::drowNextPosition(){
         repaint();
 }
 
+/* ### 動く先の情報(actions)をjsonFile化 ### */
 void AnalyzeField::encode(string path){
     QString type_string;
     QJsonArray jsonarr;
@@ -299,6 +308,7 @@ void AnalyzeField::paintEvent(QPaintEvent *event)
     painter.end();
 }
 
+/* ### データをアプリケーション出力 ### */
 void AnalyzeField::debug(){
     cout << "////////////Debug AF///////////////" << endl;
     cout<<"turn"<<field->turn<<endl;
