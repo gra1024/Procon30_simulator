@@ -301,6 +301,7 @@ void AnalyzeField::encode(string path){
 
 
 
+/* ### イベントの描写 ### */
 void AnalyzeField::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
