@@ -28,7 +28,7 @@ void AnalyzeField::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *til
     //debug();
 }
 
-/* ### pushreloadを押した時にdecodeを行う ### */
+/* ### pushreloadを押した時にデコードを行う ### */
 void AnalyzeField::pushReload(){
     decodeAndUpdate(CONFIG_PATH_OF_FILE_INPUT_FIELD_BY_PLAYER);
 }
@@ -47,7 +47,7 @@ void AnalyzeField::drow(){
     repaint();
 }
 
-/* ### GUIの操作内容 ### */
+/* ### 取得した全情報をデコードする ### */
 string AnalyzeField::decodeAndSet(string path){
     QFile file(QString::fromStdString(path));
     if (! file.open(QFile::ReadOnly)) {
@@ -132,7 +132,7 @@ string AnalyzeField::decodeAndSet(string path){
     return "";
 }
 
-/* ### agentの位置、タイルの色を更新 ### */
+/* ###　フィールド情報をデコードし、盤面を更新する ### */
 string AnalyzeField::decodeAndUpdate(string path){
     QFile file(QString::fromStdString(path));
     if (! file.open(QFile::ReadOnly)) {
@@ -167,7 +167,7 @@ string AnalyzeField::decodeAndUpdate(string path){
     return "";
 }
 
-/* ### 現在のマップを描写 ### */
+/* ### 現在のフィールド情報を描画する ### */
 void AnalyzeField::drowField(){
     this->fieldPixmap=new QPixmap(QSize(static_cast<int>(mag*field->width) + 1, static_cast<int>(mag*field->height) + 1));
     QPainter painter(this->fieldPixmap);
@@ -186,7 +186,7 @@ void AnalyzeField::drowField(){
             else painter.setBrush(QBrush(Qt::white, Qt::SolidPattern));
             painter.drawConvexPolygon(points, 4);
         }
-    }//タイルの色塗りつぶす
+    }//タイルの色を塗りつぶす
 
     for(int i=0; i<2; ++i){
         for(unsigned int j=0; j < teams->agents.size(); ++j){
@@ -217,14 +217,14 @@ void AnalyzeField::drowField(){
             str = QString::fromStdString(to_string(tile->at(static_cast<unsigned>(y)).at(static_cast<unsigned>(x)).point));
             painter.drawText(static_cast<int>(x*mag+mag*0.3), static_cast<int>(y*mag+mag*0.4),str);
         }
-    }//タイルのポイントを描写
+    }//タイルのポイントを描画
 
     for(int i=0; i<2; ++i){
         for(unsigned int j=0; j < teams[i].agents.size(); ++j){
             str = QString::fromStdString(to_string(j));
             painter.drawText(static_cast<int>((teams[i].agents[j].x*mag)-mag*0.4), static_cast<int>((teams[i].agents[j].y*mag)-mag*0.1),str);
         }
-    }//エージェントナンバーを描写
+    }//エージェントナンバーを描画
 
     painter.end();
 }
@@ -301,7 +301,7 @@ void AnalyzeField::encode(string path){
 
 
 
-/* ### イベントの描写 ### */
+/* ### 描画用設定 ### */
 void AnalyzeField::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
