@@ -60,7 +60,7 @@ int PointCalculate::getAreaPoints(int color){
         for(int x=1;x<field->width-1;x++){
             if(tile->at(static_cast<unsigned>(y)).at(static_cast<unsigned>(x)).color
                     !=color&&checkedData[static_cast<unsigned>(y)][static_cast<unsigned>(x)]!=-2){//自タイルが置かれていない&&非領域エリアでないなら検証を行う
-                if(checkArea(makePos(static_cast<int>(x),static_cast<int>(y)),color)){//検証結果が１...-1とチェックしたマスはareaDataへと加える
+                if(checkArea(makePos(static_cast<int>(x),static_cast<int>(y)),color)){
                     for(int y=0;y<field->height;y++){
                         for(int x=0;x<field->width;x++){
                             if(checkedData[static_cast<unsigned>(y)][static_cast<unsigned>(x)]==-1)
@@ -68,7 +68,7 @@ int PointCalculate::getAreaPoints(int color){
                         }
                     }
                 }
-                else {//検証結果が０...-1とチェックしたマスは非領域エリア(-2)としてcheckedDataを更新
+                else {
                     for(int y=0;y<field->height;y++){
                         for(int x=0;x<field->width;x++){
                             if(checkedData[static_cast<unsigned>(y)][static_cast<unsigned>(x)]==-1)

@@ -19,8 +19,8 @@ void NetworkManager::get()
     QEventLoop eventLoop;
     connect(manager, SIGNAL(finished(QNetworkReply*)),&eventLoop, SLOT(quit()));
 
-    QUrl url = QUrl("http://127.0.0.1:8081/matches");//matchID==0で試合事前情報の取得可能
-    if(matchID!=0){//試合中の情報取得に切り替える
+    QUrl url = QUrl("http://127.0.0.1:8081/matches");
+    if(matchID!=0){
         QString matchIDStr;
         QString urlStr = QString("%1%2%3").arg(url.toString()).arg("/").arg(matchIDStr.setNum(matchID));
         url=QUrl(urlStr);
@@ -29,12 +29,12 @@ void NetworkManager::get()
 
     QNetworkRequest request(url);
 
-    request.setRawHeader("Authorization", "procon30_example_token");//トークンの追加
+    request.setRawHeader("Authorization", "procon30_example_token");
     QNetworkReply *reply = manager->get(request);
     eventLoop.exec();
 
     QString jsonStr = QString::fromUtf8(reply->readAll());
-    qDebug()<<jsonStr;//応答(試合情報)をQStringで表示
+    qDebug()<<jsonStr;
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonStr.toUtf8());
     network->matchReply = jsonDoc.object();
@@ -51,7 +51,6 @@ void NetworkManager::post()
 
     QUrl url = QUrl("http://127.0.0.1:8081/matches");
 
-    //matchIDに応じてURLを更新する
     QString matchIDStr;
     QString urlStr = QString("%1%2%3%4").arg(url.toString()).arg("/").arg(matchIDStr.setNum(matchID)).arg("/action");
     url=QUrl(urlStr);
@@ -59,11 +58,11 @@ void NetworkManager::post()
 
     QNetworkRequest request(url);
 
-    request.setRawHeader("Authorization", "procon30_example_token");//トークンの追加
-    request.setRawHeader("Content-Type","application/json");//Content-Typeの指定
+    request.setRawHeader("Authorization", "procon30_example_token");
+    request.setRawHeader("Content-Type","application/json");
     QNetworkReply *reply = manager->post(request,network->actionData);
     eventLoop.exec();
 
     QString jsonStr = QString::fromUtf8(reply->readAll());
-    qDebug()<<jsonStr;//応答(行動結果)をQStringで表示...送信の合否確認用
+    qDebug()<<jsonStr;
 }
