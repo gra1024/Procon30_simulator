@@ -10,7 +10,6 @@ UnficationField::~UnficationField()
 
 }
 
-/* ### 初期設定 ### */
 void UnficationField::setup(vector<vector<Tile>> *tile, Teams *teams, Field *field){
     this->tile = tile;
     this->teams = teams;
@@ -32,7 +31,6 @@ void UnficationField::setup(vector<vector<Tile>> *tile, Teams *teams, Field *fie
     cout << "setup UnificationField" << endl;
 }
 
-/* ### 関数をまとめてつかうことができる関数 ### */
 void UnficationField::start(){
     load(0,CONFIG_PATH_OF_FILE_INPUT_ACTIONS_1_BY_GAMEMASTER);
     load(1,CONFIG_PATH_OF_FILE_INPUT_ACTIONS_2_BY_GAMEMASTER);
@@ -47,7 +45,6 @@ void UnficationField::start(){
     encode(CONFIG_PATH_OF_FILE_OUTPUT_FIELD_BY_GAMEMASTER);
 }
 
-/* ### 配列 actions が書かれたファイルを読み込み、データをオブジェクトの配列に代入する ### */
 string UnficationField::load(int teamNum, string path){
     QFile file(QString::fromStdString(path));
     if (! file.open(QFile::ReadOnly)) {
@@ -76,7 +73,6 @@ string UnficationField::load(int teamNum, string path){
     return "";
 }
 
-/* ### クラス Teams のオブジェクト provisionalTeams にチームとエージェントの情報を代入する ### */
 void UnficationField::copy(){
     for(int i=0;i<2;++i){
         provisionalTeams[i].teamID = teams[i].teamID;
@@ -92,7 +88,6 @@ void UnficationField::copy(){
     }
 }
 
-/* ### エージェントの座標に行動の向きを加算する。フィールド範囲外の座標の場合は座標から行動の向きを減算する ### */
 void UnficationField::provisionalMove(){
     for(int i=0;i<2;++i){
         for(unsigned int j = 0; j < (teams[i].agents.size()); ++j){
@@ -110,7 +105,6 @@ void UnficationField::provisionalMove(){
     }
 }
 
-/* ### エージェントがフィールド範囲外で行動していないか確認する ### */
 int UnficationField::check(){
     int x, y;
     int check = 0;
@@ -136,7 +130,6 @@ int UnficationField::check(){
     return check;
 }
 
-/* ### エージェントの行動が有効の場合、typeに従い操作する ### */
 void UnficationField::move(){
     int dx,dy;
     for(int i=0; i<2; ++i){
@@ -160,7 +153,6 @@ void UnficationField::move(){
     }
 }
 
-/* ### フィールドの情報とエージェントの行動情報をファイルに書き込む ### */
 void UnficationField::encode(string path){
 
     QJsonArray Points;
@@ -270,7 +262,6 @@ void UnficationField::encode(string path){
 
 }
 
-/* ### オブジェクト teams を出力する。 ### */
 void UnficationField::debug(){
     cout << "//////////Debug UF//////////" << endl;
     cout<<"teamID[i][j] agentID x y dx dy type apply "<< endl;

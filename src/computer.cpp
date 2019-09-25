@@ -11,6 +11,7 @@ Computer::~Computer()
 }
 
 
+/* ### 初期設定 ### */
 void Computer::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, Teams *teams, Field *field){
     this->uiMainWindow = uiMainWindow;
     this->tile = tile;
@@ -33,6 +34,7 @@ void Computer::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, T
     }
 }
 
+/* ### アルゴリズムの選択 ### */
 void Computer::startAlgo(int AlgoNumber){
     copy();
     switch(AlgoNumber){
@@ -44,6 +46,7 @@ void Computer::startAlgo(int AlgoNumber){
     }
 }
 
+/* ### メインアルゴリズム１ ### */
 /*
 void Computer::greedy(){
 
@@ -83,6 +86,7 @@ void Computer::greedy(){
 }
 */
 
+/* ### メインアルゴリズム２ ### */
 void Computer::greedy2(){
 
     //int color = field->TeamColorNumber[0];
@@ -134,6 +138,7 @@ void Computer::greedy2(){
     }
 }
 
+/* ### agentデータの複製 ### */
 void Computer::copy(){
     int myTeam = field->myTeam;
     provisionalTeams.teamID = teams[myTeam].teamID;
@@ -148,6 +153,7 @@ void Computer::copy(){
     }
 }
 
+/* ### agentがfield内にいるか確認 ### */
 int Computer::outLange(int x, int y){
     if(x <= 0 || x > field->width || y <= 0 || y > field->height){
         return 1;
@@ -156,6 +162,7 @@ int Computer::outLange(int x, int y){
 }
 
 
+/* ### メインアルゴリズム１再起 ### */
 /*
 int Computer::eightangle(int angle[8][2],int Ax,int Ay,unsigned int AgentNumber,int TURN){
 
