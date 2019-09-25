@@ -5,18 +5,19 @@ NetworkManager::NetworkManager()
 
 }
 
+/*　### 初期設定 ###　*/
 void NetworkManager::setup(Ui::MainWindow *uiMainWindow, Network *network){
     this->uiMainWindow = uiMainWindow;
     this->network = network;
     matchID = uiMainWindow->spinBox_matchID->value();
 }
 
-
-void NetworkManager::get()//試合情報の取得
+/*　### サーバーへ接続し、フィールド情報を取得する ###　*/
+void NetworkManager::get()
 {
     QNetworkAccessManager* manager = new QNetworkAccessManager();
     QEventLoop eventLoop;
-    connect(manager, SIGNAL(finished(QNetworkReply*)),&eventLoop, SLOT(quit()));//接続
+    connect(manager, SIGNAL(finished(QNetworkReply*)),&eventLoop, SLOT(quit()));
 
     QUrl url = QUrl("http://127.0.0.1:8081/matches");//matchID==0で試合事前情報の取得可能
     if(matchID!=0){//試合中の情報取得に切り替える
@@ -36,16 +37,17 @@ void NetworkManager::get()//試合情報の取得
     qDebug()<<jsonStr;//応答(試合情報)をQStringで表示
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonStr.toUtf8());
-    network->matchReply = jsonDoc.object();//これをAnalyzeFieldでデコードする
+    network->matchReply = jsonDoc.object();
 }
 
-void NetworkManager::post()//actionの提出(POST)
+/*　### サーバーへ接続し、アルゴリズムによる計算結果を送信する ###　*/
+void NetworkManager::post()
 {
     if(matchID==0)return;//試合事前情報取得時のpostを防ぐ
 
     QNetworkAccessManager* manager = new QNetworkAccessManager();
     QEventLoop eventLoop;
-    object.connect(manager, SIGNAL(finished(QNetworkReply*)),&eventLoop, SLOT(quit()));//接続
+    object.connect(manager, SIGNAL(finished(QNetworkReply*)),&eventLoop, SLOT(quit()));
 
     QUrl url = QUrl("http://127.0.0.1:8081/matches");
 
