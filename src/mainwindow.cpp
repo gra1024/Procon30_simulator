@@ -20,6 +20,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/* ### GUIのStartボタンが押された時、試合フィールド表示 ### */
 void MainWindow::on_pushButton_start_clicked(){
     NM = new NetworkManager();
     NM->setup(ui, &network);
@@ -40,6 +41,7 @@ void MainWindow::on_pushButton_start_clicked(){
 
 }
 
+/* ### GUIのReloadボタンが押された時、試合フィールド、エージェント情報更新 ### */
 void MainWindow::on_pushButton_reload_clicked(){
     if(ui->checkBox_gameMaster->checkState()==0){
         NM->get();
@@ -60,11 +62,13 @@ void MainWindow::on_pushButton_reload_clicked(){
     cout << "Finish Reload" << endl;
 }
 
+/* ### GUIに表示するポイントの値変更 ### */
 void MainWindow::updateTeamPoints(){
     ui->lcdNumber_red->display(teams[0].tilePoint+teams[0].areaPoint);
     ui->lcdNumber_blue->display(teams[1].tilePoint+teams[1].areaPoint);
 }
 
+/* ### GUIのウィンドウを閉じる ### */
 void MainWindow::on_pushButton_close_clicked(){
     qApp->closeAllWindows();
 }

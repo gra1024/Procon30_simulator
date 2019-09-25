@@ -59,48 +59,55 @@ extern QSettings config;
 #define CONFIG_MAGNIFICATION_OF_FIELD config.value("MAGNIFICATION_OF_FIELD").toInt()
 
 /* ### struct ### */
+/* ### 座標関係 ### */
 struct Pos{
-    int agentID;
-    int x;
-    int y;
+    int agentID; //各エージェントのID
+    int x; //x座標
+    int y; //y座標
 }; //行動情報から取り出した情報を代入する。
 
+/* ### タイル関係 ### */
 struct Tile{
-    int point;
-    int color;
+    int point; //タイルの得点
+    int color; //タイルの色
 };
 
+/* ### 行動情報関係 ### */
 struct Actions{
-    int type;
-    int dx;
-    int dy;
-    int apply;
+    int type; //行動の種類
+    int dx; //行動のx方向の向き
+    int dy; //行動のy方向の向き
+    int apply; //行動の適応状況
 };
 
+/* ### エージェント関係 ### */
 struct Agent{
-    int agentID;
-    int x;
-    int y;
-    Actions actions;
+    int agentID; //エージェントのID
+    int x; //x座標
+    int y; //y座標
+    Actions actions; //行動情報
 };
 
+/* ### チーム関係 ### */
 struct Teams{
-    int teamID;
-    vector<Agent> agents;
-    int tilePoint;
-    int areaPoint;
+    int teamID; //各チームのID
+    vector<Agent> agents; //エージェント情報
+    int tilePoint; //タイルポイント
+    int areaPoint; //領域ポイント
 };
 
+/* ### フィールド関係 ### */
 struct Field{
-    int width;  //横
-    int height; //縦
-    int startedAtUnixTime;
-    int turn;
-    int playerColor[2] = {};
+    int width;  //横幅
+    int height; //縦幅
+    int startedAtUnixTime; //試合が始まったUnix時間
+    int turn; //ターン
+    int playerColor[2] = {}; //[自軍の色][敵軍の色]
     int TeamColorNumber[2]={};//[自軍のteamID][敵軍のteamID]
-    int myTeam;
+    int myTeam; //チームの識別
 };
 
+/* ### ネットワーク関係 ### */
 struct Network{
     QJsonObject matchReply;
     QByteArray actionData;

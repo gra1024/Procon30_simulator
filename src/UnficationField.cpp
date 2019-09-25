@@ -31,6 +31,8 @@ void UnficationField::setup(vector<vector<Tile>> *tile, Teams *teams, Field *fie
     cout << "setup UnificationField" << endl;
 }
 
+
+/* ### アルゴリズムの選択 ### */
 void UnficationField::start(){
     load(0,CONFIG_PATH_OF_FILE_INPUT_ACTIONS_1_BY_GAMEMASTER);
     load(1,CONFIG_PATH_OF_FILE_INPUT_ACTIONS_2_BY_GAMEMASTER);
@@ -45,6 +47,7 @@ void UnficationField::start(){
     encode(CONFIG_PATH_OF_FILE_OUTPUT_FIELD_BY_GAMEMASTER);
 }
 
+/* ### エージェントのアクション情報のロード、デコード ### */
 string UnficationField::load(int teamNum, string path){
     QFile file(QString::fromStdString(path));
     if (! file.open(QFile::ReadOnly)) {
@@ -73,6 +76,7 @@ string UnficationField::load(int teamNum, string path){
     return "";
 }
 
+/* ### teamsの内容をprovisionalTeamsへコピー ### */
 void UnficationField::copy(){
     for(int i=0;i<2;++i){
         provisionalTeams[i].teamID = teams[i].teamID;
@@ -88,6 +92,7 @@ void UnficationField::copy(){
     }
 }
 
+/* ### 仮移動 ## */
 void UnficationField::provisionalMove(){
     for(int i=0;i<2;++i){
         for(unsigned int j = 0; j < (teams[i].agents.size()); ++j){
@@ -105,6 +110,7 @@ void UnficationField::provisionalMove(){
     }
 }
 
+/* ### 行動が係合していないかの判断 ### */
 int UnficationField::check(){
     int x, y;
     int check = 0;
@@ -130,6 +136,7 @@ int UnficationField::check(){
     return check;
 }
 
+/* ### エージェントの移動の操作 ### */
 void UnficationField::move(){
     int dx,dy;
     for(int i=0; i<2; ++i){
@@ -153,8 +160,8 @@ void UnficationField::move(){
     }
 }
 
+/* ### フィールド情報のエンコード ### */
 void UnficationField::encode(string path){
-
     QJsonArray Points;
     vector<QJsonArray> points_array_mid;
     for (unsigned int i=0;i<static_cast<unsigned int>(field->height);i++) {
@@ -262,6 +269,7 @@ void UnficationField::encode(string path){
 
 }
 
+/* ### アプリケーション出力 ### */
 void UnficationField::debug(){
     cout << "//////////Debug UF//////////" << endl;
     cout<<"teamID[i][j] agentID x y dx dy type apply "<< endl;
