@@ -32,7 +32,7 @@ void UnficationField::setup(vector<vector<Tile>> *tile, Teams *teams, Field *fie
     cout << "setup UnificationField" << endl;
 }
 
-/* ### 関数をまとめてつかうことができる関数 ### */
+/* ### UnficationField内の各機能を統合する ### */
 void UnficationField::start(){
     load(0,CONFIG_PATH_OF_FILE_INPUT_ACTIONS_1_BY_GAMEMASTER);
     load(1,CONFIG_PATH_OF_FILE_INPUT_ACTIONS_2_BY_GAMEMASTER);
@@ -162,7 +162,6 @@ void UnficationField::move(){
 
 /* ### フィールドの情報とエージェントの行動情報をファイルに書き込む ### */
 void UnficationField::encode(string path){
-
     QJsonArray Points;
     vector<QJsonArray> points_array_mid;
     for (unsigned int i=0;i<static_cast<unsigned int>(field->height);i++) {
@@ -270,7 +269,7 @@ void UnficationField::encode(string path){
 
 }
 
-/* ### オブジェクト teams を出力する。 ### */
+/* ### オブジェクト teams を出力する ### */
 void UnficationField::debug(){
     cout << "//////////Debug UF//////////" << endl;
     cout<<"teamID[i][j] agentID x y dx dy type apply "<< endl;
