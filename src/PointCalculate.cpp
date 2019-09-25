@@ -59,7 +59,7 @@ int PointCalculate::getAreaPoints(int color){
     for(int y=1;y<field->height-1;y++){//フィールドの端のマスは領域ポイントを取らないためループから省く
         for(int x=1;x<field->width-1;x++){
             if(tile->at(static_cast<unsigned>(y)).at(static_cast<unsigned>(x)).color
-                    !=color&&checkedData[static_cast<unsigned>(y)][static_cast<unsigned>(x)]!=-2){//自タイルが置かれていない&&非領域エリアでないなら検証を行う
+                    !=color&&checkedData[static_cast<unsigned>(y)][static_cast<unsigned>(x)]!=-2){
                 if(checkArea(makePos(static_cast<int>(x),static_cast<int>(y)),color)){
                     for(int y=0;y<field->height;y++){
                         for(int x=0;x<field->width;x++){
@@ -106,22 +106,18 @@ int PointCalculate::checkArea(Pos checkPos,int color){
     };
 
     for(int i=0;i<4;i++){
-        if(checkedData[static_cast<unsigned>(checkPos.y+looking[i].y)][static_cast<unsigned>(checkPos.x+looking[i].x)]==-2){//見ているマスが非領域エリアの場合...つながっているマスはすべて領域ポイントを取らないため、ループを抜けて次の検証に移る
+        if(checkedData[static_cast<unsigned>(checkPos.y+looking[i].y)][static_cast<unsigned>(checkPos.x+looking[i].x)]==-2){
             return 0;
         }
         else if(tile->at(static_cast<unsigned>(checkPos.y+looking[i].y)).at(static_cast<unsigned>(checkPos.x+looking[i].x)).color==color){
-            //見ているマス上に自タイルが置かれている場合...領域の端になる可能性があるため、そのマスをチェックしておく
-            checkedData[static_cast<unsigned>(checkPos.y+looking[i].y)][static_cast<unsigned>(checkPos.x+looking[i].x)]=1;//領域の端は１でチェック
+            checkedData[static_cast<unsigned>(checkPos.y+looking[i].y)][static_cast<unsigned>(checkPos.x+looking[i].x)]=1;
         }
         else if(checkPos.y+looking[i].y==field->height-1||checkPos.x+looking[i].x==field->width-1||checkPos.y+looking[i].y==0||checkPos.x+looking[i].x==0){
-            //見ているマスがfieldの端に接しており、自タイルが置かれていない場合...つながっているマスはすべて領域ポイントを取らないため、ループを抜けて次の検証に移る
             return 0;
         }
-        else if(checkedData[static_cast<unsigned>(checkPos.y+looking[i].y)][static_cast<unsigned>(checkPos.x+looking[i].x)]!=-1){//元のマスを見ないようにする
-            //見ているマスが端に接しておらず、自タイルも置かれていない場合...領域の中身になる可能性があるため、チェックして再帰、そのマスからこの関数を呼び出す
-            checkedData[static_cast<unsigned>(checkPos.y)][static_cast<unsigned>(checkPos.x)]=-1;//領域の中は-1でチェック
+        else if(checkedData[static_cast<unsigned>(checkPos.y+looking[i].y)][static_cast<unsigned>(checkPos.x+looking[i].x)]!=-1){
+            checkedData[static_cast<unsigned>(checkPos.y)][static_cast<unsigned>(checkPos.x)]=-1;
             int result=checkArea(makePos(static_cast<int>(checkPos.x+looking[i].x),static_cast<int>(checkPos.y+looking[i].y)),color);
-            //再帰中にfieldの端に接した場合...result==0,領域ポイントを取らないため、ループを抜けて次の検証に移る
             if(result==0)return result;
         }
     }

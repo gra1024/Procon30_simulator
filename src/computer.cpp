@@ -162,7 +162,7 @@ int Computer::outLange(int x, int y){
 }
 
 
-/* ### メインアルゴリズム１再起 ### */
+/* ### メインアルゴリズム１再帰 ### */
 /*
 int Computer::eightangle(int angle[8][2],int Ax,int Ay,unsigned int AgentNumber,int TURN){
 

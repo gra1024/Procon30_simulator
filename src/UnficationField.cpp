@@ -10,6 +10,7 @@ UnficationField::~UnficationField()
 
 }
 
+/*### 初期設定 ###*/
 void UnficationField::setup(vector<vector<Tile>> *tile, Teams *teams, Field *field){
     this->tile = tile;
     this->teams = teams;
@@ -110,7 +111,7 @@ void UnficationField::provisionalMove(){
     }
 }
 
-/* ### 行動が係合していないかの判断 ### */
+/* ### 行動が競合していないかの判断 ### */
 int UnficationField::check(){
     int x, y;
     int check = 0;
