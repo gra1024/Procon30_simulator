@@ -25,6 +25,7 @@ private:
     Agent *agent;
     //void greedy();
     void greedy2();
+    int resurgence(int agentX,int agentY,unsigned int agentNumber,int frequency);
     //int eightangle(int angle[8][2],int Ax,int Ay,unsigned int Anumber,int TURN);
 
     int angle[9][2] = { // x,y

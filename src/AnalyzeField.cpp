@@ -28,6 +28,7 @@ void AnalyzeField::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *til
     //debug();
 }
 
+
 /* ### pushreloadを押した時にデコードを行う ### */
 void AnalyzeField::pushReload(){
     decodeAndUpdate(CONFIG_PATH_OF_FILE_INPUT_FIELD_BY_PLAYER);
@@ -47,7 +48,7 @@ void AnalyzeField::drow(){
     repaint();
 }
 
-/* ### 取得した全情報をデコードする ### */
+/* ### 取得した全情報をデコード ### */
 string AnalyzeField::decodeAndSet(string path){
     QFile file(QString::fromStdString(path));
     if (! file.open(QFile::ReadOnly)) {
@@ -132,7 +133,7 @@ string AnalyzeField::decodeAndSet(string path){
     return "";
 }
 
-/* ###　フィールド情報をデコードし、盤面を更新する ### */
+/* ###　フィールド情報をデコードし、盤面の内部情報を更新する ### */
 string AnalyzeField::decodeAndUpdate(string path){
     QFile file(QString::fromStdString(path));
     if (! file.open(QFile::ReadOnly)) {
@@ -167,7 +168,8 @@ string AnalyzeField::decodeAndUpdate(string path){
     return "";
 }
 
-/* ### 現在のフィールド情報を描画する ### */
+
+/* ### 現在のフィールドを描画する ### */
 void AnalyzeField::drowField(){
     this->fieldPixmap=new QPixmap(QSize(static_cast<int>(mag*field->width) + 1, static_cast<int>(mag*field->height) + 1));
     QPainter painter(this->fieldPixmap);
@@ -299,9 +301,7 @@ void AnalyzeField::encode(string path){
     savefile.close();
 }
 
-
-
-/* ### 描画用設定 ### */
+/* ### イベントの描写 ### */
 void AnalyzeField::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
@@ -309,7 +309,7 @@ void AnalyzeField::paintEvent(QPaintEvent *event)
     painter.end();
 }
 
-/* ### データをアプリケーション出力 ### */
+/* ### データのアプリケーション出力 ### */
 void AnalyzeField::debug(){
     cout << "////////////Debug AF///////////////" << endl;
     cout<<"turn"<<field->turn<<endl;
