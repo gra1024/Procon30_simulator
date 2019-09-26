@@ -56,6 +56,8 @@ extern QSettings config;
 #define CONFIG_PATH_OF_FILE_INPUT_ACTIONS_2_BY_GAMEMASTER config.value("PATH_OF_FILE_INPUT_ACTIONS_2_BY_GAMEMASTER").toString().toStdString()
 #define CONFIG_PATH_OF_FILE_OUTPUT_ACTIONS_BY_PLAYER config.value("PATH_OF_FILE_OUTPUT_ACTIONS_BY_PLAYER").toString().toStdString()
 #define CONFIG_PATH_OF_FILE_OUTPUT_FIELD_BY_GAMEMASTER config.value("PATH_OF_FILE_OUTPUT_FIELD_BY_GAMEMASTER").toString().toStdString()
+#define CONFIG_TOKEN config.value("TOKEN").toString().toStdString()
+#define CONFIG_URL config.value("URL").toString()
 #define CONFIG_MAGNIFICATION_OF_FIELD config.value("MAGNIFICATION_OF_FIELD").toInt()
 
 /* ### struct ### */
