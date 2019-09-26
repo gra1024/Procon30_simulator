@@ -21,17 +21,18 @@ void NetworkManager::get()
     QEventLoop eventLoop;
     connect(manager, SIGNAL(finished(QNetworkReply*)),&eventLoop, SLOT(quit()));
 
-    QUrl url = QUrl("http://127.0.0.1:8081/matches");
+    QString urlStr = QString("%1%2").arg(CONFIG_URL).arg("/matches");
+    QUrl url = QUrl(urlStr);
     if(matchID!=0){
         QString matchIDStr;
-        QString urlStr = QString("%1%2%3").arg(url.toString()).arg("/").arg(matchIDStr.setNum(matchID));
+        urlStr = QString("%1%2%3").arg(url.toString()).arg("/").arg(matchIDStr.setNum(matchID));
         url=QUrl(urlStr);
         qDebug()<<"URL:"<<urlStr;
     }
 
     QNetworkRequest request(url);
 
-    request.setRawHeader("Authorization", "procon30_example_token");
+    request.setRawHeader("Authorization",QString::fromStdString(CONFIG_TOKEN).toUtf8());
     QNetworkReply *reply = manager->get(request);
     eventLoop.exec();
 
@@ -52,16 +53,17 @@ void NetworkManager::post()
     QEventLoop eventLoop;
     object.connect(manager, SIGNAL(finished(QNetworkReply*)),&eventLoop, SLOT(quit()));
 
-    QUrl url = QUrl("http://127.0.0.1:8081/matches");
+    QString urlStr = QString("%1%2").arg(CONFIG_URL).arg("/matches");
+    QUrl url = QUrl(urlStr);
 
     QString matchIDStr;
-    QString urlStr = QString("%1%2%3%4").arg(url.toString()).arg("/").arg(matchIDStr.setNum(matchID)).arg("/action");
+    urlStr = QString("%1%2%3%4").arg(url.toString()).arg("/").arg(matchIDStr.setNum(matchID)).arg("/action");
     url=QUrl(urlStr);
     qDebug()<<"URL:"<<urlStr;
 
     QNetworkRequest request(url);
 
-    request.setRawHeader("Authorization", "procon30_example_token");
+    request.setRawHeader("Authorization", QString::fromStdString(CONFIG_TOKEN).toUtf8());
     request.setRawHeader("Content-Type","application/json");
     QNetworkReply *reply = manager->post(request,network->actionData);
     eventLoop.exec();
