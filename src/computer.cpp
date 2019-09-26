@@ -111,6 +111,7 @@ void Computer::greedy2(){
             }else{
                 result[j][1] += tile->at(static_cast<unsigned>(provisionalTeams.agents[i].y) - 1)
                         .at(static_cast<unsigned>(provisionalTeams.agents[i].x) - 1).point;
+                result[j][1]+=resurgence(provisionalTeams.agents[i].x,provisionalTeams.agents[i].y,i,3);
             }
         }
         for(int j=0; j<9; ++j){
@@ -136,6 +137,40 @@ void Computer::greedy2(){
         }
                         cout << "333" << endl;
     }
+}
+
+/* ### メインアルゴリズム２再帰 ### */
+int Computer::resurgence(int agentX,int agentY,unsigned int agentNumber,int frequency){
+    int maxPoint,effect[9][2];
+    maxPoint = -999;
+    for(int j=0; j<9; ++j){
+        effect[j][0]=0;
+        effect[j][1]=0;
+    }
+    for(int j=0; j<9; ++j){
+        provisionalTeams.agents[agentNumber].x = agentX;
+        provisionalTeams.agents[agentNumber].y = agentY;
+        provisionalTeams.agents[agentNumber].x += angle[j][0];
+        provisionalTeams.agents[agentNumber].y += angle[j][1];
+        if(outLange(provisionalTeams.agents[agentNumber].x, provisionalTeams.agents[agentNumber].y)){
+            effect[j][0] = 1;
+        }else{
+            effect[j][1] += tile->at(static_cast<unsigned>(provisionalTeams.agents[agentNumber].y)-1 )
+                    .at(static_cast<unsigned>(provisionalTeams.agents[agentNumber].x)-1 ).point;
+        if(frequency>2)
+            effect[j][1]+=resurgence(provisionalTeams.agents[agentNumber].x,provisionalTeams.agents[agentNumber].y,agentNumber,frequency-1);
+        }
+    }
+    for(int j=0; j<9; ++j){
+        //最も点数の高いところ
+        if(effect[j][0] != 1){
+            if(effect[j][1] >= maxPoint){
+                maxPoint = effect[j][1];
+            }
+        }
+    }
+
+    return maxPoint;
 }
 
 /* ### agentデータの複製 ### */
