@@ -139,7 +139,7 @@ void Computer::greedy2(){
     }
 }
 
-/* ### メインアルゴリズム２再起 ### */
+/* ### メインアルゴリズム２再帰 ### */
 int Computer::resurgence(int agentX,int agentY,unsigned int agentNumber,int frequency){
     int maxPoint,effect[9][2];
     maxPoint = -999;
@@ -197,7 +197,7 @@ int Computer::outLange(int x, int y){
 }
 
 
-/* ### メインアルゴリズム１再起 ### */
+/* ### メインアルゴリズム１再帰 ### */
 /*
 int Computer::eightangle(int angle[8][2],int Ax,int Ay,unsigned int AgentNumber,int TURN){
 
