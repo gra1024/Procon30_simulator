@@ -66,6 +66,7 @@ void MainWindow::on_pushButton_reload_clicked(){
 void MainWindow::updateTeamPoints(){
     ui->lcdNumber_red->display(teams[0].tilePoint+teams[0].areaPoint);
     ui->lcdNumber_blue->display(teams[1].tilePoint+teams[1].areaPoint);
+    ui->lcdNumber_3->display(field.turn);
 }
 
 /* ### GUIのウィンドウを閉じる ### */
