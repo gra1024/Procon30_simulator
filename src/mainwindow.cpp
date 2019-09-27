@@ -31,19 +31,30 @@ void MainWindow::on_pushButton_start_clicked(){
     PC = new PointCalculate ();
     PC->setup(&tile, teams, &field);
     PC->updatePoint();
-    if(ui->checkBox_gameMaster->checkState()==0){
+
+    // PlayerかonePlayerModeの時、Cクラスを通過
+    if(ui->checkBox_gameMaster->checkState() == 0 || ui->checkBox_onePlayerMode->checkState() == 2){
         C = new Computer();
         C->setup(ui, &tile, teams, &field);
-    }else{
-        UF = new UnficationField();
-        UF->setup(&tile, teams, &field);
+        cout << "$" << endl;
     }
 
+    // GameMasterかonePlayermodeの時、UFクラスを通過
+    if((ui->checkBox_gameMaster->checkState() == 2 && ui->checkBox_practice->checkState() == 0)
+            || ui->checkBox_onePlayerMode->checkState() == 2){
+        UF = new UnficationField();
+        UF->setup(&tile, teams, &field);
+        cout << "#"<<endl;
+    }
+
+    cout << "Finish All setup" << endl;
 }
 
 /* ### GUIのReloadボタンが押された時、試合フィールド、エージェント情報更新 ### */
 void MainWindow::on_pushButton_reload_clicked(){
-    if(ui->checkBox_gameMaster->checkState()==0){
+
+    // PlayerかonePlayerModeの時
+    if(ui->checkBox_gameMaster->checkState() == 0 || ui->checkBox_onePlayerMode->checkState() == 2){
         NM->get();
         AF->pushReload();
         if(ui->comboBox_algolithm->currentText()=="Algolithm1"){
@@ -55,10 +66,17 @@ void MainWindow::on_pushButton_reload_clicked(){
         AF->drowNextPosition();
         AF->encode(CONFIG_PATH_OF_FILE_OUTPUT_ACTIONS_BY_PLAYER);
         NM->post();
-    }else{
+        cout << "P" << endl;
+    }
+
+    // GameMasterかonePlayermodeの時
+    if((ui->checkBox_gameMaster->checkState() == 2 && ui->checkBox_practice->checkState() == 0)
+            || ui->checkBox_onePlayerMode->checkState() == 2){
         UF->start();
         AF->drow();
+        cout << "G" << endl;
     }
+
     cout << "Finish Reload" << endl;
 }
 
