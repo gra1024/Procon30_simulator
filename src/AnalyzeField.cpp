@@ -1,12 +1,13 @@
 #include "AnalyzeField.h"
 #include "ui_AnalyzeField.h"
 
-AnalyzeField::AnalyzeField(QWidget *parent) :
+AnalyzeField::AnalyzeField(int uiNum, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AnalyzeField)
 {
     ui->setupUi(this);
     string title = "Field";
+    title += to_string(uiNum);
     this->setWindowTitle(QString::fromStdString(title));
 }
 
@@ -23,11 +24,12 @@ void AnalyzeField::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *til
     this->teams = teams;
     this->field = field;
     this->network = network;
+    tile->clear();
+    teams->agents.clear();
     decodeAndSet(CONFIG_PATH_OF_FILE_INPUT_FIELD_BY_PLAYER);
     setUi();
     //debug();
 }
-
 
 /* ### pushreloadを押した時にデコードを行う ### */
 void AnalyzeField::pushReload(){
@@ -58,7 +60,7 @@ string AnalyzeField::decodeAndSet(string path){
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(in.readAll().toUtf8());
     QJsonObject obj = jsonDoc.object();
-    if(uiMainWindow->checkBox_practice->checkState() == 0){
+    if(uiMainWindow->checkBox_player->checkState() == 0 && uiMainWindow->checkBox_gameMaster->checkState() == 0){
         obj = network->matchReply;
     }
 
@@ -79,7 +81,6 @@ string AnalyzeField::decodeAndSet(string path){
             tileData.color=arrTiled.at(i).toArray().at(j).toInt();
             tileline.push_back(tileData);
         }
-
         tile->push_back(tileline);
     }
 
@@ -94,6 +95,7 @@ string AnalyzeField::decodeAndSet(string path){
         }
     }
 
+    // 後で手直し
     if(uiMainWindow->spinBox_teamID->value() == teams[0].teamID){
         field->TeamColorNumber[0] = teams[0].teamID;
         field->TeamColorNumber[1] = teams[1].teamID;
@@ -109,7 +111,6 @@ string AnalyzeField::decodeAndSet(string path){
     }else{
         field->myTeam = 1;
     }
-
 
     if((uiMainWindow->comboBox_teamColor->currentText()=="Red"
         && uiMainWindow->spinBox_teamID->value() == teams[0].teamID)
@@ -143,7 +144,7 @@ string AnalyzeField::decodeAndUpdate(string path){
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(in.readAll().toUtf8());
     QJsonObject obj = jsonDoc.object();
-    if(uiMainWindow->checkBox_practice->checkState() == 0){
+    if(uiMainWindow->checkBox_player->checkState() == 0 && uiMainWindow->checkBox_gameMaster->checkState() == 0){
         obj = network->matchReply;
     }
 
@@ -167,7 +168,6 @@ string AnalyzeField::decodeAndUpdate(string path){
     file.close();
     return "";
 }
-
 
 /* ### 現在のフィールドを描画する ### */
 void AnalyzeField::drowField(){
@@ -299,6 +299,25 @@ void AnalyzeField::encode(string path){
     savefile.open(QIODevice::WriteOnly);
     savefile.write(network->actionData);
     savefile.close();
+}
+
+/* ### SecondPlayerのためのField色等の反転 ### */
+void AnalyzeField::inversionForSecondPlayer(){
+    swap(&field->playerColor[0], &field->playerColor[1]);
+    swap(&field->TeamColorNumber[0], &field->TeamColorNumber[1]);
+    if(field->myTeam == 0){
+        field->myTeam = 1;
+    }else{
+        field->myTeam = 0;
+    }
+}
+
+/* ### Swap ### */
+void AnalyzeField::swap(int *x, int *y){
+    int z;
+    z = *x;
+    *x = *y;
+    *y = z;
 }
 
 /* ### イベントの描写 ### */

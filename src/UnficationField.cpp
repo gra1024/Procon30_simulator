@@ -52,7 +52,7 @@ void UnficationField::start(){
 string UnficationField::load(int teamNum, string path){
     QFile file(QString::fromStdString(path));
     if (! file.open(QFile::ReadOnly)) {
-        cout << "ERROR --UnficationField::load-- " << endl;
+        cout << "ERROR --UnficationField::load--" << endl;
         return "ERROR";
     }
     QTextStream in(&file);

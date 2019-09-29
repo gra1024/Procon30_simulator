@@ -10,7 +10,11 @@ void NetworkManager::setup(Ui::MainWindow *uiMainWindow, Network *network){
     this->uiMainWindow = uiMainWindow;
     this->network = network;
     matchID = uiMainWindow->spinBox_matchID->value();
-    checkState = uiMainWindow->checkBox_practice->checkState();
+    if(uiMainWindow->checkBox_player->checkState() == 0 && uiMainWindow->checkBox_gameMaster->checkState() == 0){
+        checkState = 0;
+    }else{
+        checkState = 1;
+    }
 }
 
 /*　### サーバーへ接続し、フィールド情報を取得する ###　*/
