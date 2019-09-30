@@ -109,20 +109,36 @@ void Computer::greedy2(){
             if(outLange(provisionalTeams.agents[i].x, provisionalTeams.agents[i].y)){
                 result[j][0] = 1;
             }else{
-                result[j][1] += tile->at(static_cast<unsigned>(provisionalTeams.agents[i].y) - 1)
-                        .at(static_cast<unsigned>(provisionalTeams.agents[i].x) - 1).point;
+                if(tile->at(static_cast<unsigned>(provisionalTeams.agents[i].y)-1 )
+                        .at(static_cast<unsigned>(provisionalTeams.agents[i].x)-1 ).color == field->TeamColorNumber[0]){
+                    ;
+                }
+                else{
+                    result[j][1] += tile->at(static_cast<unsigned>(provisionalTeams.agents[i].y) - 1)
+                            .at(static_cast<unsigned>(provisionalTeams.agents[i].x) - 1).point;
+                }
+                //再帰関数
                 result[j][1]+=resurgence(provisionalTeams.agents[i].x,provisionalTeams.agents[i].y,i,3);
             }
         }
         for(int j=0; j<9; ++j){
             //最も点数の高いところ
             if(result[j][0] != 1){
-                if(result[j][1] >= maxPoint){
+                if(result[j][1] > maxPoint){
                     maxPoint = result[j][1];
                     position = j;
                 }
+                else if(result[j][1] == maxPoint){
+                    if(tile->at(static_cast<unsigned>(teams[myTeam].agents[i].y+angle[j][1]) - 1)
+                            .at(static_cast<unsigned>(teams[myTeam].agents[i].x+angle[j][0]) - 1).point>
+                       tile->at(static_cast<unsigned>(teams[myTeam].agents[i].y+angle[position][1]) - 1)
+                            .at(static_cast<unsigned>(teams[myTeam].agents[i].x+angle[position][0]) - 1).point){
+                        position = j;
+                    }
+                }
             }
         }
+
         teams[myTeam].agents[i].actions.dx = angle[position][0];
         teams[myTeam].agents[i].actions.dy = angle[position][1];
         x = static_cast<unsigned>(teams[myTeam].agents[i].x) + static_cast<unsigned>(teams[myTeam].agents[i].actions.dx);
@@ -141,12 +157,19 @@ void Computer::greedy2(){
 
 /* ### メインアルゴリズム２再帰 ### */
 int Computer::resurgence(int agentX,int agentY,unsigned int agentNumber,int frequency){
-    int maxPoint,effect[9][2];
+    int Color,maxPoint,effect[9][2];
     maxPoint = -999;
     for(int j=0; j<9; ++j){
         effect[j][0]=0;
         effect[j][1]=0;
     }
+
+    Color=tile->at(static_cast<unsigned>(agentY)-1 )
+            .at(static_cast<unsigned>(agentX)-1 ).color;
+    //仮定の移動タイルを自陣の色に
+    tile->at(static_cast<unsigned>(agentY)-1 )
+                            .at(static_cast<unsigned>(agentX)-1 ).color=field->TeamColorNumber[0];
+
     for(int j=0; j<9; ++j){
         provisionalTeams.agents[agentNumber].x = agentX;
         provisionalTeams.agents[agentNumber].y = agentY;
@@ -155,8 +178,14 @@ int Computer::resurgence(int agentX,int agentY,unsigned int agentNumber,int freq
         if(outLange(provisionalTeams.agents[agentNumber].x, provisionalTeams.agents[agentNumber].y)){
             effect[j][0] = 1;
         }else{
-            effect[j][1] += tile->at(static_cast<unsigned>(provisionalTeams.agents[agentNumber].y)-1 )
-                    .at(static_cast<unsigned>(provisionalTeams.agents[agentNumber].x)-1 ).point;
+            if(tile->at(static_cast<unsigned>(provisionalTeams.agents[agentNumber].y)-1 )
+                    .at(static_cast<unsigned>(provisionalTeams.agents[agentNumber].x)-1 ).color == field->TeamColorNumber[0]){
+                ;
+            }
+            else{
+                effect[j][1] += tile->at(static_cast<unsigned>(provisionalTeams.agents[agentNumber].y)-1 )
+                        .at(static_cast<unsigned>(provisionalTeams.agents[agentNumber].x)-1 ).point;
+            }
         if(frequency>2)
             effect[j][1]+=resurgence(provisionalTeams.agents[agentNumber].x,provisionalTeams.agents[agentNumber].y,agentNumber,frequency-1);
         }
@@ -169,6 +198,9 @@ int Computer::resurgence(int agentX,int agentY,unsigned int agentNumber,int freq
             }
         }
     }
+    //タイルの色を元の色に
+    tile->at(static_cast<unsigned>(agentY)-1 )
+                            .at(static_cast<unsigned>(agentX)-1 ).color=Color;
 
     return maxPoint;
 }
