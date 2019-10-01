@@ -29,6 +29,7 @@ private slots:
 private:
     int selectAlgolithm(int num);
     void updateTeamPoints(int num);
+    void autoReload();
     Ui::MainWindow *ui;
     NetworkManager* NM = nullptr;
     Network network;
