@@ -21,6 +21,7 @@ private:
     void move();
     void encode(string path);
     void copy();
+    vector<Pos> missedMovePos;
     vector<vector<Tile>> *tile;
     Teams *teams;
     Field *field;

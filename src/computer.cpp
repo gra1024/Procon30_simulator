@@ -39,10 +39,11 @@ void Computer::startAlgo(int AlgoNumber){
     copy();
     switch(AlgoNumber){
     case 0:
-        greedy2();
+        qDebug() << "ERROR --Don't select Algolithm--";
         break;
     case 1:
-        ;
+        greedy2();
+        break;
     }
 }
 
@@ -116,10 +117,12 @@ void Computer::greedy2(){
         }
         for(int j=0; j<9; ++j){
             //最も点数の高いところ
-            if(result[j][0] != 1){
-                if(result[j][1] >= maxPoint){
-                    maxPoint = result[j][1];
-                    position = j;
+            if(j!=4){
+                if(result[j][0] != 1){
+                    if(result[j][1] >= maxPoint){
+                        maxPoint = result[j][1];
+                        position = j;
+                    }
                 }
 
             }
@@ -136,7 +139,6 @@ void Computer::greedy2(){
         if(position == 4){
             teams[myTeam].agents[i].actions.type = 0; // stay
         }
-                        cout << "333" << endl;
     }
 }
 
