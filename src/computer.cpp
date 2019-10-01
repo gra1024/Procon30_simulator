@@ -121,6 +121,7 @@ void Computer::greedy2(){
                     maxPoint = result[j][1];
                     position = j;
                 }
+
             }
         }
         teams[myTeam].agents[i].actions.dx = angle[position][0];
@@ -171,6 +172,45 @@ int Computer::resurgence(int agentX,int agentY,unsigned int agentNumber,int freq
     }
 
     return maxPoint;
+}
+
+/* ### 指定されたマスの領域ポイントを調査 ### */
+int Computer::checkColorArrangement(int agentX,int agentY,unsigned int agentNumber){
+    int lineNumber,effectColor[9][2];
+    lineNumber = 0;
+    for(int j=0; j<9; ++j){
+        effectColor[j][0]=0;
+        effectColor[j][1]=0; // タイルの点ではなく色を代入する
+    }
+    for(int j=0; j<9; ++j){
+        provisionalTeams.agents[agentNumber].x = agentX;
+        provisionalTeams.agents[agentNumber].y = agentY;
+        provisionalTeams.agents[agentNumber].x += angle[j][0];
+        provisionalTeams.agents[agentNumber].y += angle[j][1];
+        if(outLange(provisionalTeams.agents[agentNumber].x, provisionalTeams.agents[agentNumber].y)){
+            effectColor[j][0] = 1;
+        }else{
+            effectColor[j][1] += tile->at(static_cast<unsigned>(provisionalTeams.agents[agentNumber].y)-1 )
+                    .at(static_cast<unsigned>(provisionalTeams.agents[agentNumber].x)-1 ).color;
+        /*if(frequency>2)
+            effect[j][1]+=resurgence(provisionalTeams.agents[agentNumber].x,provisionalTeams.agents[agentNumber].y,agentNumber,frequency-1);
+        */}
+    }
+    for(int j=0; j<4; ++j){
+        if(effectColor[j][0] != 1){
+            for(int k=8;k>4;--k){
+                if(effectColor[j][1]!=0&&effectColor[j][1]==effectColor[k][1]){
+                    lineNumber++;
+                }
+            }
+        }
+    }
+    if(lineNumber>=3){
+        return 0;
+    }
+    else{
+        return 1;
+    }
 }
 
 /* ### agentデータの複製 ### */
