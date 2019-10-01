@@ -95,7 +95,9 @@ void MainWindow::on_pushButton_start_clicked(){
         PC3->updatePoint();
         updateTeamPoints(3);
         qDebug() << "setup AllMode";
+        if(ui->checkBox_autoReload->checkState() == 2)autoReload();
     }
+
 }
 
 /* ### GUIのReloadボタンが押された時、試合フィールド、エージェント情報更新 ### */
@@ -154,7 +156,6 @@ void MainWindow::on_pushButton_reload_clicked(){
         AF3->drow();
         updateTeamPoints(3);
     }
-
     qDebug() << "Finish Reload";
 }
 
@@ -183,6 +184,11 @@ int MainWindow::selectAlgolithm(int num){
         }
     }
     return 0;
+}
+
+/* ### 自動リロード ### */
+void MainWindow::autoReload(){
+    for(int i=0;i<ui->spinBox_maxTurn->value();i++)on_pushButton_reload_clicked();
 }
 
 /* ### GUIのウィンドウを閉じる ### */
