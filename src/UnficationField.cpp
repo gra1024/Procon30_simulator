@@ -17,6 +17,7 @@ void UnficationField::setup(vector<vector<Tile>> *tile, Teams *teams, Field *fie
     this->field = field;
     for(int i=0;i<2;++i){
         provisionalTeams[i].teamID = 0;
+
         for(unsigned int j=0;j<teams[i].agents.size();++j){
             Agent agentLine;
             agentLine.x = 0;
@@ -29,15 +30,16 @@ void UnficationField::setup(vector<vector<Tile>> *tile, Teams *teams, Field *fie
             provisionalTeams[i].agents.push_back(agentLine);
         }
     }
-    cout << "setup UnificationField" << endl;
+    cout << "setup UnificationField" << endl;;
 }
 
 
 /* ### アルゴリズムの選択 ### */
 void UnficationField::start(){
+    missedMovePos.clear();
     load(0,CONFIG_PATH_OF_FILE_INPUT_ACTIONS_1_BY_GAMEMASTER);
     load(1,CONFIG_PATH_OF_FILE_INPUT_ACTIONS_2_BY_GAMEMASTER);
-    debug();
+    //debug();
     copy();
     provisionalMove();
     while(1){
@@ -52,7 +54,7 @@ void UnficationField::start(){
 string UnficationField::load(int teamNum, string path){
     QFile file(QString::fromStdString(path));
     if (! file.open(QFile::ReadOnly)) {
-        cout << "ERROR --UnficationField::load-- " << endl;
+        cout << "ERROR --UnficationField::load--" << endl;
         return "ERROR";
     }
     QTextStream in(&file);
@@ -96,7 +98,7 @@ void UnficationField::copy(){
 /* ### 仮移動 ## */
 void UnficationField::provisionalMove(){
     for(int i=0;i<2;++i){
-        for(unsigned int j = 0; j < (teams[i].agents.size()); ++j){
+        for(unsigned int j = 0; j < teams[i].agents.size(); ++j){
             provisionalTeams[i].agents[j].x += teams[i].agents[j].actions.dx;
             provisionalTeams[i].agents[j].y += teams[i].agents[j].actions.dy;
             if(provisionalTeams[i].agents[j].x <= 0
@@ -113,22 +115,40 @@ void UnficationField::provisionalMove(){
 
 /* ### 行動が競合していないかの判断 ### */
 int UnficationField::check(){
-    int x, y;
-    int check = 0;
+    int x, y, x2=0, y2=0;
+    int check = 0, check2 = 0;
     for(int i=0;i<2;++i){
-        for(unsigned int j=0;j<(teams[i].agents.size());++j){
-            if(teams[i].agents[j].actions.apply != -1){
+        for(unsigned int j=0;j< teams[i].agents.size(); ++j){
+            if(teams[i].agents[j].actions.apply == 1){
                 x = provisionalTeams[i].agents[j].x;
                 y = provisionalTeams[i].agents[j].y;
-                for(unsigned int k=0; k < teams[i].agents.size(); ++k){
-                    if(j != k){
-                        if(x == provisionalTeams[i].agents[k].x && y == provisionalTeams[i].agents[k].y){
-                            provisionalTeams[i].agents[k].x -= teams[i].agents[j].actions.dx;
-                            provisionalTeams[i].agents[k].y -= teams[i].agents[j].actions.dy;
-                            teams[i].agents[j].actions.apply = 0;
-                            check = 1;
-                            break;
+                for (int i2 = 0; i2 < 2; ++i2){
+                    for(unsigned int j2 = 0; j2 < teams[i2].agents.size() + missedMovePos.size(); ++j2){
+                        if(!(i == i2 && j == j2)){//同じエージェントではない
+                            if(j2 < teams[i2].agents.size()){
+                                x2 = provisionalTeams[i2].agents[j2].x;
+                                y2 = provisionalTeams[i2].agents[j2].y;
+                            }else{
+                                x2 = missedMovePos[j2 - teams[i2].agents.size()].x;
+                                y2 = missedMovePos[j2 - teams[i2].agents.size()].y;
+                            }
+                            if(x == x2 && y == y2){ //被っていたなら
+                                Pos pos;
+                                pos.x = provisionalTeams[i].agents[j].x;
+                                pos.y = provisionalTeams[i].agents[j].y;
+                                missedMovePos.push_back(pos);
+                                provisionalTeams[i].agents[j].x -= teams[i].agents[j].actions.dx;
+                                provisionalTeams[i].agents[j].y -= teams[i].agents[j].actions.dy;
+                                teams[i].agents[j].actions.apply = 0;
+                                check = 1;
+                                check2 = 1;
+                                break;
+                            }
                         }
+                    }
+                    if(check2 == 1){
+                        check2 = 0;
+                        break;
                     }
                 }
             }

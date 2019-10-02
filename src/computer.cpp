@@ -39,10 +39,11 @@ void Computer::startAlgo(int AlgoNumber){
     copy();
     switch(AlgoNumber){
     case 0:
-        greedy2();
+        qDebug() << "ERROR --Don't select Algolithm--";
         break;
     case 1:
-        ;
+        greedy2();
+        break;
     }
 }
 
@@ -151,7 +152,6 @@ void Computer::greedy2(){
         if(position == 4){
             teams[myTeam].agents[i].actions.type = 0; // stay
         }
-                        cout << "333" << endl;
     }
 }
 

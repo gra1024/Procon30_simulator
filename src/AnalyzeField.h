@@ -17,7 +17,7 @@ class AnalyzeField : public QWidget
     Q_OBJECT
 
 public:
-    explicit AnalyzeField(QWidget *parent = nullptr);
+    explicit AnalyzeField(int uiNum, QWidget *parent = nullptr);
     ~AnalyzeField();
     void setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, Teams *teams, Field *field, Network *network);
     void setUi();
@@ -27,7 +27,7 @@ public:
     string decodeAndSet(string path);
     string decodeAndUpdate(string path);
     void encode(string path);
-
+    void inversionForSecondPlayer();
 
 
 protected:
@@ -35,6 +35,7 @@ protected:
 
 private:
     void drowField();
+    void swap(int *x, int *y);
 
     Ui::AnalyzeField *ui;
     Ui::MainWindow *uiMainWindow;
