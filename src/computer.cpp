@@ -113,6 +113,7 @@ void Computer::greedy2(){
                 result[j][1] += tile->at(static_cast<unsigned>(provisionalTeams.agents[i].y) - 1)
                         .at(static_cast<unsigned>(provisionalTeams.agents[i].x) - 1).point;
                 result[j][1]+=resurgence(provisionalTeams.agents[i].x,provisionalTeams.agents[i].y,i,3);
+                //result[j][1]+=checkColorArrangement(provisionalTeams.agents[i].x,provisionalTeams.agents[i].y,i);
             }
         }
         for(int j=0; j<9; ++j){
@@ -176,13 +177,13 @@ int Computer::resurgence(int agentX,int agentY,unsigned int agentNumber,int freq
     return maxPoint;
 }
 
-/* ### 指定されたマスの領域ポイントを調査 ### */
+/* ### 指定したマスが線を構成する場合移動する ### */
 int Computer::checkColorArrangement(int agentX,int agentY,unsigned int agentNumber){
-    int lineNumber,effectColor[9][2];
-    lineNumber = 0;
+    int maxPoint,effect[9][2];
+    maxPoint = -999;
     for(int j=0; j<9; ++j){
-        effectColor[j][0]=0;
-        effectColor[j][1]=0; // タイルの点ではなく色を代入する
+        effect[j][0]=0;
+        effect[j][1]=0;
     }
     for(int j=0; j<9; ++j){
         provisionalTeams.agents[agentNumber].x = agentX;
@@ -190,30 +191,51 @@ int Computer::checkColorArrangement(int agentX,int agentY,unsigned int agentNumb
         provisionalTeams.agents[agentNumber].x += angle[j][0];
         provisionalTeams.agents[agentNumber].y += angle[j][1];
         if(outLange(provisionalTeams.agents[agentNumber].x, provisionalTeams.agents[agentNumber].y)){
-            effectColor[j][0] = 1;
+            effect[j][0] = 1;
         }else{
-            effectColor[j][1] += tile->at(static_cast<unsigned>(provisionalTeams.agents[agentNumber].y)-1 )
+            // タイルの色を代入する
+            effect[j][1] = tile->at(static_cast<unsigned>(provisionalTeams.agents[agentNumber].y)-1 )
                     .at(static_cast<unsigned>(provisionalTeams.agents[agentNumber].x)-1 ).color;
-        /*if(frequency>2)
-            effect[j][1]+=resurgence(provisionalTeams.agents[agentNumber].x,provisionalTeams.agents[agentNumber].y,agentNumber,frequency-1);
-        */}
+        }
     }
+    int k,lineNumber=0,checkRhombus=0;
     for(int j=0; j<4; ++j){
-        if(effectColor[j][0] != 1){
-            for(int k=8;k>4;--k){
-                if(effectColor[j][1]!=0&&effectColor[j][1]==effectColor[k][1]){
-                    lineNumber++;
+        // [0:8][1:7]...のように指定したマスを中心に対角線上に見る
+        k=8-j;
+        if(effect[j][0] != 1&&effect[k][0] != 1){
+            if(effect[j][1]==field->TeamColorNumber[0]&&effect[j][1]==effect[k][1]){
+                lineNumber++;
+                // 指定されていたマスが四方囲まれていないか調査
+                if(j==1&&k==7){
+                    checkRhombus++;
+                }
+                if(j==3&&k==5){
+                    checkRhombus++;
                 }
             }
         }
+
     }
-    if(lineNumber>=3){
-        return 0;
+    //　指定されたマスが四方囲まれていた場合
+    if(checkRhombus>=2){
+        maxPoint=0;
     }
+    // 指定されたマスが線で囲まれている場合
+    else if(lineNumber>=3){
+        maxPoint=0;
+    }
+    // 指定されたマスが塗られた場合、1本以上3本いか塗られる場合
+    else if(lineNumber!=0){
+        maxPoint=32;
+    }
+    // 上記以外
     else{
-        return 1;
+        maxPoint=0;
     }
+    return maxPoint;
 }
+
+
 
 /* ### agentデータの複製 ### */
 void Computer::copy(){
