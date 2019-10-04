@@ -154,6 +154,14 @@ void MainWindow::on_pushButton_reload_clicked(){
     qDebug() << "Finish Reload";
 }
 
+void MainWindow::on_pushButton_setField_clicked(){
+    QString currentField = QString("%1%2%3").arg("..//data//gamedata//").arg(ui->comboBox_selectField->currentText()).arg(".json");
+    QFile::remove("..//data//Field.json");
+    QFile::copy(currentField,"..//data//Field.json");
+    cout<<"setField>>"<<currentField.toStdString()<<endl;
+    cout<<"Please set teamID>>1 or 2"<<endl;
+}
+
 /* ### GUIに表示するポイントの値変更 ### */
 void MainWindow::updateTeamPoints(int num){
     if(num == 1){
@@ -188,5 +196,7 @@ void MainWindow::autoReload(){
 
 /* ### GUIのウィンドウを閉じる ### */
 void MainWindow::on_pushButton_close_clicked(){
+    QFile::remove("..//data//Field.json");
+    QFile::copy("..//data//FieldInput.json","..//data//Field.json");
     qApp->closeAllWindows();
 }
