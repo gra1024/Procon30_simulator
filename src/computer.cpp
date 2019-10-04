@@ -32,161 +32,121 @@ void Computer::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, T
             provisionalTeams.agents.push_back(agentLine);
         }
     }
+    PC = new PointCalculate ();
+    PC->setup(tile, teams, field);
 }
 
 /* ### アルゴリズムの選択 ### */
 void Computer::startAlgo(int AlgoNumber){
-    copy();
+    copyAgent();
     switch(AlgoNumber){
     case 0:
         qDebug() << "ERROR --Don't select Algolithm--";
         break;
     case 1:
-        greedy2();
+        algo();
         break;
     }
 }
 
-/* ### メインアルゴリズム１ ### */
-/*
-void Computer::greedy(){
-
-    unsigned int i,j;
-    int angle[8][2]={{1,0},{1,1},{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1}};
-    int maximum=-100,tilepoint=0,teamcolor;
-    teamcolor = teams[0].teamID;
-
-    for(j=0;j<teams[0].agents.size();j++)
-    {
-        for(i=0;i<8;i++)
-        {
-            if(static_cast<int>(teams[0].agents[j].x)+angle[i][0]<=static_cast<int>(field->width)&&static_cast<int>(teams[0].agents[j].y)+angle[i][1]<=static_cast<int>(field->height)&&static_cast<int>(teams[0].agents[j].y)+angle[i][1]-1>=0&&static_cast<int>(teams[0].agents[j].x)+angle[i][0]-1>=0)
-            {
-
-                if(tile->at(teams[0].agents[j].y+static_cast<unsigned>(angle[i][1])-1).at(teams[0].agents[j].x+static_cast<unsigned>(angle[i][0])-1).color==teamcolor)
-                    tilepoint=-1;
-                else
-                    tilepoint=tile->at(teams[0].agents[j].y+static_cast<unsigned>(angle[i][1])-1).at(teams[0].agents[j].x+static_cast<unsigned>(angle[i][0])-1).point;
-                tilepoint+=eightangle(angle,angle[i][0],angle[i][1],j,3);//3手先
-
-                if(tilepoint>maximum)
-                {
-                    maximum=tilepoint;
-                    //action->dx=-1+angle[i][0];
-                    //action->dy=-1+angle[i][1];
-                    if(tile->at(teams[0].agents[j].y+static_cast<unsigned>(action->dy)).at(teams[0].agents[j].x+static_cast<unsigned>(action->dx)).color==teamcolor||tile->at(teams[0].agents[j].y+static_cast<unsigned>(action->dy)).at(teams[0].agents[j].x+static_cast<unsigned>(action->dx)).color==WHITE)
-                        //action->type=1;
-                    else{
-                        //action->type=2;
-                    }
-                }
-            }
-        }
+void Computer::algo(){
+    nextPos.myTeam = field->myTeam;
+    for(unsigned int i=0; i < teams[nextPos.myTeam].agents.size(); ++i){//エージェントの数だけループ
+        provPoint.clear();
+        nextPos.agentNum = i; //エージェントの番号
+        moveData.x = teams[nextPos.myTeam].agents[nextPos.agentNum].x;//エージェントの位置の代入
+        moveData.y = teams[nextPos.myTeam].agents[nextPos.agentNum].y;//
+        moveData.accumulationPoint = 0;
+        greedy(3, moveData);
+        chooseBestResult();
     }
-
 }
-*/
 
-/* ### メインアルゴリズム２ ### */
-void Computer::greedy2(){
+void Computer::greedy(int loopCount, MoveData currentMoveData){
+    /* currentMoveDataのコピーを取る */
+    MoveData copyCurrentMoveData;
+    copyCurrentMoveData.x = currentMoveData.x;
+    copyCurrentMoveData.y = currentMoveData.y;
+    copyCurrentMoveData.accumulationPoint = currentMoveData.accumulationPoint;
 
-    //int color = field->TeamColorNumber[0];
-    int myTeam = field->myTeam;
-    int maxPoint;
-    int position;
-    unsigned int x, y;
-    for(unsigned int i=0; i < teams[myTeam].agents.size(); ++i){
-        maxPoint = -999;
-        position = 0;
-        for(int j=0; j<9; ++j){
-            result[j][0]=0;
-            result[j][1]=0;
-        }
-        for(int j=0; j<9; ++j){
-            provisionalTeams.agents[i].x = teams[myTeam].agents[i].x;
-            provisionalTeams.agents[i].y = teams[myTeam].agents[i].y;
-            provisionalTeams.agents[i].x += angle[j][0];
-            provisionalTeams.agents[i].y += angle[j][1];
-            if(outLange(provisionalTeams.agents[i].x, provisionalTeams.agents[i].y)){
-                result[j][0] = 1;
+    double point;
+    for(int j=0; j<9; ++j){
+        /* currentMoveDataの初期化 */
+        currentMoveData.x = copyCurrentMoveData.x;
+        currentMoveData.y = copyCurrentMoveData.y;
+        currentMoveData.accumulationPoint = copyCurrentMoveData.accumulationPoint;
+
+        /* 移動方向の加算 */
+        currentMoveData.x += angle[j][0];
+        currentMoveData.y += angle[j][1];
+
+        if(!(outLange(currentMoveData.x, currentMoveData.y))){ //範囲外ではなかったら
+            /* 点数の加算*/
+            point = tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point;
+            point *= correction.loop[loopCount - 1];
+            currentMoveData.accumulationPoint += point;
+
+
+            /* 最終的に進む方向の代入 */
+            if(loopCount == nextPos.maxLoop){
+                currentMoveData.moveAngle = j;
+            }
+
+            /* 再起or候補の決定 */
+            if(loopCount == 1){
+                if(currentMoveData.moveAngle == 4) currentMoveData.accumulationPoint += correction.stay;//stay補正
+                ProvisionalPoint provProvPoint;
+                provProvPoint.totalPoint = currentMoveData.accumulationPoint;
+                provProvPoint.moveAngle = currentMoveData.moveAngle;
+                provPoint.push_back(provProvPoint);
             }else{
-                result[j][1] += tile->at(static_cast<unsigned>(provisionalTeams.agents[i].y) - 1)
-                        .at(static_cast<unsigned>(provisionalTeams.agents[i].x) - 1).point;
-                result[j][1]+=resurgence(provisionalTeams.agents[i].x,provisionalTeams.agents[i].y,i,3);
+                greedy(loopCount - 1, currentMoveData);
             }
-        }
-        for(int j=0; j<9; ++j){
-            //最も点数の高いところ
-            if(j!=4){
-                if(result[j][0] != 1){
-                    if(result[j][1] >= maxPoint){
-                        maxPoint = result[j][1];
-                        position = j;
-                    }
-                }
-            }
-        }
-        teams[myTeam].agents[i].actions.dx = angle[position][0];
-        teams[myTeam].agents[i].actions.dy = angle[position][1];
-        x = static_cast<unsigned>(teams[myTeam].agents[i].x) + static_cast<unsigned>(teams[myTeam].agents[i].actions.dx);
-        y = static_cast<unsigned>(teams[myTeam].agents[i].y) + static_cast<unsigned>(teams[myTeam].agents[i].actions.dy);
-        if(tile->at(y-1).at(x-1).color == field->TeamColorNumber[1]){
-            teams[myTeam].agents[i].actions.type = 2; //remove
-        }else{
-            teams[myTeam].agents[i].actions.type = 1; //move
-        }
-        if(position == 4){
-            teams[myTeam].agents[i].actions.type = 0; // stay
         }
     }
 }
 
-/* ### メインアルゴリズム２再帰 ### */
-int Computer::resurgence(int agentX,int agentY,unsigned int agentNumber,int frequency){
-    int maxPoint,effect[9][2];
-    maxPoint = -999;
-    for(int j=0; j<9; ++j){
-        effect[j][0]=0;
-        effect[j][1]=0;
-    }
-    for(int j=0; j<9; ++j){
-        provisionalTeams.agents[agentNumber].x = agentX;
-        provisionalTeams.agents[agentNumber].y = agentY;
-        provisionalTeams.agents[agentNumber].x += angle[j][0];
-        provisionalTeams.agents[agentNumber].y += angle[j][1];
-        if(outLange(provisionalTeams.agents[agentNumber].x, provisionalTeams.agents[agentNumber].y)){
-            effect[j][0] = 1;
-        }else{
-            effect[j][1] += tile->at(static_cast<unsigned>(provisionalTeams.agents[agentNumber].y)-1 )
-                    .at(static_cast<unsigned>(provisionalTeams.agents[agentNumber].x)-1 ).point;
-        if(frequency>2)
-            effect[j][1]+=resurgence(provisionalTeams.agents[agentNumber].x,provisionalTeams.agents[agentNumber].y,agentNumber,frequency-1);
-        }
-    }
-    for(int j=0; j<9; ++j){
-        //最も点数の高いところ
-        if(effect[j][0] != 1){
-            if(effect[j][1] >= maxPoint){
-                maxPoint = effect[j][1];
-            }
+void Computer::chooseBestResult(){
+    double maxPoint = -999;
+    int moveAngle = 4;
+
+    /* 最善手を選ぶ */
+    for(unsigned int i = 0; i < provPoint.size(); ++i){
+        cout << "Angle " << provPoint[i].moveAngle << " Point "<<  provPoint[i].totalPoint << endl;
+        if(maxPoint < provPoint[i].totalPoint){
+            maxPoint = provPoint[i].totalPoint;
+            moveAngle = provPoint[i].moveAngle;
         }
     }
 
-    return maxPoint;
+    /* 選んだ最善手の代入 */
+    teams[nextPos.myTeam].agents[nextPos.agentNum].actions.dx = angle[moveAngle][0];//dxの代入
+    teams[nextPos.myTeam].agents[nextPos.agentNum].actions.dy = angle[moveAngle][1];//dy
+    int x = teams[nextPos.myTeam].agents[nextPos.agentNum].x;
+    x += teams[nextPos.myTeam].agents[nextPos.agentNum].actions.dx;
+    int y = teams[nextPos.myTeam].agents[nextPos.agentNum].y;
+    y += teams[nextPos.myTeam].agents[nextPos.agentNum].actions.dy;
+    if(tile->at(static_cast<unsigned>(y-1)).at(static_cast<unsigned>(x-1)).color == field->TeamColorNumber[1]){
+        teams[nextPos.myTeam].agents[nextPos.agentNum].actions.type = 2; //remove
+    }else{
+        teams[nextPos.myTeam].agents[nextPos.agentNum].actions.type = 1; //move
+    }
+    if(moveAngle == 4){
+        teams[nextPos.myTeam].agents[nextPos.agentNum].actions.type = 0; // stay
+    }
 }
 
 /* ### agentデータの複製 ### */
-void Computer::copy(){
-    int myTeam = field->myTeam;
-    provisionalTeams.teamID = teams[myTeam].teamID;
-    for(unsigned int i=0; i < teams[myTeam].agents.size(); ++i){
-        provisionalTeams.agents[i].x = teams[myTeam].agents[i].x;
-        provisionalTeams.agents[i].y = teams[myTeam].agents[i].y;
-        provisionalTeams.agents[i].agentID = teams[myTeam].agents[i].agentID;
-        provisionalTeams.agents[i].actions.dx = teams[myTeam].agents[i].actions.dx;
-        provisionalTeams.agents[i].actions.dy = teams[myTeam].agents[i].actions.dy;
-        provisionalTeams.agents[i].actions.type = teams[myTeam].agents[i].actions.type;
-        provisionalTeams.agents[i].actions.apply = teams[myTeam].agents[i].actions.apply;
+void Computer::copyAgent(){
+    provisionalTeams.teamID = teams[field->myTeam].teamID;
+    for(unsigned int i=0; i < teams[field->myTeam].agents.size(); ++i){
+        provisionalTeams.agents[i].x = teams[field->myTeam].agents[i].x;
+        provisionalTeams.agents[i].y = teams[field->myTeam].agents[i].y;
+        provisionalTeams.agents[i].agentID = teams[field->myTeam].agents[i].agentID;
+        provisionalTeams.agents[i].actions.dx = teams[field->myTeam].agents[i].actions.dx;
+        provisionalTeams.agents[i].actions.dy = teams[field->myTeam].agents[i].actions.dy;
+        provisionalTeams.agents[i].actions.type = teams[field->myTeam].agents[i].actions.type;
+        provisionalTeams.agents[i].actions.apply = teams[field->myTeam].agents[i].actions.apply;
     }
 }
 
@@ -197,41 +157,3 @@ int Computer::outLange(int x, int y){
     }
     return 0;
 }
-
-
-/* ### メインアルゴリズム１再帰 ### */
-/*
-int Computer::eightangle(int angle[8][2],int Ax,int Ay,unsigned int AgentNumber,int TURN){
-
-    unsigned int i;
-    int maximum=-100,tilepoint=0;
-    int teamcolor = teams[0].teamID;
-    for(i=0;i<8;i++)
-    {
-        angle[i][0]+=Ax;
-        angle[i][1]+=Ay;
-    }
-
-    for(i=0;i<8;i++)
-    {
-        if(static_cast<int>(teams[0].agents[AgentNumber].x)+angle[i][0]<=static_cast<int>(field->width)&&static_cast<int>(teams[0].agents[AgentNumber].y)+angle[i][1]<=static_cast<int>(field->height)&&static_cast<int>(teams[0].agents[AgentNumber].y)+angle[i][1]-1>=0&&static_cast<int>(teams[0].agents[AgentNumber].x)+angle[i][0]-1>=0)
-        {
-            if((tile->at(teams[0].agents[AgentNumber].y-1+static_cast<unsigned>(angle[i][1])).at(teams[0].agents[AgentNumber].x-1+static_cast<unsigned>(angle[i][0])).color==teamcolor)||(angle[i][0]-Ax!=Ax&&angle[i][1]-Ay!=Ay))
-                tilepoint=-1;
-            else
-                tilepoint=tile->at(teams[0].agents[AgentNumber].y-1+static_cast<unsigned>(angle[i][1])).at(teams[0].agents[AgentNumber].x-1+static_cast<unsigned>(angle[i][0])).point;
-            TURN--;
-            if(TURN>1)
-                tilepoint+=eightangle(angle,angle[i][0]-Ax,angle[i][1]-Ay,AgentNumber,TURN);
-        if(tilepoint>maximum)
-            maximum=tilepoint;
-        }
-    }
-
-    for(i=0;i<8;i++){
-        angle[i][0]-=Ax;
-        angle[i][1]-=Ay;
-    }
-    return maximum;
-}
-*/
