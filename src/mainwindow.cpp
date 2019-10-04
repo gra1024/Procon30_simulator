@@ -1,12 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
-//#include "AnalyzeField.h"
-//#include "PointCalculate.h"
-
 extern QSettings config;
-
-//PointCalculate *pointCalculate;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
