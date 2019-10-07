@@ -80,7 +80,9 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
         currentMoveData.x += angle[j][0];
         currentMoveData.y += angle[j][1];
 
-        if(!(outLange(currentMoveData.x, currentMoveData.y))){ //範囲外ではなかったら
+        if(conflictMove(currentMoveData.x,currentMoveData.y,nextPos.agentNum)==1)cout<<"hoge"<<endl;
+
+        if(!(outLange(currentMoveData.x, currentMoveData.y))){ //範囲外ではなかったら+味方エージェントの移動先でなかったら+前回ターンで敵と被った移動先でないなら
             /* 点数の加算*/
             point = tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point;
             point *= correction.loop[loopCount - 1];
@@ -93,7 +95,7 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
             }
 
             /* 再起or候補の決定 */
-            if(loopCount == 1){
+            if(loopCount == 1){//最終ループなら
                 if(currentMoveData.moveAngle == 4) currentMoveData.accumulationPoint += correction.stay;//stay補正
                 ProvisionalPoint provProvPoint;
                 provProvPoint.totalPoint = currentMoveData.accumulationPoint;
@@ -134,6 +136,18 @@ void Computer::chooseBestResult(){
     if(moveAngle == 4){
         teams[nextPos.myTeam].agents[nextPos.agentNum].actions.type = 0; // stay
     }
+}
+
+/* ### エージェントの移動先が競合しているかの判定 ### */
+int Computer::conflictMove(int x,int y,unsigned int agentNum){
+    for(unsigned int i=0;i<static_cast<unsigned>(agentNum)-1;i++){//これまでに手を決定したエージェント数分ループ
+        if(x==teams[nextPos.myTeam].agents[i].x+teams[nextPos.myTeam].agents[i].actions.dx){
+            if(y==teams[nextPos.myTeam].agents[i].y+teams[nextPos.myTeam].agents[i].actions.dy){
+                return 1;
+            }
+        }
+    }
+    return 0;
 }
 
 /* ### agentデータの複製 ### */

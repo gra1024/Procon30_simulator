@@ -44,6 +44,7 @@ private:
     void chooseBestResult();
     int outLange(int x, int y);
     void copyAgent();
+    int conflictMove(int x,int y,unsigned int angle);
 
     Ui::MainWindow *uiMainWindow;
     vector<vector<Tile>> *tile;

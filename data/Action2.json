@@ -2,21 +2,21 @@
     "actions": [
         {
             "agentID": 4,
-            "dx": -1,
-            "dy": 1,
-            "type": "move"
+            "dx": 0,
+            "dy": 0,
+            "type": "stay"
         },
         {
             "agentID": 5,
             "dx": 0,
-            "dy": -1,
-            "type": "move"
+            "dy": 0,
+            "type": "stay"
         },
         {
             "agentID": 6,
-            "dx": -1,
+            "dx": 0,
             "dy": 0,
-            "type": "move"
+            "type": "stay"
         }
     ]
 }
