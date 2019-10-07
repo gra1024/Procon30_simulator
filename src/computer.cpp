@@ -140,7 +140,7 @@ void Computer::chooseBestResult(){
 
 /* ### エージェントの移動先が競合しているかの判定 ### */
 int Computer::conflictMove(int x,int y,unsigned int agentNum){
-    for(unsigned int i=0;i<static_cast<unsigned>(agentNum)-1;i++){//これまでに手を決定したエージェント数分ループ
+    for(unsigned int i=0;i<agentNum;i++){//これまでに手を決定したエージェント数分ループ
         if(x==teams[nextPos.myTeam].agents[i].x+teams[nextPos.myTeam].agents[i].actions.dx){
             if(y==teams[nextPos.myTeam].agents[i].y+teams[nextPos.myTeam].agents[i].actions.dy){
                 return 1;
