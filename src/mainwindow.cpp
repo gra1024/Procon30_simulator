@@ -171,6 +171,9 @@ void MainWindow::updateTeamPoints(int num){
     }else if(num == 3){
         ui->lcdNumber_red->display(teams3[0].tilePoint+teams3[0].areaPoint);
         ui->lcdNumber_blue->display(teams3[1].tilePoint+teams3[1].areaPoint);
+        if(ui->spinBox_maxTurn->value()<field3.turn){
+            ui->lcdNumber_turn->setStyleSheet("background-color:green; color:red;");
+        }
         ui->lcdNumber_turn->display(field3.turn);
     }
 }
