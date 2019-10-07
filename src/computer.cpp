@@ -53,6 +53,7 @@ void Computer::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, T
 /* ### アルゴリズムの選択 ### */
 void Computer::startAlgo(int AlgoNumber){
     copyAgent();
+    previouseMoveData.clear();
     switch(AlgoNumber){
     case 0:
         qDebug() << "ERROR --Don't select Algolithm--";
@@ -83,6 +84,7 @@ void Computer::algo(int num){
         }
         chooseBestResult();
     }
+
 }
 
 void Computer::greedy(int loopCount, MoveData currentMoveData){
@@ -105,6 +107,7 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
         currentMoveData.y += angle[j][1];
 
         if(!(outLange(currentMoveData.x, currentMoveData.y))){ //範囲外ではなかったら
+
             /* 点数の加算*/
             point = tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point;
             point *= correction.loop[loopCount - 1];
@@ -115,9 +118,18 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
             currentMoveData.accumulationPoint += point;
             if(currentMoveData.moveAngle == 4) currentMoveData.accumulationPoint += correction.stay;//stay補正
 
-            /* 最終的に進む方向の代入 */
+            /* 最初のループ限定の処理 */
             if(loopCount == nextPos.maxLoop){
+
+                /* 最終的に進む方向の代入 */
                 currentMoveData.moveAngle = j;
+
+                /* 味方のエージェントの選択位置を被らせないための処理　*/
+                for(unsigned int i = 0; i < previouseMoveData.size(); ++i){
+                    if(currentMoveData.x == previouseMoveData[i].x && currentMoveData.y == previouseMoveData[i].y){
+                        currentMoveData.accumulationPoint += -999;
+                    }
+                }
             }
 
             /* 進む方向が敵色タイルだった場合 */
@@ -232,10 +244,12 @@ void Computer::chooseBestResult(){
     /* 選んだ最善手の代入 */
     teams[nextPos.myTeam].agents[nextPos.agentNum].actions.dx = angle[moveAngle][0];//dxの代入
     teams[nextPos.myTeam].agents[nextPos.agentNum].actions.dy = angle[moveAngle][1];//dy
+
     int x = teams[nextPos.myTeam].agents[nextPos.agentNum].x;
     x += teams[nextPos.myTeam].agents[nextPos.agentNum].actions.dx;
     int y = teams[nextPos.myTeam].agents[nextPos.agentNum].y;
     y += teams[nextPos.myTeam].agents[nextPos.agentNum].actions.dy;
+
     if(tile->at(static_cast<unsigned>(y-1)).at(static_cast<unsigned>(x-1)).color == field->TeamColorNumber[1]){
         teams[nextPos.myTeam].agents[nextPos.agentNum].actions.type = 2; //remove
     }else{
@@ -244,6 +258,13 @@ void Computer::chooseBestResult(){
     if(moveAngle == 4){
         teams[nextPos.myTeam].agents[nextPos.agentNum].actions.type = 0; // stay
     }
+
+    /* previousMoveDataへの代入 */
+    MoveData preData;
+    preData.x = x;
+    preData.y = y;
+    preData.moveAngle = moveAngle;
+    previouseMoveData.push_back(preData);
 }
 
 /* ### agentデータの複製 ### */

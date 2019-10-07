@@ -3,19 +3,19 @@
         {
             "agentID": 4,
             "dx": -1,
-            "dy": 1,
-            "type": "move"
+            "dy": 0,
+            "type": "remove"
         },
         {
             "agentID": 5,
-            "dx": 0,
-            "dy": -1,
-            "type": "move"
+            "dx": -1,
+            "dy": 1,
+            "type": "remove"
         },
         {
             "agentID": 6,
             "dx": -1,
-            "dy": 0,
+            "dy": -1,
             "type": "move"
         }
     ]
