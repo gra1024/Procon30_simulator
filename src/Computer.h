@@ -23,11 +23,13 @@ struct MoveData{
     int y;
     double accumulationPoint = 0;
     int moveAngle;
+    int removeCheck;
 };
 
 struct Correction{//補正
     double loop[3] = {0.6, 0.8, 1.0};
     double stay = -5;
+    double myTeamColorTile = 0.1;
 };
 
 class Computer
@@ -39,11 +41,13 @@ public:
     void startAlgo(int AlgoNumber);
 
 private:
-    void algo();
-    void greedy(int loopCount,MoveData currentMoveData);
+    void algo(int num);
+    void greedy(int loopCount, MoveData currentMoveData);
+    void greedy2(int loopCount, MoveData currentMoveData, vector<vector<Tile>> currentTileData);
     void chooseBestResult();
     int outLange(int x, int y);
     void copyAgent();
+    void resetCopyTile();
 
     Ui::MainWindow *uiMainWindow;
     vector<vector<Tile>> *tile;
