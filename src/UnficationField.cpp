@@ -122,6 +122,15 @@ int UnficationField::check(){
             if(teams[i].agents[j].actions.apply == 1){
                 x = provisionalTeams[i].agents[j].x;
                 y = provisionalTeams[i].agents[j].y;
+
+                /* removeなら元居た場所をmissリストに追加 */
+                if(tile->at(static_cast<unsigned>(y)-1).at(static_cast<unsigned>(x)-1).color == field->TeamColorNumber[1]){
+                    Pos pos;
+                    pos.x = provisionalTeams[i].agents[j].x - teams[i].agents[j].actions.dx;
+                    pos.y = provisionalTeams[i].agents[j].y - teams[i].agents[j].actions.dy;
+                    missedMovePos.push_back(pos);
+                }
+
                 for (int i2 = 0; i2 < 2; ++i2){
                     for(unsigned int j2 = 0; j2 < teams[i2].agents.size() + missedMovePos.size(); ++j2){
                         if(!(i == i2 && j == j2)){//同じエージェントではない

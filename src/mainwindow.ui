@@ -138,12 +138,12 @@
    </property>
    <item>
     <property name="text">
-     <string>Algolithm1</string>
+     <string>Greedy1</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>Algolithm2</string>
+     <string>Greedy2</string>
     </property>
    </item>
   </widget>
@@ -442,12 +442,12 @@
    </property>
    <item>
     <property name="text">
-     <string>Algolithm1</string>
+     <string>Greedy1</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>Algolithm2</string>
+     <string>Greedy2</string>
     </property>
    </item>
   </widget>
