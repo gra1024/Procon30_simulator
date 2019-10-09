@@ -9,7 +9,6 @@ using namespace std;
 
 struct NextPos{
     unsigned int agentNum;
-    int maxLoop = 3;
     int myTeam;
 };
 
@@ -28,10 +27,13 @@ struct MoveData{
 };
 
 struct Correction{//補正
+    int loopTimes = 3;
     double loop[3] = {0.6, 0.8, 1.0};
     double stay = -5;
-    double conflict = -100;
     double myTeamColorTile = 0.1;
+    double conflict = -100;
+    double tile = 1.0;
+    double area = 1.0;
 };
 
 class Computer
@@ -49,8 +51,8 @@ private:
     void chooseBestResult();
     int outLange(int x, int y);
     void copyAgent();
-    int conflictMove(int x,int y,unsigned int agentNum, int angle);
     void resetCopyTile();
+    int conflictMove(int x, int y, unsigned int agentNum, int angle);
 
     Ui::MainWindow *uiMainWindow;
     vector<vector<Tile>> *tile;
@@ -70,7 +72,7 @@ private:
     MoveData moveData;
     PointCalculate* PC = nullptr;
     vector<vector<Tile>> copyTileData;
-    vector<MoveData> previousMoveData;
+    vector<MoveData> previouseMoveData;
 };
 
 #endif // COMPUTER_H
