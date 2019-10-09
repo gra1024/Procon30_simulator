@@ -49,6 +49,7 @@ void Computer::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, T
     PC->setup(this->tile, this->teams, this->field);
 
     decodeCorrection(num);
+    splitTurn();
 }
 
 /* ### アルゴリズムの選択 ### */
@@ -68,6 +69,7 @@ void Computer::startAlgo(int AlgoNumber){
 }
 
 void Computer::algo(int num){
+    partSelect();
     nextPos.myTeam = field->myTeam;
     previousMoveData.clear();
     for(unsigned int i=0; i < teams[nextPos.myTeam].agents.size(); ++i){//エージェントの数だけループ
@@ -78,10 +80,10 @@ void Computer::algo(int num){
         moveData.accumulationPoint = 0;
         moveData.removeCheck = -1;
         if(num == 1){
-            greedy(correction.loopTimes, moveData);
+            greedy(correctionSplit[partCount].loopTimes, moveData);
         }else{
             resetCopyTile();
-            greedy2(correction.loopTimes, moveData, copyTileData);
+            greedy2(correctionSplit[partCount].loopTimes, moveData, copyTileData);
         }
         chooseBestResult();
     }
@@ -119,16 +121,16 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
         if(!(outLange(currentMoveData.x, currentMoveData.y))){ //範囲外ではなかったら
             /* 点数の加算*/
             point = tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point;
-            point *= correction.loop[loopCount - 1];
+            point *= correctionSplit[partCount].loop[static_cast<unsigned>(loopCount - 1)];
             if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).color
                     == field->TeamColorNumber[0]){
-                point *= correction.myTeamColorTile; //同色補正
+                point *= correctionSplit[partCount].myTeamColorTile; //同色補正
             }
             currentMoveData.accumulationPoint += point;
-            if(currentMoveData.moveAngle == 4) currentMoveData.accumulationPoint += correction.stay;//stay補正
+            if(currentMoveData.moveAngle == 4) currentMoveData.accumulationPoint += correctionSplit[partCount].stay;//stay補正
 
             /* 最初のループのみに行う処理 */
-            if(loopCount == correction.loopTimes){
+            if(loopCount == correctionSplit[partCount].loopTimes){
                 /* 最終的に進む方向の代入 */
                 currentMoveData.moveAngle = j;
 
@@ -229,17 +231,17 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
             PC->setupOnlyTile(&currentTileData);
             tilePoint = PC->getTilePoints(field->TeamColorNumber[0]) - baseTilePoint;
             areaPoint = PC->getAreaPoints(field->TeamColorNumber[0]) - baseAreaPoint;
-            tilePoint *= correction.tile;
-            areaPoint *= correction.area;
+            tilePoint *= correctionSplit[partCount].tile;
+            areaPoint *= correctionSplit[partCount].area;
             point = tilePoint + areaPoint;
 
             /* 点数の補正 */
-            point *= correction.loop[loopCount - 1];
+            point *= correctionSplit[partCount].loop[static_cast<unsigned>(loopCount - 1)];
             currentMoveData.accumulationPoint += point;
-            if(currentMoveData.moveAngle == 4) currentMoveData.accumulationPoint += correction.stay;//stay補正
+            if(currentMoveData.moveAngle == 4) currentMoveData.accumulationPoint += correctionSplit[partCount].stay;//stay補正
 
             /* 最初のループ限定の処理 */
-            if(loopCount == correction.loopTimes){
+            if(loopCount == correctionSplit[partCount].loopTimes){
                 /* 最終的に進む方向の代入 */
                 currentMoveData.moveAngle = j;
 
@@ -265,7 +267,7 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
 
             /* 再起or候補の決定 */
             if(loopCount == 1){//最終ループなら
-                if(currentMoveData.moveAngle == 4) currentMoveData.accumulationPoint += correction.stay;//stay補正
+                if(currentMoveData.moveAngle == 4) currentMoveData.accumulationPoint += correctionSplit[partCount].stay;//stay補正
                 ProvisionalPoint provProvPoint;
                 provProvPoint.totalPoint = currentMoveData.accumulationPoint;
                 provProvPoint.moveAngle = currentMoveData.moveAngle;
@@ -279,6 +281,7 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
     }
 }
 
+/* ### 最善手を選択 ### */
 void Computer::chooseBestResult(){
     double maxPoint = -999;
     int moveAngle = 4;
@@ -364,6 +367,7 @@ void Computer::copyAgent(){
     }
 }
 
+/* ### 変数copyTileの初期化 ### */
 void Computer::resetCopyTile(){
     for (unsigned int i=0;i<static_cast<unsigned>(field->height);i++) {
         for(unsigned int j=0;j<static_cast<unsigned>(field->width);j++){
@@ -381,6 +385,7 @@ int Computer::outLange(int x, int y){
     return 0;
 }
 
+/* ### エージェント同士の距離が近くなりすぎないように ### */
 int Computer::distance(MoveData currentMoveData){
     int disX=0,disY=0,penalty=0;
     for(unsigned int i=0;i<teams[nextPos.myTeam].agents.size();++i){
@@ -395,23 +400,26 @@ int Computer::distance(MoveData currentMoveData){
     penalty=disX;
     else
         penalty=disY;
-    if(penalty>correction.agentDistance)
+    if(penalty>correctionSplit[partCount].agentDistance)
         penalty=0;
     else{
         penalty=field->width+field->height-penalty;
         break;
     }
     }
-    penalty*=correction.distance;
+    penalty*=correctionSplit[partCount].distance;
 
     return penalty;
 }
 
+/* ### 補正リストの読み込み ### */
 int Computer::decodeCorrection(int num){
-    string path;
-    if(num == 1) path = "abc";
+    string path = "..//data//CorrectionList//correction";
+    path += to_string(num);
+    path += ".json";
     QFile file(QString::fromStdString(path));
     if (! file.open(QFile::ReadOnly)) {
+        cout << "ERROR --don't Read file of correction--" << endl;
         return 1;
     }
     QTextStream in(&file);
@@ -425,7 +433,7 @@ int Computer::decodeCorrection(int num){
     for(int i=0; i<4; ++i){
         correctionSplit[i].loopTimes = arrSplit.at(i).toObject().value("loopTimes").toInt();
         for(int j=0; j < correctionSplit[i].loopTimes; ++j){
-            correctionSplit[i].loop[j] = arrSplit.at(i).toObject().value("loop").toArray().at(j).toInt();
+            correctionSplit[i].loop.push_back(arrSplit.at(i).toObject().value("loop").toArray().at(j).toInt());
         }
         correctionSplit[i].stay = arrSplit.at(i).toObject().value("stay").toInt();
         correctionSplit[i].myTeamColorTile = arrSplit.at(i).toObject().value("myTeamColorTile").toInt();
@@ -436,18 +444,49 @@ int Computer::decodeCorrection(int num){
     }
 
     for(int i=0; i<3; ++i){
-        correctionLast[i].loopTimes = arrLast.at(i).toObject().value("loopTimes").toInt();
-        for(int j=0; j < correctionLast[i].loopTimes; ++j){
-            correctionLast[i].loop[j] = arrLast.at(i).toObject().value("loop").toArray().at(j).toInt();
+        correctionSplit[i+4].loopTimes = arrLast.at(i).toObject().value("loopTimes").toInt();
+        for(int j=0; j < correctionSplit[i].loopTimes; ++j){
+            correctionSplit[i+4].loop.push_back(arrLast.at(i).toObject().value("loop").toArray().at(j).toInt());
         }
-        correctionLast[i].stay = arrLast.at(i).toObject().value("stay").toInt();
-        correctionLast[i].myTeamColorTile = arrLast.at(i).toObject().value("myTeamColorTile").toInt();
-        correctionLast[i].agentDistance = arrLast.at(i).toObject().value("agentDistance").toInt();
-        correctionLast[i].distance = arrLast.at(i).toObject().value("distance").toInt();
-        correctionLast[i].tile = arrLast.at(i).toObject().value("tile").toInt();
-        correctionLast[i].area = arrLast.at(i).toObject().value("area").toInt();
+        correctionSplit[i+4].stay = arrLast.at(i).toObject().value("stay").toInt();
+        correctionSplit[i+4].myTeamColorTile = arrLast.at(i).toObject().value("myTeamColorTile").toInt();
+        correctionSplit[i+4].agentDistance = arrLast.at(i).toObject().value("agentDistance").toInt();
+        correctionSplit[i+4].distance = arrLast.at(i).toObject().value("distance").toInt();
+        correctionSplit[i+4].tile = arrLast.at(i).toObject().value("tile").toInt();
+        correctionSplit[i+4].area = arrLast.at(i).toObject().value("area").toInt();
     }
-
     file.close();
     return 0;
+}
+
+/* ### 補正のパターンをターンによって変える ### */
+void Computer::splitTurn(){
+    int part[7];
+    part[0] = field->maxTurn / 4;
+    part[1] = field->maxTurn / 2;
+    part[2] = field->maxTurn * 3 / 4;
+    part[3] = field->maxTurn - 3;
+    part[4] = field->maxTurn - 2;
+    part[5] = field->maxTurn - 1;
+    part[6] = field->maxTurn;
+    if(part[2] > part[3]){
+        part[2] = field->maxTurn - 4;
+    }
+    if(part[1] > part[2]){
+        part[1] = field->maxTurn - 5;
+    }
+    if(part[0] > part[1]){
+        part[0] = field->maxTurn - 6;
+    }
+}
+
+/* ### 補正のパターンを変える ### */
+void Computer::partSelect(){
+    while(1){
+        if(field->turn > part[partCount]){
+            partCount++;
+        }else{
+            break;
+        }
+    }
 }

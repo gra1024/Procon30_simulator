@@ -28,7 +28,7 @@ struct MoveData{
 
 struct Correction{//補正
     int loopTimes = 3;
-    double loop[3] = {0.6, 0.8, 1.0};
+    vector<double> loop;
     double stay = -5;
     double myTeamColorTile = 0.1;
     double agentDistance = 5;
@@ -56,6 +56,8 @@ private:
     int conflictMove(int x, int y, unsigned int agentNum, int angle);
     int distance(MoveData currentMoveData);
     int decodeCorrection(int num);
+    void splitTurn();
+    void partSelect();
 
     Ui::MainWindow *uiMainWindow;
     vector<vector<Tile>> *tile;
@@ -72,15 +74,15 @@ private:
     Teams provisionalTeams;
     NextPos nextPos;
     Correction correction;
-    Correction correctionSplit[4];
-    Correction correctionLast[3];
+    Correction correctionSplit[7];
     vector<ProvisionalPoint> provPoint;
     MoveData moveData;
     PointCalculate* PC = nullptr;
     vector<vector<Tile>> copyTileData;
     vector<MoveData> previousMoveData;
     vector<MoveData> previousMoveData2;
-
+    int part[7];
+    int partCount = 0;
 };
 
 #endif // COMPUTER_H
