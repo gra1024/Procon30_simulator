@@ -32,7 +32,7 @@ struct Correction{//補正
     double stay = -5;
     double myTeamColorTile = 0.1;
     double conflict = -100;
-    double tile = 1.0;
+    double tile = 2.0;
     double area = 1.0;
 };
 

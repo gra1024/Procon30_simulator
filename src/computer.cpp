@@ -125,8 +125,9 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
             currentMoveData.accumulationPoint += point;
             if(currentMoveData.moveAngle == 4) currentMoveData.accumulationPoint += correction.stay;//stay補正
 
-            /* 最終的に進む方向の代入 */
+            /* 最初のループのみに行う処理 */
             if(loopCount == correction.loopTimes){
+                /* 最終的に進む方向の代入 */
                 currentMoveData.moveAngle = j;
 
                 /* 味方のエージェントの選択位置を被らせないための処理　*/
@@ -264,7 +265,7 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
                 provProvPoint.totalPoint = currentMoveData.accumulationPoint;
                 provProvPoint.moveAngle = currentMoveData.moveAngle;
                 provPoint.push_back(provProvPoint);
-                cout << j <<  " point " << currentMoveData.accumulationPoint << endl;
+                cout << currentMoveData.moveAngle <<  " point " << currentMoveData.accumulationPoint << endl;
             }else{
                 /* 選んだマスに起こす行動がremoveだった場合の処理 */
                 greedy2(loopCount - 1, currentMoveData, currentTileData);
@@ -310,6 +311,12 @@ void Computer::chooseBestResult(){
     preData.type = teams[nextPos.myTeam].agents[nextPos.agentNum].actions.type;
     previousMoveData.push_back(preData);
     previousMoveData2.push_back(preData);
+
+    if(preData.type == 2){
+        preData.x = teams[nextPos.myTeam].agents[nextPos.agentNum].x;
+        preData.y = teams[nextPos.myTeam].agents[nextPos.agentNum].y;
+        previousMoveData.push_back(preData);
+    }
 
 }
 
