@@ -129,6 +129,9 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
             /* 最終的に進む方向の代入 */
             if(loopCount == nextPos.maxLoop){
                 currentMoveData.moveAngle = j;
+                /*currentMoveData.accumulationPointを補正*/
+                if(field->turn>0)conflict = conflictMove(currentMoveData.x,currentMoveData.y,nextPos.agentNum,j);
+                if(conflict == 1)currentMoveData.accumulationPoint -=999;
             }
 
             /* 進む方向が敵色タイルだった場合 */
@@ -176,6 +179,7 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
         copyCurrentTileData.push_back(tileline);
     }
 
+    int conflict=0;
     double point;
     for(int j=0; j<9; ++j){
         /* currentMoveDataの初期化 */
