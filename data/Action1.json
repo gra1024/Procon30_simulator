@@ -9,14 +9,14 @@
         {
             "agentID": 2,
             "dx": 0,
-            "dy": 1,
-            "type": "move"
+            "dy": 0,
+            "type": "stay"
         },
         {
             "agentID": 3,
             "dx": 0,
-            "dy": -1,
-            "type": "remove"
+            "dy": 0,
+            "type": "stay"
         }
     ]
 }
