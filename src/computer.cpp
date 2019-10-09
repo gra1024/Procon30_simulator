@@ -34,6 +34,7 @@ void Computer::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, T
     }
     PC = new PointCalculate ();
     PC->setup(tile, teams, field);
+    previousMoveData.clear();
 }
 
 /* ### アルゴリズムの選択 ### */
@@ -60,6 +61,15 @@ void Computer::algo(){
         greedy(3, moveData);
         chooseBestResult();
     }
+
+    /* 必要なくなったデータの削除 */
+    if(field->turn>0){
+        for(unsigned int i=0;i<teams[nextPos.myTeam].agents.size();i++){
+            cout<<"erace_"<<i<<"->"<<previousMoveData.at(0).x<<","<<previousMoveData.at(0).y<<","<<previousMoveData.at(0).moveAngle<<endl;
+            previousMoveData.erase(previousMoveData.begin());
+        }
+    }
+    field->turn++;
 }
 
 void Computer::greedy(int loopCount, MoveData currentMoveData){
@@ -69,6 +79,7 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
     copyCurrentMoveData.y = currentMoveData.y;
     copyCurrentMoveData.accumulationPoint = currentMoveData.accumulationPoint;
 
+    int conflict=0;
     double point;
     for(int j=0; j<9; ++j){
         /* currentMoveDataの初期化 */
@@ -80,18 +91,18 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
         currentMoveData.x += angle[j][0];
         currentMoveData.y += angle[j][1];
 
-        if(conflictMove(currentMoveData.x,currentMoveData.y,nextPos.agentNum)==1)cout<<"hoge"<<endl;
-
-        if(!(outLange(currentMoveData.x, currentMoveData.y))){ //範囲外ではなかったら+味方エージェントの移動先でなかったら+前回ターンで敵と被った移動先でないなら
+        if(!(outLange(currentMoveData.x, currentMoveData.y))){ //範囲外ではなかったら
             /* 点数の加算*/
             point = tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point;
             point *= correction.loop[loopCount - 1];
             currentMoveData.accumulationPoint += point;
 
-
             /* 最終的に進む方向の代入 */
             if(loopCount == nextPos.maxLoop){
                 currentMoveData.moveAngle = j;
+                /*currentMoveData.accumulationPointを補正*/
+                if(field->turn>0)conflict = conflictMove(currentMoveData.x,currentMoveData.y,nextPos.agentNum,j);
+                if(conflict == 1)currentMoveData.accumulationPoint -=999;
             }
 
             /* 再起or候補の決定 */
@@ -114,7 +125,7 @@ void Computer::chooseBestResult(){
 
     /* 最善手を選ぶ */
     for(unsigned int i = 0; i < provPoint.size(); ++i){
-        cout << "Angle " << provPoint[i].moveAngle << " Point "<<  provPoint[i].totalPoint << endl;
+        //cout << "Angle " << provPoint[i].moveAngle << " Point "<<  provPoint[i].totalPoint << endl;
         if(maxPoint < provPoint[i].totalPoint){
             maxPoint = provPoint[i].totalPoint;
             moveAngle = provPoint[i].moveAngle;
@@ -136,14 +147,36 @@ void Computer::chooseBestResult(){
     if(moveAngle == 4){
         teams[nextPos.myTeam].agents[nextPos.agentNum].actions.type = 0; // stay
     }
+
+    /* previousMoveDataへの代入 */
+    MoveData preData;
+    preData.x = x;
+    preData.y = y;
+    preData.moveAngle = moveAngle;
+    preData.type = teams[nextPos.myTeam].agents[nextPos.agentNum].actions.type;
+    previousMoveData.push_back(preData);
+    cout<<"add_"<<nextPos.agentNum<<"->"<<preData.x<<","<<preData.y<<","<<preData.moveAngle<<endl;
 }
 
-/* ### エージェントの移動先が競合しているかの判定 ### */
-int Computer::conflictMove(int x,int y,unsigned int agentNum){
-    for(unsigned int i=0;i<agentNum;i++){//これまでに手を決定したエージェント数分ループ
-        if(x==teams[nextPos.myTeam].agents[i].x+teams[nextPos.myTeam].agents[i].actions.dx){
-            if(y==teams[nextPos.myTeam].agents[i].y+teams[nextPos.myTeam].agents[i].actions.dy){
-                return 1;
+/* ### エージェントの移動先が敵と競合しているかの判定 ### */
+int Computer::conflictMove(int x,int y,unsigned int agentNum, int angle){
+    int myTeam = field->myTeam;
+    int enemyTeam;
+    if(myTeam ==1)enemyTeam =0;
+    else enemyTeam = 1;
+
+    if(x == previousMoveData.at(agentNum).x){
+        if(y == previousMoveData.at(agentNum).y){//前回の移動先と被っている
+            if(angle!=4&&previousMoveData.at(agentNum).type!=2){ //停留する時を除く+前回のmoveTypeが除去だった場合を除く
+                cout<<"po"<<endl;
+                if(teams[myTeam].areaPoint + teams[myTeam].tilePoint <= teams[enemyTeam].areaPoint + teams[enemyTeam].tilePoint){
+                    cout<<"hoge"<<endl;
+                    cout<<"team:"<<myTeam<<" agentNum:"<<agentNum<<endl;
+                    cout<<"current_x,y:"<<x<<","<<y<<endl;
+                    cout<<"previous_x,y:"<<previousMoveData.at(agentNum).x<<","<<previousMoveData.at(agentNum).y<<endl;
+                    return 1;//敵エージェントとの競合
+                    /* 負けていた場合return1 */
+                }
             }
         }
     }

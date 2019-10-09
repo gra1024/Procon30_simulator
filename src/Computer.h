@@ -23,11 +23,13 @@ struct MoveData{
     int y;
     double accumulationPoint = 0;
     int moveAngle;
+    int type;
 };
 
 struct Correction{//補正
     double loop[3] = {0.6, 0.8, 1.0};
     double stay = -5;
+    double conflict = -100;
 };
 
 class Computer
@@ -44,7 +46,7 @@ private:
     void chooseBestResult();
     int outLange(int x, int y);
     void copyAgent();
-    int conflictMove(int x,int y,unsigned int angle);
+    int conflictMove(int x,int y,unsigned int agentNum, int angle);
 
     Ui::MainWindow *uiMainWindow;
     vector<vector<Tile>> *tile;
@@ -64,7 +66,7 @@ private:
     MoveData moveData;
     PointCalculate* PC = nullptr;
     vector<vector<Tile>> copyTileData;
-
+    vector<MoveData> previousMoveData;
 };
 
 #endif // COMPUTER_H
