@@ -312,6 +312,7 @@ void Computer::chooseBestResult(){
     preData.y = y;
     preData.moveAngle = moveAngle;
     preData.type = teams[nextPos.myTeam].agents[nextPos.agentNum].actions.type;
+    preData.color = tile->at(static_cast<unsigned>(y) - 1).at(static_cast<unsigned>(x) - 1).color;
     previousMoveData.push_back(preData);
     previousMoveData2.push_back(preData);
 
@@ -330,17 +331,18 @@ int Computer::conflictMove(int x,int y,unsigned int agentNum, int angle){
     if(myTeam ==1)enemyTeam =0;
     else enemyTeam = 1;
 
-    if(x == previousMoveData2.at(agentNum).x){
-        if(y == previousMoveData2.at(agentNum).y){//前回の移動先と被っている
-            if(angle!=4&&previousMoveData2.at(agentNum).type!=2){ //停留する時を除く+前回のmoveTypeが除去だった場合を除く
-                cout<<"po"<<endl;
-                if(teams[myTeam].areaPoint + teams[myTeam].tilePoint <= teams[enemyTeam].areaPoint + teams[enemyTeam].tilePoint){
-                    cout<<"hoge"<<endl;
-                    cout<<"team:"<<myTeam<<" agentNum:"<<agentNum<<endl;
-                    cout<<"current_x,y:"<<x<<","<<y<<endl;
-                    cout<<"previous_x,y:"<<previousMoveData2.at(agentNum).x<<","<<previousMoveData2.at(agentNum).y<<endl;
-                    return 1;//敵エージェントとの競合
-                    /* 負けていた場合return1 */
+    if(angle!=4){//停留を選んでいない場合
+        if(x == previousMoveData2.at(agentNum).x){
+            if(y == previousMoveData2.at(agentNum).y){//前回の移動先と被っているなら
+                if(teams[myTeam].areaPoint + teams[myTeam].tilePoint <= teams[enemyTeam].areaPoint + teams[enemyTeam].tilePoint){//総合得点が負けているなら
+                    if(previousMoveData2.at(agentNum).type!=2){ //前回の移動タイプが除去でないなら
+                        return 1;
+                    }
+                    else if(previousMoveData2.at(agentNum).type==2){//前回の移動タイプが除去なら
+                        if(previousMoveData2.at(agentNum).color==tile->at(static_cast<unsigned>(y)-1).at(static_cast<unsigned>(x)-1).color){//前回の除去で色が変わっていないなら
+                            return 1;
+                        }
+                    }
                 }
             }
         }

@@ -24,6 +24,7 @@ struct MoveData{
     int moveAngle;
     int type;
     int removeCheck;
+    int color;
 };
 
 struct Correction{//補正
