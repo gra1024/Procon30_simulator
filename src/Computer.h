@@ -54,7 +54,7 @@ private:
     void copyAgent();
     void resetCopyTile();
     int conflictMove(int x, int y, unsigned int agentNum, int angle);
-    int distance(MoveData currentMoveData);
+    double distance(MoveData currentMoveData);
     int decodeCorrection(int num);
     void splitTurn();
     void partSelect();

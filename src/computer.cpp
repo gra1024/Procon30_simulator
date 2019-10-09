@@ -68,6 +68,7 @@ void Computer::startAlgo(int AlgoNumber){
     }
 }
 
+/* ### アルゴリズムを動作させる準備 ### */
 void Computer::algo(int num){
     partSelect();
     nextPos.myTeam = field->myTeam;
@@ -98,6 +99,7 @@ void Computer::algo(int num){
     first = 1;
 }
 
+/* ### 貪欲法アルゴリズム(tileの得点を見て動くパターン) ### */
 void Computer::greedy(int loopCount, MoveData currentMoveData){
     /* currentMoveData,removeCheckのコピーを取る */
     MoveData copyCurrentMoveData;
@@ -120,14 +122,27 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
 
         if(!(outLange(currentMoveData.x, currentMoveData.y))){ //範囲外ではなかったら
             /* 点数の加算*/
+            //ポイントの代入
             point = tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point;
+
+            //ループ補正（乗算）
             point *= correctionSplit[partCount].loop[static_cast<unsigned>(loopCount - 1)];
-            if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).color
-                    == field->TeamColorNumber[0]){
-                point *= correctionSplit[partCount].myTeamColorTile; //同色補正
+
+            //stay補正（加算）
+            if(currentMoveData.moveAngle == 4){
+                currentMoveData.accumulationPoint += correctionSplit[partCount].stay;
             }
+
+            //すでに獲得しているに進んだ場合の補正（加算）
+            if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).color == field->TeamColorNumber[0]){
+                point += correctionSplit[partCount].myTeamColorTile;
+            }
+
+            //味方のエージェントとの距離が近い場合の補正（減算）
+            currentMoveData.accumulationPoint -= distance(moveData);
+
+            //ルートの総合ポイントへの加算
             currentMoveData.accumulationPoint += point;
-            if(currentMoveData.moveAngle == 4) currentMoveData.accumulationPoint += correctionSplit[partCount].stay;//stay補正
 
             /* 最初のループのみに行う処理 */
             if(loopCount == correctionSplit[partCount].loopTimes){
@@ -144,9 +159,6 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
                 /*currentMoveData.accumulationPointを補正*/
                 if(first == 1)conflict = conflictMove(currentMoveData.x,currentMoveData.y,nextPos.agentNum,j);
                 if(conflict == 1)currentMoveData.accumulationPoint -=999;
-              
-                /* agentの距離に応じて罰を付与 */
-                currentMoveData.accumulationPoint -= distance(moveData);
             }
 
             /* 進む方向が敵色タイルだった場合 */
@@ -176,6 +188,7 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
     }
 }
 
+/* ### 貪欲法アルゴリズム（ポイントの得点差で動くパターン）（メインアルゴリズム） ### */
 void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Tile>> currentTileData){
     /* currentMoveDataとcurrentTileDataのコピーを取る */
     MoveData copyCurrentMoveData;
@@ -201,6 +214,7 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
     double point;
     double tilePoint;
     double areaPoint;
+
     for(int j=0; j<9; ++j){
         /* currentMoveDataの初期化 */
         currentMoveData.x = copyCurrentMoveData.x;
@@ -227,18 +241,36 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
                 currentTileData.at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).color = field->TeamColorNumber[0];
             }
 
-            /* 点数の加算*/
+            /* 点数の加算・補正*/
+            //タイルポイントとエリアポイントの加算
             PC->setupOnlyTile(&currentTileData);
             tilePoint = PC->getTilePoints(field->TeamColorNumber[0]) - baseTilePoint;
             areaPoint = PC->getAreaPoints(field->TeamColorNumber[0]) - baseAreaPoint;
+
+            //タイルポイントとエリアポイントの補正(乗算)
             tilePoint *= correctionSplit[partCount].tile;
             areaPoint *= correctionSplit[partCount].area;
             point = tilePoint + areaPoint;
 
-            /* 点数の補正 */
+            //ループ補正（乗算）
             point *= correctionSplit[partCount].loop[static_cast<unsigned>(loopCount - 1)];
+
+            //stay補正（加算）
+            if(currentMoveData.moveAngle == 4){
+                currentMoveData.accumulationPoint += correctionSplit[partCount].stay;
+            }
+
+            //すでに獲得しているに進んだ場合の補正（加算）
+            if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).color == field->TeamColorNumber[0]){
+                point += correctionSplit[partCount].myTeamColorTile;
+            }
+
+            //味方のエージェントとの距離が近い場合の補正（減算）
+            currentMoveData.accumulationPoint -= distance(moveData);
+
+            //ルートの総合ポイントへの加算
             currentMoveData.accumulationPoint += point;
-            if(currentMoveData.moveAngle == 4) currentMoveData.accumulationPoint += correctionSplit[partCount].stay;//stay補正
+
 
             /* 最初のループ限定の処理 */
             if(loopCount == correctionSplit[partCount].loopTimes){
@@ -255,7 +287,6 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
                 /*currentMoveData.accumulationPointを補正*/
                 if(first == 1)conflict = conflictMove(currentMoveData.x,currentMoveData.y,nextPos.agentNum,j);
                 if(conflict == 1)currentMoveData.accumulationPoint -=999;
-
             }
 
             /* 進む方向が敵色タイルだった場合 */
@@ -272,7 +303,6 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
                 provProvPoint.totalPoint = currentMoveData.accumulationPoint;
                 provProvPoint.moveAngle = currentMoveData.moveAngle;
                 provPoint.push_back(provProvPoint);
-                cout << currentMoveData.moveAngle <<  " point " << currentMoveData.accumulationPoint << endl;
             }else{
                 /* 選んだマスに起こす行動がremoveだった場合の処理 */
                 greedy2(loopCount - 1, currentMoveData, currentTileData);
@@ -385,31 +415,32 @@ int Computer::outLange(int x, int y){
     return 0;
 }
 
-/* ### エージェント同士の距離が近くなりすぎないように ### */
-int Computer::distance(MoveData currentMoveData){
-    int disX=0,disY=0,penalty=0;
+/* ### エージェント同士の距離が近くなりすぎないように補正をかける ### */
+double Computer::distance(MoveData currentMoveData){
+    int disX, disY;
+    double penalty, addedPenalty = 0;
     for(unsigned int i=0;i<teams[nextPos.myTeam].agents.size();++i){
-       disX=currentMoveData.x-teams[nextPos.myTeam].agents[i].x;
-       if(disX<0)
-           disX*=-1;
-       disY=currentMoveData.y-teams[nextPos.myTeam].agents[i].y;
-       if(disY<0)
-           disY*=-1;
+        /* 各エージェントとの距離の差を計算 */
+        disX = abs(currentMoveData.x - teams[nextPos.myTeam].agents[i].x);
+        disY = abs(currentMoveData.y - teams[nextPos.myTeam].agents[i].y);
+        if(disX < disY){
+            penalty = disX;
+        } else {
+            penalty = disY;
+        }
 
-    if(disX>disY)
-    penalty=disX;
-    else
-        penalty=disY;
-    if(penalty>correctionSplit[partCount].agentDistance)
-        penalty=0;
-    else{
-        penalty=field->width+field->height-penalty;
+        /* correctionSplit[partCount].agentDistanceより短い場合ペナルティを付与 */
+        if(penalty > field->width * correctionSplit[partCount].agentDistance){
+            penalty = 0;
+        }else{
+            penalty = correctionSplit[partCount].distance;
         break;
-    }
-    }
-    penalty*=correctionSplit[partCount].distance;
+        }
 
-    return penalty;
+        /* ペナルティの加算 */
+        addedPenalty += penalty;
+    }
+    return addedPenalty;
 }
 
 /* ### 補正リストの読み込み ### */
