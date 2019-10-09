@@ -32,6 +32,8 @@ struct Correction{//補正
     double stay = -5;
     double myTeamColorTile = 0.1;
     double conflict = -100;
+    double agentDistance = 5;
+    double agentDistanceCorrection = 0.8;
     double tile = 2.0;
     double area = 1.0;
 };
@@ -53,6 +55,7 @@ private:
     void copyAgent();
     void resetCopyTile();
     int conflictMove(int x, int y, unsigned int agentNum, int angle);
+    int distance(MoveData currentMoveData);
 
     Ui::MainWindow *uiMainWindow;
     vector<vector<Tile>> *tile;

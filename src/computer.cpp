@@ -140,6 +140,9 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
                 /*currentMoveData.accumulationPointを補正*/
                 if(first == 1)conflict = conflictMove(currentMoveData.x,currentMoveData.y,nextPos.agentNum,j);
                 if(conflict == 1)currentMoveData.accumulationPoint -=999;
+              
+                /* agentの距離に応じて罰を付与 */
+                currentMoveData.accumulationPoint -= distance(moveData);
             }
 
             /* 進む方向が敵色タイルだった場合 */
@@ -374,4 +377,30 @@ int Computer::outLange(int x, int y){
         return 1;
     }
     return 0;
+}
+
+int Computer::distance(MoveData currentMoveData){
+    int disX=0,disY=0,penalty=0;
+    for(unsigned int i=0;i<teams[nextPos.myTeam].agents.size();++i){
+       disX=currentMoveData.x-teams[nextPos.myTeam].agents[i].x;
+       if(disX<0)
+           disX*=-1;
+       disY=currentMoveData.y-teams[nextPos.myTeam].agents[i].y;
+       if(disY<0)
+           disY*=-1;
+
+    if(disX>disY)
+    penalty=disX;
+    else
+        penalty=disY;
+    if(penalty>correction.agentDistance)
+        penalty=0;
+    else{
+        penalty=field->width+field->height-penalty;
+        break;
+    }
+    }
+    penalty*=correction.agentDistanceCorrection;
+
+    return penalty;
 }
