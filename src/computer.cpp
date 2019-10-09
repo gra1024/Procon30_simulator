@@ -67,7 +67,7 @@ void Computer::startAlgo(int AlgoNumber){
 
 void Computer::algo(int num){
     nextPos.myTeam = field->myTeam;
-    previouseMoveData.clear();
+    previousMoveData.clear();
     for(unsigned int i=0; i < teams[nextPos.myTeam].agents.size(); ++i){//エージェントの数だけループ
         provPoint.clear();
         nextPos.agentNum = i; //エージェントの番号
@@ -87,8 +87,8 @@ void Computer::algo(int num){
     /* 必要なくなったデータの削除 */
     if(field->turn>0){
         for(unsigned int i=0;i<teams[nextPos.myTeam].agents.size();i++){
-            cout<<"erace_"<<i<<"->"<<previousMoveData.at(0).x<<","<<previousMoveData.at(0).y<<","<<previousMoveData.at(0).moveAngle<<endl;
-            previousMoveData.erase(previousMoveData.begin());
+            cout<<"erace_"<<i<<"->"<<previousMoveData2.at(0).x<<","<<previousMoveData2.at(0).y<<","<<previousMoveData2.at(0).moveAngle<<endl;
+            previousMoveData2.erase(previousMoveData2.begin());
         }
     }
     field->turn++;
@@ -130,8 +130,8 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
                 currentMoveData.moveAngle = j;
 
                 /* 味方のエージェントの選択位置を被らせないための処理　*/
-                for(unsigned int i = 0; i < previouseMoveData.size(); ++i){
-                    if(currentMoveData.x == previouseMoveData[i].x && currentMoveData.y == previouseMoveData[i].y){
+                for(unsigned int i = 0; i < previousMoveData.size(); ++i){
+                    if(currentMoveData.x == previousMoveData[i].x && currentMoveData.y == previousMoveData[i].y){
                         currentMoveData.accumulationPoint += -999;
                     }
                 }
@@ -238,8 +238,8 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
                 currentMoveData.moveAngle = j;
 
                 /* 味方のエージェントの選択位置を被らせないための処理　*/
-                for(unsigned int i = 0; i < previouseMoveData.size(); ++i){
-                    if(currentMoveData.x == previouseMoveData[i].x && currentMoveData.y == previouseMoveData[i].y){
+                for(unsigned int i = 0; i < previousMoveData.size(); ++i){
+                    if(currentMoveData.x == previousMoveData[i].x && currentMoveData.y == previousMoveData[i].y){
                         currentMoveData.accumulationPoint += -999;
                     }
                 }
@@ -309,6 +309,7 @@ void Computer::chooseBestResult(){
     preData.moveAngle = moveAngle;
     preData.type = teams[nextPos.myTeam].agents[nextPos.agentNum].actions.type;
     previousMoveData.push_back(preData);
+    previousMoveData2.push_back(preData);
 
 }
 
@@ -319,15 +320,15 @@ int Computer::conflictMove(int x,int y,unsigned int agentNum, int angle){
     if(myTeam ==1)enemyTeam =0;
     else enemyTeam = 1;
 
-    if(x == previousMoveData.at(agentNum).x){
-        if(y == previousMoveData.at(agentNum).y){//前回の移動先と被っている
-            if(angle!=4&&previousMoveData.at(agentNum).type!=2){ //停留する時を除く+前回のmoveTypeが除去だった場合を除く
+    if(x == previousMoveData2.at(agentNum).x){
+        if(y == previousMoveData2.at(agentNum).y){//前回の移動先と被っている
+            if(angle!=4&&previousMoveData2.at(agentNum).type!=2){ //停留する時を除く+前回のmoveTypeが除去だった場合を除く
                 cout<<"po"<<endl;
                 if(teams[myTeam].areaPoint + teams[myTeam].tilePoint <= teams[enemyTeam].areaPoint + teams[enemyTeam].tilePoint){
                     cout<<"hoge"<<endl;
                     cout<<"team:"<<myTeam<<" agentNum:"<<agentNum<<endl;
                     cout<<"current_x,y:"<<x<<","<<y<<endl;
-                    cout<<"previous_x,y:"<<previousMoveData.at(agentNum).x<<","<<previousMoveData.at(agentNum).y<<endl;
+                    cout<<"previous_x,y:"<<previousMoveData2.at(agentNum).x<<","<<previousMoveData2.at(agentNum).y<<endl;
                     return 1;//敵エージェントとの競合
                     /* 負けていた場合return1 */
                 }

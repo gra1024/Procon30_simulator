@@ -72,7 +72,8 @@ private:
     MoveData moveData;
     PointCalculate* PC = nullptr;
     vector<vector<Tile>> copyTileData;
-    vector<MoveData> previouseMoveData;
+    vector<MoveData> previousMoveData;
+    vector<MoveData> previousMoveData2;
 };
 
 #endif // COMPUTER_H
