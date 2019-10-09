@@ -12,6 +12,10 @@ void PointCalculate::setup(vector<vector<Tile>> *tile, Teams *teams, Field *fiel
     this->field = field;
 }
 
+void PointCalculate::setupOnlyTile(vector<vector<Tile> > *tile){
+    this->tile = tile;
+}
+
 /*　### 位置の構造体を作成する ###　*/
 Pos PointCalculate::makePos(int x,int y){
     Pos p;
@@ -93,7 +97,7 @@ int PointCalculate::getAreaPoints(int color){
 
 /*　### 与えられた色に対応するチームの合計ポイントを計算する ###　*/
 int PointCalculate::getAllPoints(int color){
-    return getAreaPoints(color)+getAreaPoints(color);
+    return getTilePoints(color)+getAreaPoints(color);
 }
 
 /*　### 与えられたマスが領域ポイントとして計算されるかどうかの判定を行う ###　*/

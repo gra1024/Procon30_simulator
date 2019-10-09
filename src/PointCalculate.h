@@ -8,6 +8,7 @@ class PointCalculate
 public:
     explicit PointCalculate();
     void setup(vector<vector<Tile>> *tile, Teams *teams, Field *field);
+    void setupOnlyTile(vector<vector<Tile>> *tile);
     Pos makePos(int x,int y);
     int getTilePoints(int color);//タイルポイントを返す
     int getAreaPoints(int color);//領域ポイント計算関数...領域ポイントを返す

@@ -9,7 +9,6 @@ using namespace std;
 
 struct NextPos{
     unsigned int agentNum;
-    int maxLoop = 3;
     int myTeam;
 };
 
@@ -27,9 +26,13 @@ struct MoveData{
 };
 
 struct Correction{//補正
-    double loop[3] = {0.6, 0.8, 1.0};
+    int loopTimes = 1;
+    double loop[1] = {1.0};
+    //double loop[3] = {0.6, 0.8, 1.0};
     double stay = -5;
     double myTeamColorTile = 0.1;
+    double tile = 1.0;
+    double area = 1.0;
 };
 
 class Computer
@@ -67,6 +70,7 @@ private:
     MoveData moveData;
     PointCalculate* PC = nullptr;
     vector<vector<Tile>> copyTileData;
+    vector<MoveData> previouseMoveData;
 
 };
 
