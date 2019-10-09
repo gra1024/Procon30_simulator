@@ -30,6 +30,8 @@ struct Correction{//補正
     double loop[3] = {0.6, 0.8, 1.0};
     double stay = -5;
     double myTeamColorTile = 0.1;
+    double agentDistance=5;
+    double agentDistanceCorrection=0.8;
 };
 
 class Computer
@@ -48,6 +50,7 @@ private:
     int outLange(int x, int y);
     void copyAgent();
     void resetCopyTile();
+    int distance(MoveData currentMoveData);
 
     Ui::MainWindow *uiMainWindow;
     vector<vector<Tile>> *tile;
