@@ -1,0 +1,25 @@
+{
+    "split":[
+        {
+            "loopTimes": 3,
+            "loop": [0.6, 0.8, 1.0],
+            "stay": 5,
+            "tile": 1.0,
+            "area": 1.0,
+            "distanceAgent": 0.3,
+            "distance": -1
+        },
+        {
+
+        },
+        {
+
+        },
+        {
+
+        }
+    ],
+    "last":[
+        
+    ]
+}

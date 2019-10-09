@@ -165,6 +165,7 @@ string AnalyzeField::decodeAndUpdate(string path){
                     = arrTeams.at(i).toObject().value("agents").toArray().at(j).toObject().value("y").toInt();
         }
     }
+    field->turn = obj["turn"].toInt();
     file.close();
     return "";
 }

@@ -109,6 +109,7 @@ void MainWindow::on_pushButton_reload_clicked(){
             || (ui->checkBox_player->checkState() == 0 && ui->checkBox_gameMaster->checkState() == 0)){
         NM->get();
         AF->pushReload();
+        PC->updatePoint();
         C->startAlgo(selectAlgolithm(1));
         PC->updatePoint();
         AF->encode(CONFIG_PATH_OF_FILE_OUTPUT_ACTIONS_BY_PLAYER);
@@ -132,11 +133,13 @@ void MainWindow::on_pushButton_reload_clicked(){
     // AllMode
     if(ui->checkBox_player->checkState() == 2 && ui->checkBox_gameMaster->checkState() == 2){
         AF->pushReload();
+        PC->updatePoint();
         C->startAlgo(selectAlgolithm(1));
         PC->updatePoint();
         AF->encode(CONFIG_PATH_OF_FILE_OUTPUT_ACTIONS_BY_PLAYER);
 
         AF2->pushReload();
+        PC2->updatePoint();
         C2->startAlgo(selectAlgolithm(2));
         PC2->updatePoint();
         AF2->encode(CONFIG_PATH_OF_FILE_OUTPUT_ACTIONS_BY_PLAYER2);

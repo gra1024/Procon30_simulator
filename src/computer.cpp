@@ -10,7 +10,6 @@ Computer::~Computer()
 
 }
 
-
 /* ### 初期設定 ### */
 void Computer::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, Teams *teams, Field *field){
     this->uiMainWindow = uiMainWindow;
@@ -47,7 +46,7 @@ void Computer::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, T
     }
 
     PC = new PointCalculate ();
-    PC->setup(tile, teams, field);
+    PC->setup(this->tile, this->teams, this->field);
 }
 
 /* ### アルゴリズムの選択 ### */
@@ -68,6 +67,7 @@ void Computer::startAlgo(int AlgoNumber){
 
 void Computer::algo(int num){
     nextPos.myTeam = field->myTeam;
+    previousMoveData.clear();
     for(unsigned int i=0; i < teams[nextPos.myTeam].agents.size(); ++i){//エージェントの数だけループ
         provPoint.clear();
         nextPos.agentNum = i; //エージェントの番号
@@ -76,13 +76,22 @@ void Computer::algo(int num){
         moveData.accumulationPoint = 0;
         moveData.removeCheck = -1;
         if(num == 1){
-            greedy(3, moveData);
+            greedy(correction.loopTimes, moveData);
         }else{
             resetCopyTile();
-            greedy2(3, moveData, copyTileData);
+            greedy2(correction.loopTimes, moveData, copyTileData);
         }
         chooseBestResult();
     }
+
+    /* 必要なくなったデータの削除 */
+    if(field->turn>0){
+        for(unsigned int i=0;i<teams[nextPos.myTeam].agents.size();i++){
+            cout<<"erace_"<<i<<"->"<<previousMoveData2.at(0).x<<","<<previousMoveData2.at(0).y<<","<<previousMoveData2.at(0).moveAngle<<endl;
+            previousMoveData2.erase(previousMoveData2.begin());
+        }
+    }
+    first = 1;
 }
 
 void Computer::greedy(int loopCount, MoveData currentMoveData){
@@ -93,6 +102,7 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
     copyCurrentMoveData.accumulationPoint = currentMoveData.accumulationPoint;
     copyCurrentMoveData.removeCheck = currentMoveData.removeCheck;
 
+    int conflict=0;
     double point;
     for(int j=0; j<9; ++j){
         /* currentMoveDataの初期化 */
@@ -115,10 +125,22 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
             currentMoveData.accumulationPoint += point;
             if(currentMoveData.moveAngle == 4) currentMoveData.accumulationPoint += correction.stay;//stay補正
 
-            /* 最初のループ限定の処理 */
-            if(loopCount == nextPos.maxLoop){
+            /* 最初のループのみに行う処理 */
+            if(loopCount == correction.loopTimes){
                 /* 最終的に進む方向の代入 */
                 currentMoveData.moveAngle = j;
+
+                /* 味方のエージェントの選択位置を被らせないための処理　*/
+                for(unsigned int i = 0; i < previousMoveData.size(); ++i){
+                    if(currentMoveData.x == previousMoveData[i].x && currentMoveData.y == previousMoveData[i].y){
+                        currentMoveData.accumulationPoint += -999;
+                    }
+                }
+              
+                /*currentMoveData.accumulationPointを補正*/
+                if(first == 1)conflict = conflictMove(currentMoveData.x,currentMoveData.y,nextPos.agentNum,j);
+                if(conflict == 1)currentMoveData.accumulationPoint -=999;
+              
                 /* agentの距離に応じて罰を付与 */
                 currentMoveData.accumulationPoint -= distance(moveData);
             }
@@ -144,7 +166,6 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
                 provPoint.push_back(provProvPoint);
             }else{
                 /* 選んだマスに起こす行動がremoveだった場合の処理 */
-
                 greedy(loopCount - 1, currentMoveData);
             }
         }
@@ -167,50 +188,87 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
         }
         copyCurrentTileData.push_back(tileline);
     }
+    /* 基準となるタイルポイントとエリアポイントの設定*/
+    PC->setupOnlyTile(&currentTileData);
+    double baseTilePoint = static_cast<double>(PC->getTilePoints(field->TeamColorNumber[0]));
+    double baseAreaPoint = static_cast<double>(PC->getAreaPoints(field->TeamColorNumber[0]));
 
+    int conflict=0;
     double point;
+    double tilePoint;
+    double areaPoint;
     for(int j=0; j<9; ++j){
         /* currentMoveDataの初期化 */
         currentMoveData.x = copyCurrentMoveData.x;
         currentMoveData.y = copyCurrentMoveData.y;
         currentMoveData.accumulationPoint = copyCurrentMoveData.accumulationPoint;
 
+        /* currentTileDataの初期化 */
+        for (unsigned int i=0;i<static_cast<unsigned>(currentTileData.size());i++) {
+            for(unsigned int j=0;j<static_cast<unsigned>(currentTileData.at(i).size());j++){
+                currentTileData.at(i).at(j).color = copyCurrentTileData.at(i).at(j).color;
+            }
+        }
+
         /* 移動方向の加算 */
         currentMoveData.x += angle[j][0];
         currentMoveData.y += angle[j][1];
 
         if(!(outLange(currentMoveData.x, currentMoveData.y))){ //範囲外ではなかったら
-            /* 点数の加算*/
-            point = tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point;
-            point *= correction.loop[loopCount - 1];
-            if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).color
-                    == field->TeamColorNumber[0]){
-                point *= correction.myTeamColorTile; //同色補正
+
+            /* 移動先のタイルの色を変更 */
+            if(currentTileData.at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).color == field->TeamColorNumber[1]){ //相手のマスの場合
+                currentTileData.at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).color = 0;
+            }else if (currentTileData.at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).color == 0) { //誰の所有権でもない場合
+                currentTileData.at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).color = field->TeamColorNumber[0];
             }
+
+            /* 点数の加算*/
+            PC->setupOnlyTile(&currentTileData);
+            tilePoint = PC->getTilePoints(field->TeamColorNumber[0]) - baseTilePoint;
+            areaPoint = PC->getAreaPoints(field->TeamColorNumber[0]) - baseAreaPoint;
+            tilePoint *= correction.tile;
+            areaPoint *= correction.area;
+            point = tilePoint + areaPoint;
+
+            /* 点数の補正 */
+            point *= correction.loop[loopCount - 1];
             currentMoveData.accumulationPoint += point;
             if(currentMoveData.moveAngle == 4) currentMoveData.accumulationPoint += correction.stay;//stay補正
 
-            /* 最終的に進む方向の代入 */
-            if(loopCount == nextPos.maxLoop){
+            /* 最初のループ限定の処理 */
+            if(loopCount == correction.loopTimes){
+                /* 最終的に進む方向の代入 */
                 currentMoveData.moveAngle = j;
+
+                /* 味方のエージェントの選択位置を被らせないための処理　*/
+                for(unsigned int i = 0; i < previousMoveData.size(); ++i){
+                    if(currentMoveData.x == previousMoveData[i].x && currentMoveData.y == previousMoveData[i].y){
+                        currentMoveData.accumulationPoint += -999;
+                    }
+                }
+
+                /*currentMoveData.accumulationPointを補正*/
+                if(first == 1)conflict = conflictMove(currentMoveData.x,currentMoveData.y,nextPos.agentNum,j);
+                if(conflict == 1)currentMoveData.accumulationPoint -=999;
+
             }
 
             /* 進む方向が敵色タイルだった場合 */
-            if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).color
-                    == field->TeamColorNumber[1]){
-                //currentTileの修正してからxyを元に戻す
-                currentTileData.at(static_cast<unsigned>(currentMoveData.x)-1).at(static_cast<unsigned>(currentMoveData.y)-1).color = 0;
+            if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).color== field->TeamColorNumber[1]){
+                //xyを元に戻す
                 currentMoveData.x = copyCurrentMoveData.x;
                 currentMoveData.y = copyCurrentMoveData.y;
             }
 
             /* 再起or候補の決定 */
-            if(loopCount == 1){
+            if(loopCount == 1){//最終ループなら
                 if(currentMoveData.moveAngle == 4) currentMoveData.accumulationPoint += correction.stay;//stay補正
                 ProvisionalPoint provProvPoint;
                 provProvPoint.totalPoint = currentMoveData.accumulationPoint;
                 provProvPoint.moveAngle = currentMoveData.moveAngle;
                 provPoint.push_back(provProvPoint);
+                cout << currentMoveData.moveAngle <<  " point " << currentMoveData.accumulationPoint << endl;
             }else{
                 /* 選んだマスに起こす行動がremoveだった場合の処理 */
                 greedy2(loopCount - 1, currentMoveData, currentTileData);
@@ -225,12 +283,12 @@ void Computer::chooseBestResult(){
 
     /* 最善手を選ぶ */
     for(unsigned int i = 0; i < provPoint.size(); ++i){
-        cout << "Angle " << provPoint[i].moveAngle << " Point "<<  provPoint[i].totalPoint << endl;
         if(maxPoint < provPoint[i].totalPoint){
             maxPoint = provPoint[i].totalPoint;
             moveAngle = provPoint[i].moveAngle;
         }
     }
+
 
     /* 選んだ最善手の代入 */
     teams[nextPos.myTeam].agents[nextPos.agentNum].actions.dx = angle[moveAngle][0];//dxの代入
@@ -247,6 +305,47 @@ void Computer::chooseBestResult(){
     if(moveAngle == 4){
         teams[nextPos.myTeam].agents[nextPos.agentNum].actions.type = 0; // stay
     }
+
+    /* previousMoveDataへの代入 */
+    MoveData preData;
+    preData.x = x;
+    preData.y = y;
+    preData.moveAngle = moveAngle;
+    preData.type = teams[nextPos.myTeam].agents[nextPos.agentNum].actions.type;
+    previousMoveData.push_back(preData);
+    previousMoveData2.push_back(preData);
+
+    if(preData.type == 2){
+        preData.x = teams[nextPos.myTeam].agents[nextPos.agentNum].x;
+        preData.y = teams[nextPos.myTeam].agents[nextPos.agentNum].y;
+        previousMoveData.push_back(preData);
+    }
+
+}
+
+/* ### エージェントの移動先が敵と競合しているかの判定 ### */
+int Computer::conflictMove(int x,int y,unsigned int agentNum, int angle){
+    int myTeam = field->myTeam;
+    int enemyTeam;
+    if(myTeam ==1)enemyTeam =0;
+    else enemyTeam = 1;
+
+    if(x == previousMoveData2.at(agentNum).x){
+        if(y == previousMoveData2.at(agentNum).y){//前回の移動先と被っている
+            if(angle!=4&&previousMoveData2.at(agentNum).type!=2){ //停留する時を除く+前回のmoveTypeが除去だった場合を除く
+                cout<<"po"<<endl;
+                if(teams[myTeam].areaPoint + teams[myTeam].tilePoint <= teams[enemyTeam].areaPoint + teams[enemyTeam].tilePoint){
+                    cout<<"hoge"<<endl;
+                    cout<<"team:"<<myTeam<<" agentNum:"<<agentNum<<endl;
+                    cout<<"current_x,y:"<<x<<","<<y<<endl;
+                    cout<<"previous_x,y:"<<previousMoveData2.at(agentNum).x<<","<<previousMoveData2.at(agentNum).y<<endl;
+                    return 1;//敵エージェントとの競合
+                    /* 負けていた場合return1 */
+                }
+            }
+        }
+    }
+    return 0;
 }
 
 /* ### agentデータの複製 ### */
@@ -267,6 +366,7 @@ void Computer::resetCopyTile(){
     for (unsigned int i=0;i<static_cast<unsigned>(field->height);i++) {
         for(unsigned int j=0;j<static_cast<unsigned>(field->width);j++){
             copyTileData.at(i).at(j).color = tile->at(i).at(j).color;
+            copyTileData.at(i).at(j).point = tile->at(i).at(j).point;
         }
     }
 }
