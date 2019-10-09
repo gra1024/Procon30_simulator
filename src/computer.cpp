@@ -11,7 +11,7 @@ Computer::~Computer()
 }
 
 /* ### 初期設定 ### */
-void Computer::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, Teams *teams, Field *field){
+void Computer::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, Teams *teams, Field *field, int num){
     this->uiMainWindow = uiMainWindow;
     this->tile = tile;
     this->teams = teams;
@@ -47,6 +47,8 @@ void Computer::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, T
 
     PC = new PointCalculate ();
     PC->setup(this->tile, this->teams, this->field);
+
+    decodeCorrection(num);
 }
 
 /* ### アルゴリズムの選択 ### */
@@ -400,7 +402,52 @@ int Computer::distance(MoveData currentMoveData){
         break;
     }
     }
-    penalty*=correction.agentDistanceCorrection;
+    penalty*=correction.distance;
 
     return penalty;
+}
+
+int Computer::decodeCorrection(int num){
+    string path;
+    if(num == 1) path = "abc";
+    QFile file(QString::fromStdString(path));
+    if (! file.open(QFile::ReadOnly)) {
+        return 1;
+    }
+    QTextStream in(&file);
+
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(in.readAll().toUtf8());
+    QJsonObject obj = jsonDoc.object();
+
+    QJsonArray arrSplit = obj["split"].toArray();
+    QJsonArray arrLast = obj["last"].toArray();
+
+    for(int i=0; i<4; ++i){
+        correctionSplit[i].loopTimes = arrSplit.at(i).toObject().value("loopTimes").toInt();
+        for(int j=0; j < correctionSplit[i].loopTimes; ++j){
+            correctionSplit[i].loop[j] = arrSplit.at(i).toObject().value("loop").toArray().at(j).toInt();
+        }
+        correctionSplit[i].stay = arrSplit.at(i).toObject().value("stay").toInt();
+        correctionSplit[i].myTeamColorTile = arrSplit.at(i).toObject().value("myTeamColorTile").toInt();
+        correctionSplit[i].agentDistance = arrSplit.at(i).toObject().value("agentDistance").toInt();
+        correctionSplit[i].distance = arrSplit.at(i).toObject().value("distance").toInt();
+        correctionSplit[i].tile = arrSplit.at(i).toObject().value("tile").toInt();
+        correctionSplit[i].area = arrSplit.at(i).toObject().value("area").toInt();
+    }
+
+    for(int i=0; i<3; ++i){
+        correctionLast[i].loopTimes = arrLast.at(i).toObject().value("loopTimes").toInt();
+        for(int j=0; j < correctionLast[i].loopTimes; ++j){
+            correctionLast[i].loop[j] = arrLast.at(i).toObject().value("loop").toArray().at(j).toInt();
+        }
+        correctionLast[i].stay = arrLast.at(i).toObject().value("stay").toInt();
+        correctionLast[i].myTeamColorTile = arrLast.at(i).toObject().value("myTeamColorTile").toInt();
+        correctionLast[i].agentDistance = arrLast.at(i).toObject().value("agentDistance").toInt();
+        correctionLast[i].distance = arrLast.at(i).toObject().value("distance").toInt();
+        correctionLast[i].tile = arrLast.at(i).toObject().value("tile").toInt();
+        correctionLast[i].area = arrLast.at(i).toObject().value("area").toInt();
+    }
+
+    file.close();
+    return 0;
 }
