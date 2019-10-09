@@ -174,6 +174,9 @@ void MainWindow::updateTeamPoints(int num){
     }else if(num == 3){
         ui->lcdNumber_red->display(teams3[0].tilePoint+teams3[0].areaPoint);
         ui->lcdNumber_blue->display(teams3[1].tilePoint+teams3[1].areaPoint);
+        if(ui->spinBox_maxTurn->value()<field3.turn){
+            ui->lcdNumber_turn->setStyleSheet("background-color:green; color:red;");
+        }
         ui->lcdNumber_turn->display(field3.turn);
     }
 }
@@ -181,13 +184,11 @@ void MainWindow::updateTeamPoints(int num){
 /* ### アルゴリズムの選択 ### */
 int MainWindow::selectAlgolithm(int num){
     if(num == 1){
-        if(ui->comboBox_algolithm->currentText()=="Algolithm1"){
-            return 1;
-        }
+        if(ui->comboBox_algolithm->currentText()=="Greedy1") return 1;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy2") return 2;
     }else if(num == 2){
-        if(ui->comboBox_algolithm_2->currentText()=="Algolithm1"){
-            return 1;
-        }
+        if(ui->comboBox_algolithm_2->currentText()=="Greedy1") return 1;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy2") return 2;
     }
     return 0;
 }

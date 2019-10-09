@@ -24,12 +24,14 @@ struct MoveData{
     double accumulationPoint = 0;
     int moveAngle;
     int type;
+    int removeCheck;
 };
 
 struct Correction{//補正
     double loop[3] = {0.6, 0.8, 1.0};
     double stay = -5;
     double conflict = -100;
+    double myTeamColorTile = 0.1;
 };
 
 class Computer
@@ -41,12 +43,14 @@ public:
     void startAlgo(int AlgoNumber);
 
 private:
-    void algo();
-    void greedy(int loopCount,MoveData currentMoveData);
+    void algo(int num);
+    void greedy(int loopCount, MoveData currentMoveData);
+    void greedy2(int loopCount, MoveData currentMoveData, vector<vector<Tile>> currentTileData);
     void chooseBestResult();
     int outLange(int x, int y);
     void copyAgent();
     int conflictMove(int x,int y,unsigned int agentNum, int angle);
+    void resetCopyTile();
 
     Ui::MainWindow *uiMainWindow;
     vector<vector<Tile>> *tile;
