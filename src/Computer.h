@@ -58,6 +58,7 @@ private:
     vector<vector<Tile>> *tile;
     Teams *teams;
     Field *field;
+    int first = 0;
 
     int angle[9][2] = { // x,y
         { -1, -1},{  0, -1},{  1, -1},

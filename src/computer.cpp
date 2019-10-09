@@ -91,7 +91,7 @@ void Computer::algo(int num){
             previousMoveData2.erase(previousMoveData2.begin());
         }
     }
-    field->turn++;
+    first = 1;
 }
 
 void Computer::greedy(int loopCount, MoveData currentMoveData){
@@ -138,7 +138,7 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
                 }
               
                 /*currentMoveData.accumulationPointを補正*/
-                if(field->turn>0)conflict = conflictMove(currentMoveData.x,currentMoveData.y,nextPos.agentNum,j);
+                if(first == 1)conflict = conflictMove(currentMoveData.x,currentMoveData.y,nextPos.agentNum,j);
                 if(conflict == 1)currentMoveData.accumulationPoint -=999;
             }
 
@@ -246,7 +246,7 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
                 }
 
                 /*currentMoveData.accumulationPointを補正*/
-                if(field->turn>0)conflict = conflictMove(currentMoveData.x,currentMoveData.y,nextPos.agentNum,j);
+                if(first == 1)conflict = conflictMove(currentMoveData.x,currentMoveData.y,nextPos.agentNum,j);
                 if(conflict == 1)currentMoveData.accumulationPoint -=999;
 
             }
