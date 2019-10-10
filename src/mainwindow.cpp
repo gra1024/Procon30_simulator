@@ -21,6 +21,8 @@ void MainWindow::on_pushButton_start_clicked(){
     NM->setup(ui, &network);
     NM->get();
 
+    field.maxTurn = ui->spinBox_maxTurn->value();
+
     //　Player only -> player Mode (use AF1,C1)
     //　GameMaster only -> GameMaster Mode (use AF3,UF)
     //　Player & GM -> all Mode (use AF1~3,C1~2,UF)
@@ -36,7 +38,7 @@ void MainWindow::on_pushButton_start_clicked(){
         PC = new PointCalculate ();
         PC->setup(&tile, teams, &field);
         C = new Computer();
-        C->setup(ui, &tile, teams, &field);
+        C->setup(ui, &tile, teams, &field, selectAlgolithm(1));
         AF->drow();
         PC->updatePoint();
         updateTeamPoints(1);
@@ -65,7 +67,7 @@ void MainWindow::on_pushButton_start_clicked(){
         PC = new PointCalculate ();
         PC->setup(&tile, teams, &field);
         C = new Computer();
-        C->setup(ui, &tile, teams, &field);
+        C->setup(ui, &tile, teams, &field, selectAlgolithm(1));
 
         AF2 = new AnalyzeField(2);
         AF2->setup(ui, &tile2, teams2, &field2, &network);
@@ -73,7 +75,7 @@ void MainWindow::on_pushButton_start_clicked(){
         PC2 = new PointCalculate ();
         PC2->setup(&tile2, teams2, &field2);
         C2 = new Computer();
-        C2->setup(ui, &tile2, teams2, &field2);
+        C2->setup(ui, &tile2, teams2, &field2, selectAlgolithm(2));
 
         AF3 = new AnalyzeField(3);
         AF3->setup(ui, &tile3, teams3, &field3, &network);
@@ -184,11 +186,71 @@ void MainWindow::updateTeamPoints(int num){
 /* ### アルゴリズムの選択 ### */
 int MainWindow::selectAlgolithm(int num){
     if(num == 1){
-        if(ui->comboBox_algolithm->currentText()=="Greedy1") return 1;
-        else if (ui->comboBox_algolithm->currentText()=="Greedy2") return 2;
+        if (ui->comboBox_algolithm->currentText()=="Greedy-1_Basic") return 1;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-1_A-1") return 2;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-1_A-2") return 3;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-1_A-3") return 4;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-1_A-4") return 5;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-1_B-1") return 6;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-1_B-2") return 7;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-1_B-3") return 8;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-1_C-1") return 9;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-1_C-2") return 10;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-1_D-1") return 11;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-1_D-2") return 12;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-1_E-1") return 13;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-1_E-2") return 14;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-1_F-1") return 15;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-1_F-2") return 16;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-2_Basic") return 17;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-2_A-1") return 18;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-2_A-2") return 19;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-2_A-3") return 20;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-2_A-4") return 21;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-2_B-1") return 22;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-2_B-2") return 23;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-2_B-3") return 24;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-2_C-1") return 25;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-2_C-2") return 26;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-2_D-1") return 27;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-2_D-2") return 28;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-2_E-1") return 29;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-2_E-2") return 30;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-2_F-1") return 31;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-2_F-2") return 32;
     }else if(num == 2){
-        if(ui->comboBox_algolithm_2->currentText()=="Greedy1") return 1;
-        else if (ui->comboBox_algolithm_2->currentText()=="Greedy2") return 2;
+        if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_Basic") return 1;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_A-1") return 2;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_A-2") return 3;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_A-3") return 4;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_A-4") return 5;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_B-1") return 6;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_B-2") return 7;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_B-3") return 8;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_C-1") return 9;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_C-2") return 10;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_D-1") return 11;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_D-2") return 12;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_E-1") return 13;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_E-2") return 14;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_F-1") return 15;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_F-2") return 16;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_Basic") return 17;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_A-1") return 18;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_A-2") return 19;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_A-3") return 20;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_A-4") return 21;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_B-1") return 22;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_B-2") return 23;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_B-3") return 24;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_C-1") return 25;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_C-2") return 26;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_D-1") return 27;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_D-2") return 28;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_E-1") return 29;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_E-2") return 30;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_F-1") return 31;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_F-2") return 32;
     }
     return 0;
 }

@@ -105,6 +105,7 @@ struct Field{
     int height; //縦幅
     int startedAtUnixTime; //試合が始まったUnix時間
     int turn; //ターン
+    int maxTurn;
     int playerColor[2] = {}; //[自軍の色][敵軍の色]
     int TeamColorNumber[2]={};//[自軍のteamID][敵軍のteamID]
     int myTeam; //チームの識別

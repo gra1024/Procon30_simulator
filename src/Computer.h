@@ -30,12 +30,11 @@ struct MoveData{
 
 struct Correction{//補正
     int loopTimes = 3;
-    double loop[3] = {0.6, 0.8, 1.0};
+    vector<double> loop;
     double stay = -5;
-    double myTeamColorTile = 0.1;
-    double conflict = -100;
+    double myTeamColorTile = -1;
     double agentDistance = 5;
-    double agentDistanceCorrection = 0.8;
+    double distance = 0.8;
     double tile = 2.0;
     double area = 1.0;
 };
@@ -45,7 +44,7 @@ class Computer
 public:
     explicit Computer();
     ~Computer();
-    void setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, Teams *teams, Field *field);
+    void setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, Teams *teams, Field *field, int num);
     void startAlgo(int AlgoNumber);
 
 private:
@@ -57,7 +56,10 @@ private:
     void copyAgent();
     void resetCopyTile();
     int conflictMove(int x, int y, unsigned int agentNum, int angle);
-    int distance(MoveData currentMoveData);
+    double distance(MoveData currentMoveData);
+    int decodeCorrection(int num);
+    void splitTurn();
+    void partSelect();
 
     Ui::MainWindow *uiMainWindow;
     vector<vector<Tile>> *tile;
@@ -74,12 +76,15 @@ private:
     Teams provisionalTeams;
     NextPos nextPos;
     Correction correction;
+    Correction correctionSplit[7];
     vector<ProvisionalPoint> provPoint;
     MoveData moveData;
     PointCalculate* PC = nullptr;
     vector<vector<Tile>> copyTileData;
     vector<MoveData> previousMoveData;
     vector<MoveData> previousMoveData2;
+    int part[7];
+    int partCount = 0;
 };
 
 #endif // COMPUTER_H
