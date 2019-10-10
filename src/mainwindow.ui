@@ -168,6 +168,56 @@
    </item>
    <item>
     <property name="text">
+     <string>Greedy1_B-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_B-3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_C-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_C-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_D-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_D-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_E-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_E-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_F-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_F-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
      <string>Greedy2_Basic</string>
     </property>
    </item>
@@ -184,6 +234,66 @@
    <item>
     <property name="text">
      <string>Greedy2_A-3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_A-4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_B-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_B-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_B-3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_C-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_C-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_D-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_D-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_E-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_E-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_F-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_F-2</string>
     </property>
    </item>
   </widget>
@@ -482,12 +592,162 @@
    </property>
    <item>
     <property name="text">
-     <string>Greedy1</string>
+     <string>Greedy1_Basic</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>Greedy2</string>
+     <string>Greedy1_A-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_A-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_A-3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_A-4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_B-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_B-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_B-3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_C-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_C-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_D-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_D-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_E-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_E-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_F-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_F-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_Basic</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_A-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_A-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_A-3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_A-4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_B-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_B-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_B-3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_D-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_D-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_C-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_C-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_E-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_E-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_F-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_F-2</string>
     </property>
    </item>
   </widget>
