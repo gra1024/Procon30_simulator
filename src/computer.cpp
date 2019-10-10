@@ -139,7 +139,14 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
               
                 /*currentMoveData.accumulationPointを補正*/
                 if(first == 1)conflict = conflictMove(currentMoveData.x,currentMoveData.y,nextPos.agentNum,j);
-                if(conflict == 1)currentMoveData.accumulationPoint -=999;
+                if(conflict == 1){
+                    previousMoveData2.at(nextPos.agentNum).conflictNum++;//競合回数を数える
+                    cout<<"agentNum_"<<nextPos.agentNum<<",currentConflict->"<<previousMoveData2.at(nextPos.agentNum).conflictNum<<endl;
+                    if(previousMoveData2.at(nextPos.agentNum).conflictNum==2){
+                        currentMoveData.accumulationPoint += -999;
+                        previousMoveData2.at(nextPos.agentNum).conflictNum = 0;
+                    }
+                }
               
                 /* agentの距離に応じて罰を付与 */
                 currentMoveData.accumulationPoint -= distance(moveData);
@@ -250,7 +257,14 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
 
                 /*currentMoveData.accumulationPointを補正*/
                 if(first == 1)conflict = conflictMove(currentMoveData.x,currentMoveData.y,nextPos.agentNum,j);
-                if(conflict == 1)currentMoveData.accumulationPoint -=999;
+                if(conflict == 1){
+                    previousMoveData2.at(nextPos.agentNum).conflictNum++;//競合回数を数える
+                    cout<<"agentNum_"<<nextPos.agentNum<<",currentConflict->"<<previousMoveData2.at(nextPos.agentNum).conflictNum<<endl;
+                    if(previousMoveData2.at(nextPos.agentNum).conflictNum==2){
+                        currentMoveData.accumulationPoint += -999;
+                        previousMoveData2.at(nextPos.agentNum).conflictNum = 0;
+                    }
+                }
 
             }
 
@@ -313,6 +327,8 @@ void Computer::chooseBestResult(){
     preData.moveAngle = moveAngle;
     preData.type = teams[nextPos.myTeam].agents[nextPos.agentNum].actions.type;
     preData.color = tile->at(static_cast<unsigned>(y) - 1).at(static_cast<unsigned>(x) - 1).color;
+    if(first==0)preData.conflictNum = 0;
+    else if(first==1)preData.conflictNum = previousMoveData2.at(nextPos.agentNum).conflictNum;
     previousMoveData.push_back(preData);
     previousMoveData2.push_back(preData);
 
