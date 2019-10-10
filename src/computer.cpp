@@ -53,18 +53,14 @@ void Computer::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *tile, T
 }
 
 /* ### アルゴリズムの選択 ### */
-void Computer::startAlgo(int AlgoNumber){
+void Computer::startAlgo(int algoNumber){
     copyAgent();
-    switch(AlgoNumber){
-    case 0:
-        qDebug() << "ERROR --Don't select Algolithm--";
-        break;
-    case 1:
+    if (algoNumber > 0 && algoNumber <= 16) {
         algo(1);
-        break;
-    case 2:
+    }else if (algoNumber > 16 && algoNumber <= 32) {
         algo(2);
-        break;
+    }else{
+        qDebug() << "ERROR --Don't select Algolithm--";
     }
 }
 
