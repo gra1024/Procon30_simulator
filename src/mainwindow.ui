@@ -138,12 +138,52 @@
    </property>
    <item>
     <property name="text">
-     <string>Greedy1</string>
+     <string>Greedy1_Basic</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>Greedy2</string>
+     <string>Greedy1_A-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_A-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_A-3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_A-4</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy1_B-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_Basic</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_A-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_A-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy2_A-3</string>
     </property>
    </item>
   </widget>
