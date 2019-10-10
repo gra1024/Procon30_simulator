@@ -92,7 +92,7 @@ void Computer::algo(int num){
     /* 必要なくなったデータの削除 */
     if(field->turn>0){
         for(unsigned int i=0;i<teams[nextPos.myTeam].agents.size();i++){
-            cout<<"erace_"<<i<<"->"<<previousMoveData2.at(0).x<<","<<previousMoveData2.at(0).y<<","<<previousMoveData2.at(0).moveAngle<<endl;
+            //cout<<"erace_"<<i<<"->"<<previousMoveData2.at(0).x<<","<<previousMoveData2.at(0).y<<","<<previousMoveData2.at(0).moveAngle<<endl;
             previousMoveData2.erase(previousMoveData2.begin());
         }
     }
@@ -128,14 +128,14 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
             //ループ補正（乗算）
             point *= correctionSplit[partCount].loop[static_cast<unsigned>(loopCount - 1)];
 
-            //stay補正（加算）
+            //stay補正（減算）
             if(currentMoveData.moveAngle == 4){
-                currentMoveData.accumulationPoint += correctionSplit[partCount].stay;
+                currentMoveData.accumulationPoint -= correctionSplit[partCount].stay;
             }
 
-            //すでに獲得しているに進んだ場合の補正（加算）
+            //すでに獲得しているに進んだ場合の補正（減算）
             if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).color == field->TeamColorNumber[0]){
-                point += correctionSplit[partCount].myTeamColorTile;
+                point -= correctionSplit[partCount].myTeamColorTile;
             }
 
             //味方のエージェントとの距離が近い場合の補正（減算）
@@ -255,14 +255,14 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
             //ループ補正（乗算）
             point *= correctionSplit[partCount].loop[static_cast<unsigned>(loopCount - 1)];
 
-            //stay補正（加算）
+            //stay補正（減算）
             if(currentMoveData.moveAngle == 4){
-                currentMoveData.accumulationPoint += correctionSplit[partCount].stay;
+                currentMoveData.accumulationPoint -= correctionSplit[partCount].stay;
             }
 
-            //すでに獲得しているに進んだ場合の補正（加算）
+            //すでに獲得しているに進んだ場合の補正（減算）
             if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).color == field->TeamColorNumber[0]){
-                point += correctionSplit[partCount].myTeamColorTile;
+                point -= correctionSplit[partCount].myTeamColorTile;
             }
 
             //味方のエージェントとの距離が近い場合の補正（減算）
@@ -318,12 +318,13 @@ void Computer::chooseBestResult(){
 
     /* 最善手を選ぶ */
     for(unsigned int i = 0; i < provPoint.size(); ++i){
+        cout << "[" << provPoint[i].moveAngle << " " << provPoint[i].totalPoint << "]";
         if(maxPoint < provPoint[i].totalPoint){
             maxPoint = provPoint[i].totalPoint;
             moveAngle = provPoint[i].moveAngle;
         }
     }
-
+    cout << endl;
 
     /* 選んだ最善手の代入 */
     teams[nextPos.myTeam].agents[nextPos.agentNum].actions.dx = angle[moveAngle][0];//dxの代入
@@ -440,6 +441,10 @@ double Computer::distance(MoveData currentMoveData){
         /* ペナルティの加算 */
         addedPenalty += penalty;
     }
+
+    /* 比較エージェントに自身も含まれているためその分減算 */
+    addedPenalty -= correctionSplit[partCount].distance;
+
     return addedPenalty;
 }
 
@@ -519,5 +524,8 @@ void Computer::partSelect(){
         }else{
             break;
         }
+    }
+    if(partCount >= 7){
+        partCount = 0;
     }
 }

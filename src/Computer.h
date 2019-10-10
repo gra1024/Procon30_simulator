@@ -30,7 +30,7 @@ struct Correction{//補正
     int loopTimes = 3;
     vector<double> loop;
     double stay = -5;
-    double myTeamColorTile = 0.1;
+    double myTeamColorTile = -1;
     double agentDistance = 5;
     double distance = 0.8;
     double tile = 2.0;
