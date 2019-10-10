@@ -21,6 +21,8 @@ void MainWindow::on_pushButton_start_clicked(){
     NM->setup(ui, &network);
     NM->get();
 
+    field.maxTurn = ui->spinBox_maxTurn->value();
+
     //　Player only -> player Mode (use AF1,C1)
     //　GameMaster only -> GameMaster Mode (use AF3,UF)
     //　Player & GM -> all Mode (use AF1~3,C1~2,UF)
@@ -36,7 +38,7 @@ void MainWindow::on_pushButton_start_clicked(){
         PC = new PointCalculate ();
         PC->setup(&tile, teams, &field);
         C = new Computer();
-        C->setup(ui, &tile, teams, &field);
+        C->setup(ui, &tile, teams, &field, selectAlgolithm(1));
         AF->drow();
         PC->updatePoint();
         updateTeamPoints(1);
@@ -65,7 +67,7 @@ void MainWindow::on_pushButton_start_clicked(){
         PC = new PointCalculate ();
         PC->setup(&tile, teams, &field);
         C = new Computer();
-        C->setup(ui, &tile, teams, &field);
+        C->setup(ui, &tile, teams, &field, selectAlgolithm(1));
 
         AF2 = new AnalyzeField(2);
         AF2->setup(ui, &tile2, teams2, &field2, &network);
@@ -73,7 +75,7 @@ void MainWindow::on_pushButton_start_clicked(){
         PC2 = new PointCalculate ();
         PC2->setup(&tile2, teams2, &field2);
         C2 = new Computer();
-        C2->setup(ui, &tile2, teams2, &field2);
+        C2->setup(ui, &tile2, teams2, &field2, selectAlgolithm(2));
 
         AF3 = new AnalyzeField(3);
         AF3->setup(ui, &tile3, teams3, &field3, &network);
