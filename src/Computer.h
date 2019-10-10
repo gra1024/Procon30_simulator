@@ -25,6 +25,7 @@ struct MoveData{
     int type;
     int removeCheck;
     int color;
+    int conflictNum = 0;
 };
 
 struct Correction{//補正
