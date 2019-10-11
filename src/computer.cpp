@@ -73,6 +73,7 @@ void Computer::algo(int num){
     partSelect();
     nextPos.myTeam = field->myTeam;
     previousMoveData.clear();
+    previousMoveData3.clear();
     for(unsigned int i=0; i < teams[nextPos.myTeam].agents.size(); ++i){//エージェントの数だけループ
         provPoint.clear();
         nextPos.agentNum = i; //エージェントの番号
@@ -165,6 +166,30 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
                     if(previousMoveData2.at(nextPos.agentNum).conflictNum==2){
                         currentMoveData.accumulationPoint += -999;
                         previousMoveData2.at(nextPos.agentNum).conflictNum = 0;
+                    }
+                }
+
+                /* 味方のエージェントとなるべく被らないようにするための補正（現在いるマスに行動を選択したときの補正（減算）） */
+                for(unsigned int i = 0; i < previousMoveData3.size(); ++i){
+                    if(currentMoveData.x == previousMoveData3[i].x && currentMoveData.y == previousMoveData3[i].y){
+                        //補正値：選択したタイルのマス-10 ただし0以上に大きくはならない
+                        if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point >= 10){
+                            currentMoveData.accumulationPoint += -1;
+                        }else{
+                            currentMoveData.accumulationPoint += tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point - 10;
+                        }
+                    }
+                }
+
+                /* 敵のエージェントとなるべく被らないようにするための補正（現在いるマスに行動を選択したときの補正（減算）） */
+                for(unsigned int i = 0; i < teams[1].agents.size(); ++i){
+                    if(currentMoveData.x == teams[1].agents[i].x && currentMoveData.y == teams[1].agents[i].y){
+                        //補正値：選択したタイルのマス-10 ただし0以上に大きくはならない
+                        if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point >= 10){
+                            currentMoveData.accumulationPoint += -1;
+                        }else{
+                            currentMoveData.accumulationPoint += tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point - 10;
+                        }
                     }
                 }
             }
@@ -302,6 +327,30 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
                         previousMoveData2.at(nextPos.agentNum).conflictNum = 0;
                     }
                 }
+
+                /* 味方のエージェントとなるべく被らないようにするための補正（現在いるマスに行動を選択したときの補正（減算）） */
+                for(unsigned int i = 0; i < previousMoveData3.size(); ++i){
+                    if(currentMoveData.x == previousMoveData3[i].x && currentMoveData.y == previousMoveData3[i].y){
+                        //補正値：選択したタイルのマス-10 ただし0以上に大きくはならない
+                        if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point >= 10){
+                            currentMoveData.accumulationPoint += -1;
+                        }else{
+                            currentMoveData.accumulationPoint += tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point - 10;
+                        }
+                    }
+                }
+
+                /* 敵のエージェントとなるべく被らないようにするための補正（現在いるマスに行動を選択したときの補正（減算）） */
+                for(unsigned int i = 0; i < teams[1].agents.size(); ++i){
+                    if(currentMoveData.x == teams[1].agents[i].x && currentMoveData.y == teams[1].agents[i].y){
+                        //補正値：選択したタイルのマス-10 ただし0以上に大きくはならない
+                        if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point >= 10){
+                            currentMoveData.accumulationPoint += -1;
+                        }else{
+                            currentMoveData.accumulationPoint += tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point - 10;
+                        }
+                    }
+                }
             }
 
             /* 進む方向が敵色タイルだった場合 */
@@ -373,6 +422,12 @@ void Computer::chooseBestResult(){
         preData.x = teams[nextPos.myTeam].agents[nextPos.agentNum].x;
         preData.y = teams[nextPos.myTeam].agents[nextPos.agentNum].y;
         previousMoveData.push_back(preData);
+    }
+
+    if(preData.type == 1){
+        preData.x = teams[nextPos.myTeam].agents[nextPos.agentNum].x;
+        preData.y = teams[nextPos.myTeam].agents[nextPos.agentNum].y;
+        previousMoveData3.push_back(preData);
     }
 
 }

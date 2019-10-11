@@ -82,6 +82,7 @@ private:
     vector<vector<Tile>> copyTileData;
     vector<MoveData> previousMoveData;
     vector<MoveData> previousMoveData2;
+    vector<MoveData> previousMoveData3;
     int part[7];
     int partCount = 0;
     int partAfterTurnOver = 0;
