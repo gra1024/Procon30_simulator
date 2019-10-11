@@ -21,8 +21,6 @@ void MainWindow::on_pushButton_start_clicked(){
     NM->setup(ui, &network);
     NM->get();
 
-    field.maxTurn = ui->spinBox_maxTurn->value();
-
     //　Player only -> player Mode (use AF1,C1)
     //　GameMaster only -> GameMaster Mode (use AF3,UF)
     //　Player & GM -> all Mode (use AF1~3,C1~2,UF)
