@@ -31,3 +31,5 @@ correction29 : Grredy2_E-1
 correction30 : Grredy2_E-2
 correction31 : Grredy2_F-1
 correction32 : Grredy2_F-2
+correction33 : Greedy1_test
+correction34 : Greedy2_test
