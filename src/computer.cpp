@@ -532,15 +532,12 @@ void Computer::splitTurn(){
 
 /* ### 補正のパターンを変える ### */
 void Computer::partSelect(){
-    while(1){
-        if(field->turn > part[partCount]){
-            partCount++;
-        }else{
-            break;
-        }
+    if(partAfterTurnOver == 0 && field->turn > part[partCount]){
+        partCount++;
     }
-    if(partCount >= 7){
+    
+    if(partAfterTurnOver == 0 && partCount == 7){
+        partAfterTurnOver = 1;
         partCount = 0;
     }
-    cout << partCount << endl;
 }
