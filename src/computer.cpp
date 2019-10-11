@@ -161,7 +161,7 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
 
                 if(conflict == 1){
                     previousMoveData2.at(nextPos.agentNum).conflictNum++;//競合回数を数える
-                    cout<<"agentNum_"<<nextPos.agentNum<<",currentConflict->"<<previousMoveData2.at(nextPos.agentNum).conflictNum<<endl;
+                    //cout<<"agentNum_"<<nextPos.agentNum<<",currentConflict->"<<previousMoveData2.at(nextPos.agentNum).conflictNum<<endl;
                     if(previousMoveData2.at(nextPos.agentNum).conflictNum==2){
                         currentMoveData.accumulationPoint += -999;
                         previousMoveData2.at(nextPos.agentNum).conflictNum = 0;
@@ -296,7 +296,7 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
                 if(first == 1)conflict = conflictMove(currentMoveData.x,currentMoveData.y,nextPos.agentNum,j);
                 if(conflict == 1){
                     previousMoveData2.at(nextPos.agentNum).conflictNum++;//競合回数を数える
-                    cout<<"agentNum_"<<nextPos.agentNum<<",currentConflict->"<<previousMoveData2.at(nextPos.agentNum).conflictNum<<endl;
+                    //cout<<"agentNum_"<<nextPos.agentNum<<",currentConflict->"<<previousMoveData2.at(nextPos.agentNum).conflictNum<<endl;
                     if(previousMoveData2.at(nextPos.agentNum).conflictNum==2){
                         currentMoveData.accumulationPoint += -999;
                         previousMoveData2.at(nextPos.agentNum).conflictNum = 0;
@@ -333,13 +333,13 @@ void Computer::chooseBestResult(){
 
     /* 最善手を選ぶ */
     for(unsigned int i = 0; i < provPoint.size(); ++i){
-        cout << "[" << provPoint[i].moveAngle << " " << provPoint[i].totalPoint << "]";
+        //cout << "[" << provPoint[i].moveAngle << " " << provPoint[i].totalPoint << "]";
         if(maxPoint < provPoint[i].totalPoint){
             maxPoint = provPoint[i].totalPoint;
             moveAngle = provPoint[i].moveAngle;
         }
     }
-    cout << endl;
+    //cout << endl;
 
     /* 選んだ最善手の代入 */
     teams[nextPos.myTeam].agents[nextPos.agentNum].actions.dx = angle[moveAngle][0];//dxの代入
@@ -437,34 +437,27 @@ int Computer::outLange(int x, int y){
 
 /* ### エージェント同士の距離が近くなりすぎないように補正をかける ### */
 double Computer::distance(MoveData currentMoveData){
-    int disX, disY;
-    double penalty, addedPenalty = 0;
+    int disX, disY, dis;
+    double penalty = 0;
     for(unsigned int i=0;i<teams[nextPos.myTeam].agents.size();++i){
-        /* 各エージェントとの距離の差を計算 */
-        disX = abs(currentMoveData.x - teams[nextPos.myTeam].agents[i].x);
-        disY = abs(currentMoveData.y - teams[nextPos.myTeam].agents[i].y);
-        if(disX < disY){
-            penalty = disX;
-        } else {
-            penalty = disY;
-        }
+        if(!(nextPos.agentNum == i)){
+            /* 各エージェントとの距離の差を計算 */
+            disX = abs(currentMoveData.x - teams[nextPos.myTeam].agents[i].x);
+            disY = abs(currentMoveData.y - teams[nextPos.myTeam].agents[i].y);
+            if(disX < disY){
+                dis = disX;
+            } else {
+                dis = disY;
+            }
 
-        /* correctionSplit[partCount].agentDistanceより短い場合ペナルティを付与 */
-        if(penalty > field->width * correctionSplit[partCount].agentDistance){
-            penalty = 0;
-        }else{
-            penalty = correctionSplit[partCount].distance;
-        break;
-        }
+            /* 距離が5より大きい場合の処理は5と同じ　*/
+            if (dis > 5) dis = 5;
 
-        /* ペナルティの加算 */
-        addedPenalty += penalty;
+            /* ペナルティの加算 */
+            penalty += correction.distance[dis];
+        }
     }
-
-    /* 比較エージェントに自身も含まれているためその分減算 */
-    addedPenalty -= correctionSplit[partCount].distance;
-
-    return addedPenalty;
+    return penalty;
 }
 
 /* ### 補正リストの読み込み ### */
@@ -492,8 +485,9 @@ int Computer::decodeCorrection(int num){
         }
         correctionSplit[i].stay = arrSplit.at(i).toObject().value("stay").toInt();
         correctionSplit[i].myTeamColorTile = arrSplit.at(i).toObject().value("myTeamColorTile").toInt();
-        correctionSplit[i].agentDistance = arrSplit.at(i).toObject().value("agentDistance").toInt();
-        correctionSplit[i].distance = arrSplit.at(i).toObject().value("distance").toInt();
+        for(int j=0; j < 6; ++j){
+            correctionSplit[i].distance[j] = arrSplit.at(i).toObject().value("distance").toArray().at(j).toInt();
+        }
         correctionSplit[i].tile = arrSplit.at(i).toObject().value("tile").toInt();
         correctionSplit[i].area = arrSplit.at(i).toObject().value("area").toInt();
     }
@@ -505,8 +499,9 @@ int Computer::decodeCorrection(int num){
         }
         correctionSplit[i+4].stay = arrLast.at(i).toObject().value("stay").toInt();
         correctionSplit[i+4].myTeamColorTile = arrLast.at(i).toObject().value("myTeamColorTile").toInt();
-        correctionSplit[i+4].agentDistance = arrLast.at(i).toObject().value("agentDistance").toInt();
-        correctionSplit[i+4].distance = arrLast.at(i).toObject().value("distance").toInt();
+        for(int j=0; j < 6; ++j){
+            correctionSplit[i+4].distance[j] = arrSplit.at(i).toObject().value("distance").toArray().at(j).toInt();
+        }
         correctionSplit[i+4].tile = arrLast.at(i).toObject().value("tile").toInt();
         correctionSplit[i+4].area = arrLast.at(i).toObject().value("area").toInt();
     }
@@ -547,4 +542,5 @@ void Computer::partSelect(){
     if(partCount >= 7){
         partCount = 0;
     }
+    cout << partCount << endl;
 }

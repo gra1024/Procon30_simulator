@@ -29,14 +29,13 @@ struct MoveData{
 };
 
 struct Correction{//補正
-    int loopTimes = 3;
+    int loopTimes;
     vector<double> loop;
-    double stay = -5;
-    double myTeamColorTile = -1;
-    double agentDistance = 5;
-    double distance = 0.8;
-    double tile = 2.0;
-    double area = 1.0;
+    double stay;
+    double myTeamColorTile;
+    double distance[6];
+    double tile;
+    double area;
 };
 
 class Computer
