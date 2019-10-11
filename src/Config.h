@@ -99,12 +99,22 @@ struct Teams{
     int areaPoint; //領域ポイント
 };
 
+struct FieldPoint{
+    int positiveTile = 0;
+    int negativeTile = 0;
+    int negativePoint = 0;
+    int totalPoint = 0;
+    double averagePoint;
+    double averageNegativePoint;
+};
+
 /* ### フィールド関係 ### */
 struct Field{
     int width;  //横幅
     int height; //縦幅
     int startedAtUnixTime; //試合が始まったUnix時間
     int turn; //ターン
+    FieldPoint fieldPoint;
     int maxTurn;
     int playerColor[2] = {}; //[自軍の色][敵軍の色]
     int TeamColorNumber[2]={};//[自軍のteamID][敵軍のteamID]

@@ -28,14 +28,14 @@ struct MoveData{
     int conflictNum = 0;
 };
 
-struct Correction{//補正
-    int loopTimes;
-    vector<double> loop;
-    double stay;
-    double myTeamColorTile;
-    double distance[6];
-    double tile;
-    double area;
+struct Correction{ //補正
+    int loopTimes; //ループ回数
+    vector<double> loop; //各ループの補正倍率（乗算）
+    double stay; //停留を選んだ場合の補正(減算)
+    double myTeamColorTile; //すでに獲得したマスを選んだ場合の補正（減算）
+    double distance[6]; //エージェントが近くなりすぎた場合の補正（減算）
+    double tile; //タイルポイントの補正倍率（乗算）
+    double area; //エリアポイントの補正倍率（乗算）
 };
 
 class Computer

@@ -80,9 +80,19 @@ string AnalyzeField::decodeAndSet(string path){
             tileData.point=arrPoints.at(i).toArray().at(j).toInt();
             tileData.color=arrTiled.at(i).toArray().at(j).toInt();
             tileline.push_back(tileData);
+            field->fieldPoint.totalPoint += tileData.point;
+            if(tileData.point > 0){
+                field->fieldPoint.positiveTile++;
+            }
+            else if (tileData.point < 0){
+                field->fieldPoint.negativeTile++;
+                field->fieldPoint.negativePoint += tileData.point;
+            }
         }
         tile->push_back(tileline);
     }
+    field->fieldPoint.averagePoint = field->fieldPoint.totalPoint / (field->width * field->height);
+    field->fieldPoint.averageNegativePoint = field->fieldPoint.totalPoint / field->fieldPoint.negativeTile;
 
     for(int i=0;i<2;++i){
         teams[i].teamID = arrTeams.at(i).toObject().value("teamID").toInt();
