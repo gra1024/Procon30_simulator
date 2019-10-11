@@ -93,7 +93,7 @@ string AnalyzeField::decodeAndSet(string path){
         tile->push_back(tileline);
     }
     field->fieldPoint.averagePoint = field->fieldPoint.totalPoint / (field->width * field->height);
-    field->fieldPoint.averageNegativePoint = field->fieldPoint.totalPoint / field->fieldPoint.negativeTile;
+    field->fieldPoint.averageNegativePoint = field->fieldPoint.totalPoint / (field->fieldPoint.negativeTile + 1);
 
     for(int i=0;i<2;++i){
         teams[i].teamID = arrTeams.at(i).toObject().value("teamID").toInt();

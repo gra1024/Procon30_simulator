@@ -511,7 +511,6 @@ int Computer::decodeCorrection(int num){
 
 /* ### 補正のパターンをターンによって変える ### */
 void Computer::splitTurn(){
-    int part[7];
     part[0] = field->maxTurn / 4;
     part[1] = field->maxTurn / 2;
     part[2] = field->maxTurn * 3 / 4;
@@ -528,10 +527,20 @@ void Computer::splitTurn(){
     if(part[0] > part[1]){
         part[0] = field->maxTurn - 6;
     }
+
+    /* 出力 */
+    /*cout << "part " ;
+    for (int i=0; i<7; i++) {
+        cout << part[i] << " " ;
+    }
+    cout << endl;
+    cout << partCount << endl;
+    */
 }
 
 /* ### 補正のパターンを変える ### */
 void Computer::partSelect(){
+    //cout << field->turn << " " << part[partCount] << " " << partCount << " ";
     if(partAfterTurnOver == 0 && field->turn > part[partCount]){
         partCount++;
     }
@@ -540,4 +549,5 @@ void Computer::partSelect(){
         partAfterTurnOver = 1;
         partCount = 0;
     }
+    //cout << "partCount " << partCount << endl;
 }
