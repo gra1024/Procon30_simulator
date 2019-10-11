@@ -84,6 +84,7 @@ private:
     vector<MoveData> previousMoveData2;
     int part[7];
     int partCount = 0;
+    int partAfterTurnOver = 0;
 };
 
 #endif // COMPUTER_H
