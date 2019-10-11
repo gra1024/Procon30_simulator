@@ -59,6 +59,10 @@ void Computer::startAlgo(int algoNumber){
         algo(1);
     }else if (algoNumber > 16 && algoNumber <= 32) {
         algo(2);
+    }else if(algoNumber == 33){
+        algo(1);
+    }else if(algoNumber == 34){
+        algo(2);
     }else{
         qDebug() << "ERROR --Don't select Algolithm--";
     }

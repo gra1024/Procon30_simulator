@@ -296,6 +296,16 @@
      <string>Greedy-2_F-2</string>
     </property>
    </item>
+   <item>
+    <property name="text">
+     <string>Greedy-1_test</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy-2_test</string>
+    </property>
+   </item>
   </widget>
   <widget class="QComboBox" name="comboBox_teamColor">
    <property name="geometry">
@@ -748,6 +758,16 @@
    <item>
     <property name="text">
      <string>Greedy-2_F-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy-1_test</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy-2_test</string>
     </property>
    </item>
   </widget>

@@ -218,6 +218,8 @@ int MainWindow::selectAlgolithm(int num){
         else if (ui->comboBox_algolithm->currentText()=="Greedy-2_E-2") return 30;
         else if (ui->comboBox_algolithm->currentText()=="Greedy-2_F-1") return 31;
         else if (ui->comboBox_algolithm->currentText()=="Greedy-2_F-2") return 32;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-1_test") return 33;
+        else if (ui->comboBox_algolithm->currentText()=="Greedy-2_test") return 34;
     }else if(num == 2){
         if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_Basic") return 1;
         else if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_A-1") return 2;
@@ -251,6 +253,8 @@ int MainWindow::selectAlgolithm(int num){
         else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_E-2") return 30;
         else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_F-1") return 31;
         else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_F-2") return 32;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-1_test") return 33;
+        else if (ui->comboBox_algolithm_2->currentText()=="Greedy-2_test") return 34;
     }
     return 0;
 }
