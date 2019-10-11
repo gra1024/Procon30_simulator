@@ -28,6 +28,7 @@ void AnalyzeField::setup(Ui::MainWindow *uiMainWindow, vector<vector<Tile>> *til
     teams->agents.clear();
     decodeAndSet(CONFIG_PATH_OF_FILE_INPUT_FIELD_BY_PLAYER);
     setUi();
+    field->maxTurn = this->uiMainWindow->spinBox_maxTurn->value();
     //debug();
 }
 
