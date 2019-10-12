@@ -641,17 +641,13 @@ double Computer::coordinate(MoveData currentMoveData){
     int disX, disY, dis = 3;
     double penalty = 0;
     if(!(correctionSplit[partCount].coordinateX[nextPos.agentNum] == 0 || correctionSplit[partCount].coordinateY[nextPos.agentNum] == 0)){
-        for(unsigned int j=0;j<teams[nextPos.myTeam].agents.size();++j){
-            if(!(nextPos.agentNum == j)){
-                /* 各エージェントとの距離の差を計算 */
-                disX = abs(currentMoveData.x - correctionSplit[partCount].coordinateX[nextPos.agentNum]);
-                disY = abs(currentMoveData.y - correctionSplit[partCount].coordinateY[nextPos.agentNum]);
-                if(disX > disY){
-                    dis = disX;
-                } else {
-                    dis = disY;
-                }
-            }
+        /* 離れている距離を計算 */
+        disX = abs(currentMoveData.x - correctionSplit[partCount].coordinateX[nextPos.agentNum]);
+        disY = abs(currentMoveData.y - correctionSplit[partCount].coordinateY[nextPos.agentNum]);
+        if(disX > disY){
+            dis = disX;
+        } else {
+            dis = disY;
         }
         penalty = 2 - (dis * 10 / field->width);
         if(penalty > 0) penalty = 0;
