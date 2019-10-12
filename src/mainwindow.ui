@@ -416,7 +416,7 @@
     <rect>
      <x>430</x>
      <y>30</y>
-     <width>200</width>
+     <width>140</width>
      <height>50</height>
     </rect>
    </property>
@@ -435,7 +435,7 @@
     <rect>
      <x>640</x>
      <y>30</y>
-     <width>200</width>
+     <width>140</width>
      <height>50</height>
     </rect>
    </property>
@@ -893,6 +893,75 @@
    </property>
    <property name="text">
     <string>currentField</string>
+   </property>
+  </widget>
+  <widget class="QLCDNumber" name="lcdNumber_red_2">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>30</y>
+     <width>60</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:#fff</string>
+   </property>
+   <property name="segmentStyle">
+    <enum>QLCDNumber::Filled</enum>
+   </property>
+   <property name="intValue" stdset="0">
+    <number>0</number>
+   </property>
+  </widget>
+  <widget class="QLCDNumber" name="lcdNumber_red_3">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>55</y>
+     <width>60</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:#fff</string>
+   </property>
+   <property name="segmentStyle">
+    <enum>QLCDNumber::Filled</enum>
+   </property>
+   <property name="intValue" stdset="0">
+    <number>0</number>
+   </property>
+  </widget>
+  <widget class="QLCDNumber" name="lcdNumber_blue_2">
+   <property name="geometry">
+    <rect>
+     <x>780</x>
+     <y>30</y>
+     <width>60</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:#fff</string>
+   </property>
+  </widget>
+  <widget class="QLCDNumber" name="lcdNumber_blue_3">
+   <property name="geometry">
+    <rect>
+     <x>780</x>
+     <y>55</y>
+     <width>60</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>HGP創英角ｺﾞｼｯｸUB</family>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:#fff</string>
    </property>
   </widget>
  </widget>
