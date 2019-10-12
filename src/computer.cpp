@@ -92,7 +92,7 @@ void Computer::algo(int num){
     }
 
     /* 必要なくなったデータの削除 */
-    if(field->turn>0){
+    if(first==1){
         for(unsigned int i=0;i<teams[nextPos.myTeam].agents.size();i++){
             //cout<<"erace_"<<i<<"->"<<previousMoveData2.at(0).x<<","<<previousMoveData2.at(0).y<<","<<previousMoveData2.at(0).moveAngle<<endl;
             previousMoveData2.erase(previousMoveData2.begin());
