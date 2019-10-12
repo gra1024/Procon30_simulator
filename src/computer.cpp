@@ -74,6 +74,7 @@ void Computer::algo(int num){
     nextPos.myTeam = field->myTeam;
     previousMoveData.clear();
     previousMoveData3.clear();
+    setPreviousMoveData();
     for(unsigned int i=0; i < teams[nextPos.myTeam].agents.size(); ++i){//エージェントの数だけループ
         provPoint.clear();
         nextPos.agentNum = i; //エージェントの番号
@@ -91,7 +92,7 @@ void Computer::algo(int num){
     }
 
     /* 必要なくなったデータの削除 */
-    if(field->turn>0){
+    if(first==1){
         for(unsigned int i=0;i<teams[nextPos.myTeam].agents.size();i++){
             //cout<<"erace_"<<i<<"->"<<previousMoveData2.at(0).x<<","<<previousMoveData2.at(0).y<<","<<previousMoveData2.at(0).moveAngle<<endl;
             previousMoveData2.erase(previousMoveData2.begin());
