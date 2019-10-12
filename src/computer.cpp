@@ -243,11 +243,15 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
     PC->setupOnlyTile(&currentTileData);
     double baseTilePoint = static_cast<double>(PC->getTilePoints(field->TeamColorNumber[0]));
     double baseAreaPoint = static_cast<double>(PC->getAreaPoints(field->TeamColorNumber[0]));
+    double baseEnemyTilePoint = static_cast<double>(PC->getTilePoints(field->TeamColorNumber[1]));
+    double baseEnemyAreaPoint = static_cast<double>(PC->getAreaPoints(field->TeamColorNumber[1]));
 
     int conflict=0;
     double tilePoint;
     double areaPoint;
     double allPoint;
+    double enemyTilePoint;
+    double enemyAreaPoint;
 
     for(int j=0; j<9; ++j){
         /* currentMoveDataの初期化 */
@@ -281,10 +285,16 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
             tilePoint = PC->getTilePoints(field->TeamColorNumber[0]) - baseTilePoint;
             areaPoint = PC->getAreaPoints(field->TeamColorNumber[0]) - baseAreaPoint;
 
+            //敵が失ったポイントの補正（加算）
+            enemyTilePoint = baseEnemyTilePoint - PC->getTilePoints(field->TeamColorNumber[1]);
+            enemyAreaPoint = baseEnemyAreaPoint - PC->getAreaPoints(field->TeamColorNumber[1]);
+
             //タイルポイントとエリアポイントの補正(乗算)
             tilePoint *= correctionSplit[partCount].tile;
             areaPoint *= correctionSplit[partCount].area;
-            allPoint = tilePoint + areaPoint;
+            enemyTilePoint *= correctionSplit[partCount].tile;
+            enemyAreaPoint *= correctionSplit[partCount].area;
+            allPoint = tilePoint + areaPoint + enemyTilePoint + enemyAreaPoint;
 
             //ループ補正（乗算）
             allPoint *= correctionSplit[partCount].loop[static_cast<unsigned>(loopCount - 1)];
@@ -347,7 +357,7 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
                 }
             }
             currentMoveData.accumulationPoint += allPoint;
-            cout <<"allPoint" <<  allPoint << endl;
+            //cout <<"allPoint" <<  allPoint << endl;
 
             /* 進む方向が敵色タイルだった場合 */
             if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).color== field->TeamColorNumber[1]){
