@@ -310,7 +310,10 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
             }
 
             //味方のエージェントとの距離が近い場合の補正（減算）
-            allPoint -= distance(moveData);
+            allPoint -= distance(currentMoveData);
+
+            //特定座標から離れるとペナルティ（減算）
+            allPoint -= coordinate(currentMoveData);
 
             /* 最初のループ限定の処理 */
             if(loopCount == correctionSplit[partCount].loopTimes){
@@ -553,6 +556,10 @@ int Computer::decodeCorrection(int num){
         }
         correctionSplit[i].tile = arrSplit.at(i).toObject().value("tile").toDouble();
         correctionSplit[i].area = arrSplit.at(i).toObject().value("area").toDouble();
+        for(int j=0; j < static_cast<int>(teams[0].agents.size()); ++j){
+            correctionSplit[i].coordinateX.push_back(arrSplit.at(i).toObject().value("coordinateX").toArray().at(j).toInt());
+            correctionSplit[i].coordinateY.push_back(arrSplit.at(i).toObject().value("coordinateY").toArray().at(j).toInt());
+        }
     }
 
     for(int i=0; i<3; ++i){
@@ -563,11 +570,16 @@ int Computer::decodeCorrection(int num){
         correctionSplit[i+4].stay = arrLast.at(i).toObject().value("stay").toDouble();
         correctionSplit[i+4].myTeamColorTile = arrLast.at(i).toObject().value("myTeamColorTile").toDouble();
         for(int j=0; j < 6; ++j){
-            correctionSplit[i+4].distance[j] = arrSplit.at(i).toObject().value("distance").toArray().at(j).toDouble();
+            correctionSplit[i+4].distance[j] = arrLast.at(i).toObject().value("distance").toArray().at(j).toDouble();
         }
         correctionSplit[i+4].tile = arrLast.at(i).toObject().value("tile").toDouble();
         correctionSplit[i+4].area = arrLast.at(i).toObject().value("area").toDouble();
+        for(int j=0; j < static_cast<int>(teams[0].agents.size()); ++j){
+            correctionSplit[i+4].coordinateX.push_back(arrLast.at(i).toObject().value("coordinateX").toArray().at(j).toInt());
+            correctionSplit[i+4].coordinateY.push_back(arrLast.at(i).toObject().value("coordinateY").toArray().at(j).toInt());
+        }
     }
+
     file.close();
     return 0;
 }
@@ -622,4 +634,28 @@ void Computer::setPreviousMoveData(){
         preData.y = teams[0].agents[i].y;
         previousMoveData3.push_back(preData);
     }
+}
+
+/* ### エージェントを特定の座標に固定させる補正 ### */
+double Computer::coordinate(MoveData currentMoveData){
+    int disX, disY, dis = 3;
+    double penalty = 0;
+    if(!(correctionSplit[partCount].coordinateX[nextPos.agentNum] == 0 || correctionSplit[partCount].coordinateY[nextPos.agentNum] == 0)){
+        for(unsigned int j=0;j<teams[nextPos.myTeam].agents.size();++j){
+            if(!(nextPos.agentNum == j)){
+                /* 各エージェントとの距離の差を計算 */
+                disX = abs(currentMoveData.x - correctionSplit[partCount].coordinateX[nextPos.agentNum]);
+                disY = abs(currentMoveData.y - correctionSplit[partCount].coordinateY[nextPos.agentNum]);
+                if(disX > disY){
+                    dis = disX;
+                } else {
+                    dis = disY;
+                }
+            }
+        }
+        penalty = 2 - (dis * 10 / field->width);
+        if(penalty > 0) penalty = 0;
+    }
+
+    return penalty;
 }
