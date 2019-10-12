@@ -169,11 +169,19 @@ void MainWindow::on_pushButton_setField_clicked(){
 void MainWindow::updateTeamPoints(int num){
     if(num == 1){
         ui->lcdNumber_red->display(teams[0].tilePoint+teams[0].areaPoint);
+        ui->lcdNumber_red_2->display(teams[0].tilePoint);
+        ui->lcdNumber_red_3->display(teams[0].areaPoint);
         ui->lcdNumber_blue->display(teams[1].tilePoint+teams[1].areaPoint);
+        ui->lcdNumber_blue_2->display(teams[1].tilePoint);
+        ui->lcdNumber_blue_3->display(teams[1].areaPoint);
         ui->lcdNumber_turn->display(field.turn);
     }else if(num == 3){
         ui->lcdNumber_red->display(teams3[0].tilePoint+teams3[0].areaPoint);
+        ui->lcdNumber_red_2->display(teams3[0].tilePoint);
+        ui->lcdNumber_red_3->display(teams3[0].areaPoint);
         ui->lcdNumber_blue->display(teams3[1].tilePoint+teams3[1].areaPoint);
+        ui->lcdNumber_blue_2->display(teams3[1].tilePoint);
+        ui->lcdNumber_blue_3->display(teams3[1].areaPoint);
         if(ui->spinBox_maxTurn->value()<field3.turn){
             ui->lcdNumber_turn->setStyleSheet("background-color:green; color:red;");
         }
