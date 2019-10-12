@@ -3,40 +3,40 @@
         {
             "loopTimes": 3,
             "loop": [0.6, 0.8, 1.0],
-            "stay": 1,
+            "stay": 10,
             "myTeamColorTile": 1.0,
             "agentDistance": 0.2,
-            "distance": 1,
+          "distance": [ 10, 8, 6, 4, 2, 0 ],
             "tile": 1.0,
-            "area": 1.0
+            "area": 0.0
         },
         {
             "loopTimes": 3,
             "loop": [0.6, 0.8, 1.0],
-            "stay": 1,
+            "stay": 10,
             "myTeamColorTile": 1.0,
             "agentDistance": 0.2,
-            "distance": 1,
+          "distance": [ 10, 8, 6, 4, 2, 0 ],
             "tile": 1.0,
-            "area": 1.0
+            "area": 0.0
         },
         {
             "loopTimes": 3,
             "loop": [0.6, 0.8, 1.0],
-            "stay": 1,
+            "stay": 5,
             "myTeamColorTile": 1.0,
             "agentDistance": 0.2,
-            "distance": 1,
+          "distance": [ 10, 8, 6, 4, 2, 0 ],
             "tile": 1.0,
-            "area": 1.0
+            "area": 0.0
         },
         {
             "loopTimes": 3,
             "loop": [0.6, 0.8, 1.0],
-            "stay": 1,
+            "stay": 5,
             "myTeamColorTile": 1.0,
             "agentDistance": 0.2,
-            "distance": 1,
+          "distance": [ 10, 8, 6, 4, 2, 0 ],
             "tile": 1.0,
             "area": 1.0
         }
@@ -45,30 +45,30 @@
          {
             "loopTimes": 3,
             "loop": [0.6, 0.8, 1.0],
-            "stay": 1,
+            "stay": 5,
             "myTeamColorTile": 1.0,
             "agentDistance": 0.2,
-            "distance": 1,
+          "distance": [ 10, 8, 6, 4, 2, 0 ],
             "tile": 1.0,
             "area": 1.0
          },
          {
-            "loopTimes": 3,
+            "loopTimes": 2,
             "loop": [0.6, 0.8, 1.0],
-            "stay": 1,
+            "stay": 5,
             "myTeamColorTile": 1.0,
             "agentDistance": 0.2,
-            "distance": 1,
+          "distance": [ 10, 8, 6, 4, 2, 0 ],
             "tile": 1.0,
             "area": 1.0
          },
          {
-            "loopTimes": 3,
+            "loopTimes": 1,
             "loop": [0.6, 0.8, 1.0],
-            "stay": 1,
+            "stay": 5,
             "myTeamColorTile": 1.0,
             "agentDistance": 0.2,
-            "distance": 1,
+          "distance": [ 10, 8, 6, 4, 2, 0 ],
             "tile": 1.0,
             "area": 1.0
          }

@@ -280,8 +280,8 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
             tilePoint = PC->getTilePoints(field->TeamColorNumber[0]) - baseTilePoint;
             areaPoint = PC->getAreaPoints(field->TeamColorNumber[0]) - baseAreaPoint;
 
-            cout << "tile" << tilePoint;
-            cout << "area" << areaPoint;
+            //cout << "tile" << tilePoint;
+            //cout << "area" << areaPoint;
 
             //タイルポイントとエリアポイントの補正(乗算)
             tilePoint *= correctionSplit[partCount].tile;
