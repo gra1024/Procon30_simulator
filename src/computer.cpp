@@ -280,6 +280,9 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
             tilePoint = PC->getTilePoints(field->TeamColorNumber[0]) - baseTilePoint;
             areaPoint = PC->getAreaPoints(field->TeamColorNumber[0]) - baseAreaPoint;
 
+            cout << "tile" << tilePoint;
+            cout << "area" << areaPoint;
+
             //タイルポイントとエリアポイントの補正(乗算)
             tilePoint *= correctionSplit[partCount].tile;
             areaPoint *= correctionSplit[partCount].area;
@@ -500,7 +503,7 @@ double Computer::distance(MoveData currentMoveData){
             /* 各エージェントとの距離の差を計算 */
             disX = abs(currentMoveData.x - teams[nextPos.myTeam].agents[i].x);
             disY = abs(currentMoveData.y - teams[nextPos.myTeam].agents[i].y);
-            if(disX < disY){
+            if(disX > disY){
                 dis = disX;
             } else {
                 dis = disY;
@@ -537,29 +540,29 @@ int Computer::decodeCorrection(int num){
     for(int i=0; i<4; ++i){
         correctionSplit[i].loopTimes = arrSplit.at(i).toObject().value("loopTimes").toInt();
         for(int j=0; j < correctionSplit[i].loopTimes; ++j){
-            correctionSplit[i].loop.push_back(arrSplit.at(i).toObject().value("loop").toArray().at(j).toInt());
+            correctionSplit[i].loop.push_back(arrSplit.at(i).toObject().value("loop").toArray().at(j).toDouble());
         }
-        correctionSplit[i].stay = arrSplit.at(i).toObject().value("stay").toInt();
-        correctionSplit[i].myTeamColorTile = arrSplit.at(i).toObject().value("myTeamColorTile").toInt();
+        correctionSplit[i].stay = arrSplit.at(i).toObject().value("stay").toDouble();
+        correctionSplit[i].myTeamColorTile = arrSplit.at(i).toObject().value("myTeamColorTile").toDouble();
         for(int j=0; j < 6; ++j){
-            correctionSplit[i].distance[j] = arrSplit.at(i).toObject().value("distance").toArray().at(j).toInt();
+            correctionSplit[i].distance[j] = arrSplit.at(i).toObject().value("distance").toArray().at(j).toDouble();
         }
-        correctionSplit[i].tile = arrSplit.at(i).toObject().value("tile").toInt();
-        correctionSplit[i].area = arrSplit.at(i).toObject().value("area").toInt();
+        correctionSplit[i].tile = arrSplit.at(i).toObject().value("tile").toDouble();
+        correctionSplit[i].area = arrSplit.at(i).toObject().value("area").toDouble();
     }
 
     for(int i=0; i<3; ++i){
         correctionSplit[i+4].loopTimes = arrLast.at(i).toObject().value("loopTimes").toInt();
         for(int j=0; j < correctionSplit[i].loopTimes; ++j){
-            correctionSplit[i+4].loop.push_back(arrLast.at(i).toObject().value("loop").toArray().at(j).toInt());
+            correctionSplit[i+4].loop.push_back(arrLast.at(i).toObject().value("loop").toArray().at(j).toDouble());
         }
-        correctionSplit[i+4].stay = arrLast.at(i).toObject().value("stay").toInt();
-        correctionSplit[i+4].myTeamColorTile = arrLast.at(i).toObject().value("myTeamColorTile").toInt();
+        correctionSplit[i+4].stay = arrLast.at(i).toObject().value("stay").toDouble();
+        correctionSplit[i+4].myTeamColorTile = arrLast.at(i).toObject().value("myTeamColorTile").toDouble();
         for(int j=0; j < 6; ++j){
-            correctionSplit[i+4].distance[j] = arrSplit.at(i).toObject().value("distance").toArray().at(j).toInt();
+            correctionSplit[i+4].distance[j] = arrSplit.at(i).toObject().value("distance").toArray().at(j).toDouble();
         }
-        correctionSplit[i+4].tile = arrLast.at(i).toObject().value("tile").toInt();
-        correctionSplit[i+4].area = arrLast.at(i).toObject().value("area").toInt();
+        correctionSplit[i+4].tile = arrLast.at(i).toObject().value("tile").toDouble();
+        correctionSplit[i+4].area = arrLast.at(i).toObject().value("area").toDouble();
     }
     file.close();
     return 0;
