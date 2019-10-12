@@ -59,6 +59,7 @@ private:
     int decodeCorrection(int num);
     void splitTurn();
     void partSelect();
+    void setPreviousMoveData();
 
     Ui::MainWindow *uiMainWindow;
     vector<vector<Tile>> *tile;

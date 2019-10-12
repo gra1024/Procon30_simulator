@@ -383,10 +383,18 @@ void Computer::chooseBestResult(){
     /* 最善手を選ぶ */
     for(unsigned int i = 0; i < provPoint.size(); ++i){
         //cout << "[" << provPoint[i].moveAngle << " " << provPoint[i].totalPoint << "]";
-        if(maxPoint < provPoint[i].totalPoint){
-            maxPoint = provPoint[i].totalPoint;
-            moveAngle = provPoint[i].moveAngle;
+        if(field->turn % 2 == 0){
+            if(maxPoint <= provPoint[i].totalPoint){
+                maxPoint = provPoint[i].totalPoint;
+                moveAngle = provPoint[i].moveAngle;
+            }
+        }else{
+            if(maxPoint < provPoint[i].totalPoint){
+                maxPoint = provPoint[i].totalPoint;
+                moveAngle = provPoint[i].moveAngle;
+            }
         }
+
     }
     //cout << endl;
 
@@ -423,13 +431,6 @@ void Computer::chooseBestResult(){
         preData.y = teams[nextPos.myTeam].agents[nextPos.agentNum].y;
         previousMoveData.push_back(preData);
     }
-
-    if(preData.type == 1){
-        preData.x = teams[nextPos.myTeam].agents[nextPos.agentNum].x;
-        preData.y = teams[nextPos.myTeam].agents[nextPos.agentNum].y;
-        previousMoveData3.push_back(preData);
-    }
-
 }
 
 /* ### エージェントの移動先が敵と競合しているかの判定 ### */
@@ -605,4 +606,13 @@ void Computer::partSelect(){
         partCount = 0;
     }
     //cout << "partCount " << partCount << endl;
+}
+
+void Computer::setPreviousMoveData(){
+    for (unsigned int i=0; i < teams[0].agents.size(); ++i) {
+        MoveData preData;
+        preData.x = teams[0].agents[i].x;
+        preData.y = teams[0].agents[i].y;
+        previousMoveData3.push_back(preData);
+    }
 }
