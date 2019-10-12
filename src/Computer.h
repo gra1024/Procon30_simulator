@@ -36,6 +36,8 @@ struct Correction{ //補正
     double distance[6]; //エージェントが近くなりすぎた場合の補正（減算）
     double tile; //タイルポイントの補正倍率（乗算）
     double area; //エリアポイントの補正倍率（乗算）
+    vector<int> coordinateX; //特定座標に固定させる(x)
+    vector<int> coordinateY; //特定座標に固定させる(y)
 };
 
 class Computer
@@ -60,6 +62,7 @@ private:
     void splitTurn();
     void partSelect();
     void setPreviousMoveData();
+    double coordinate(MoveData currentMoveData);
 
     Ui::MainWindow *uiMainWindow;
     vector<vector<Tile>> *tile;

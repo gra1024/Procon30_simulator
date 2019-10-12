@@ -7,7 +7,9 @@
             "myTeamColorTile": 1.0,
             "distance": [10,8,6,4,0,0],
             "tile": 1.0,
-            "area": 1.0
+            "area": 1.0,
+            "coordinateX":[0,0,0,0,0],
+            "coordinateY":[0,0,0,0,0]
         },
         {
             "loopTimes": 3,
@@ -16,7 +18,9 @@
             "myTeamColorTile": 1.0,
             "distance": [10,8,6,4,0,0],
             "tile": 1.0,
-            "area": 1.0
+            "area": 1.0,
+            "coordinateX":[0,0,0,0,0],
+            "coordinateY":[0,0,0,0,0]
         },
         {
             "loopTimes": 3,
@@ -25,7 +29,9 @@
             "myTeamColorTile": 1.0,
             "distance": [10,8,6,4,0,0],
             "tile": 1.0,
-            "area": 1.0
+            "area": 1.0,
+            "coordinateX":[0,0,0,0,0],
+            "coordinateY":[0,0,0,0,0]
         },
         {
             "loopTimes": 3,
@@ -34,7 +40,9 @@
             "myTeamColorTile": 1.0,
             "distance": [10,8,6,4,0,0],
             "tile": 1.0,
-            "area": 1.0
+            "area": 1.0,
+            "coordinateX":[0,0,0,0,0],
+            "coordinateY":[0,0,0,0,0]
         }
     ],
     "last":[
@@ -45,7 +53,9 @@
             "myTeamColorTile": 1.0,
             "distance": [10,8,6,4,0,0],
             "tile": 1.0,
-            "area": 1.0
+            "area": 1.0,
+            "coordinateX":[0,0,0,0,0],
+            "coordinateY":[0,0,0,0,0]
          },
          {
             "loopTimes": 3,
@@ -54,7 +64,9 @@
             "myTeamColorTile": 1.0,
             "distance": [10,8,6,4,0,0],
             "tile": 1.0,
-            "area": 1.0
+            "area": 1.0,
+            "coordinateX":[0,0,0,0,0],
+            "coordinateY":[0,0,0,0,0]
          },
          {
             "loopTimes": 3,
@@ -63,7 +75,9 @@
             "myTeamColorTile": 1.0,
             "distance": [10,8,6,4,0,0],
             "tile": 1.0,
-            "area": 1.0
+            "area": 1.0,
+            "coordinateX":[0,0,0,0,0],
+            "coordinateY":[0,0,0,0,0]
          }
     ]
 }
