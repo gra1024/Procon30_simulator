@@ -5,8 +5,7 @@
             "loop": [0.6, 0.8, 1.0],
             "stay": 1,
             "myTeamColorTile": 1.0,
-            "agentDistance": 0.2,
-            "distance": 1,
+          "distance": [10,8,6,2,0,0],
             "tile": 1.0,
             "area": 1.0
         },
@@ -15,8 +14,7 @@
             "loop": [0.6, 0.8, 1.0],
             "stay": 1,
             "myTeamColorTile": 1.0,
-            "agentDistance": 0.2,
-            "distance": 1,
+          "distance": [10,8,6,2,0,0],
             "tile": 1.0,
             "area": 1.0
         },
@@ -25,8 +23,7 @@
             "loop": [0.6, 0.8, 1.0],
             "stay": 1,
             "myTeamColorTile": 1.0,
-            "agentDistance": 0.2,
-            "distance": 1,
+          "distance": [10,8,6,2,0,0],
             "tile": 1.0,
             "area": 1.0
         },
@@ -35,8 +32,7 @@
             "loop": [0.6, 0.8, 1.0],
             "stay": 1,
             "myTeamColorTile": 1.0,
-            "agentDistance": 0.2,
-            "distance": 1,
+          "distance": [10,8,6,2,0,0],
             "tile": 1.0,
             "area": 1.0
         }
@@ -47,28 +43,25 @@
             "loop": [0.6, 0.8, 1.0],
             "stay": 1,
             "myTeamColorTile": 1.0,
-            "agentDistance": 0.2,
-            "distance": 1,
+          "distance": [10,8,6,2,0,0],
             "tile": 1.0,
             "area": 1.0
          },
          {
             "loopTimes": 3,
-            "loop": [0.6, 0.8, 1.0],
+            "loop": [0, 0.8, 1.0],
             "stay": 1,
             "myTeamColorTile": 1.0,
-            "agentDistance": 0.2,
-            "distance": 1,
+          "distance": [10,8,6,2,0,0],
             "tile": 1.0,
             "area": 1.0
          },
          {
             "loopTimes": 3,
-            "loop": [0.6, 0.8, 1.0],
+            "loop": [0, 0, 1.0],
             "stay": 1,
             "myTeamColorTile": 1.0,
-            "agentDistance": 0.2,
-            "distance": 1,
+          "distance": [10,8,6,2,0,0],
             "tile": 1.0,
             "area": 1.0
          }
