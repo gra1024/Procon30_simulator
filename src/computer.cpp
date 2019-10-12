@@ -74,6 +74,7 @@ void Computer::algo(int num){
     nextPos.myTeam = field->myTeam;
     previousMoveData.clear();
     previousMoveData3.clear();
+    setPreviousMoveData();
     for(unsigned int i=0; i < teams[nextPos.myTeam].agents.size(); ++i){//エージェントの数だけループ
         provPoint.clear();
         nextPos.agentNum = i; //エージェントの番号
@@ -346,6 +347,7 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
                 }
             }
             currentMoveData.accumulationPoint += allPoint;
+            cout <<"allPoint" <<  allPoint << endl;
 
             /* 進む方向が敵色タイルだった場合 */
             if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).color== field->TeamColorNumber[1]){
