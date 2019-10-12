@@ -1,69 +1,69 @@
 {
-    "split":[
-        {
-            "loopTimes": 3,
-            "loop": [0.6, 0.8, 1.0],
-            "stay": 1,
-            "myTeamColorTile": 1.0,
-            "distance": [ 7, 5, 4, 3, 2, 0 ],
-            "tile": 1.2,
-            "area": 1.0
-        },
-        {
-            "loopTimes": 3,
-            "loop": [0.6, 0.8, 1.0],
-            "stay": 1,
-            "myTeamColorTile": 1.0,
-            "distance": [ 10, 7, 5, 2, 0, 0 ],
-            "tile": 1.5,
-            "area": 1.0
-        },
-        {
-            "loopTimes": 3,
-            "loop": [0.6, 0.8, 1.0],
-            "stay": 1,
-            "myTeamColorTile": 1.0,
-            "distance": [ 10, 7, 5, 2, 1, 0],
-            "tile": 1.0,
-            "area": 1.5
-        },
-        {
-            "loopTimes": 3,
-            "loop": [0.6, 0.8, 1.0],
-            "stay": 1,
-            "myTeamColorTile": 1.0,
-            "distance": [ 7, 5, 3, 2, 0, 0 ],
-            "tile": 1.0,
-            "area": 2.0
-        }
-    ],
-    "last":[
-         {
-            "loopTimes": 3,
-            "loop": [0.6, 0.8, 1.0],
-            "stay": 1,
-            "myTeamColorTile": 1.0,
-            "distance": [ 7, 5, 3, 2, 0, 0 ],
-            "tile": 1.0,
-            "area": 1.0
-         },
-         {
-            "loopTimes": 3,
-            "loop": [0.6, 0.8, 1.0],
-            "stay": 1,
-            "myTeamColorTile": 1.0,
-            "distance": [ 7, 5, 3, 2, 0, 0 ],
-            "tile": 1.0,
-            "area": 1.0      
-         },
-         {
-            "loopTimes": 3,
-            "loop": [0.6, 0.8, 1.0],
-            "stay": 1,
-            "myTeamColorTile": 1.0,
-            "distance": [ 8, 7, 5, 2, 0, 0 ],
-            "tile": 1.5,
-            "area": 1.0
-         }
-    ]
+  "split": [
+    {
+      "loopTimes": 3,
+      "loop": [ 0.6, 0.8, 1.0 ],
+      "stay": 1,
+      "myTeamColorTile": 0.7,
+      "distance": [ 8, 6, 4, 2, 0, 0 ],
+      "tile": 1.2,
+      "area": 0.8
+    },
+    {
+      "loopTimes": 3,
+      "loop": [ 0.6, 0.8, 1.0 ],
+      "stay": 1,
+      "myTeamColorTile": 0.5,
+      "distance": [ 8, 6, 4, 2, 0, 0 ],
+      "tile": 1.2,
+      "area": 0.8
+    },
+    {
+      "loopTimes": 3,
+      "loop": [ 0.6, 0.8, 1.0 ],
+      "stay": 1,
+      "myTeamColorTile": 0.3,
+      "distance": [ 10, 8, 6, 4, 2, 0 ],
+      "tile": 1.4,
+      "area": 0.6
+    },
+    {
+      "loopTimes": 3,
+      "loop": [ 0.6, 0.8, 1.0 ],
+      "stay": 1,
+      "myTeamColorTile": 0.3,
+      "distance": [ 6, 4, 2, 0, 0, 0 ],
+      "tile": 1.0,
+      "area": 1.0
+    }
+  ],
+  "last": [
+    {
+      "loopTimes": 3,
+      "loop": [ 0.6, 0.8, 1.0 ],
+      "stay": 1,
+      "myTeamColorTile": 0.1,
+      "distance": [ 3, 2, 0, 0, 0, 0 ],
+      "tile": 1.0,
+      "area": 1.0
+    },
+    {
+      "loopTimes": 2,
+      "loop": [ 0.8, 1.0 ],
+      "stay": 1,
+      "myTeamColorTile": 0.1,
+      "distance": [ 2, 0, 0, 0, 0, 0 ],
+      "tile": 1.0,
+      "area": 1.0
+    },
+    {
+      "loopTimes": 1,
+      "loop": [ 1.0 ],
+      "stay": 1,
+      "myTeamColorTile": 0.1,
+      "distance": [ 0, 0, 0, 0, 0, 0 ],
+      "tile": 1.0,
+      "area": 1.0
+    }
+  ]
 }
