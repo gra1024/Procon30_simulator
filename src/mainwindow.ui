@@ -722,22 +722,22 @@
    </item>
    <item>
     <property name="text">
-     <string>Greedy-2_D-1</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Greedy-2_D-2</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
      <string>Greedy-2_C-1</string>
     </property>
    </item>
    <item>
     <property name="text">
      <string>Greedy-2_C-2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy-2_D-1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Greedy-2_D-2</string>
     </property>
    </item>
    <item>
@@ -954,11 +954,6 @@
      <width>60</width>
      <height>25</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>HGP創英角ｺﾞｼｯｸUB</family>
-    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">background:#fff</string>
