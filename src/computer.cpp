@@ -325,7 +325,7 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
                 if(conflict == 1){
                     previousMoveData2.at(nextPos.agentNum).conflictNum++;//競合回数を数える
                     //cout<<"agentNum_"<<nextPos.agentNum<<",currentConflict->"<<previousMoveData2.at(nextPos.agentNum).conflictNum<<endl;
-                    if(previousMoveData2.at(nextPos.agentNum).conflictNum==2){
+                    if(previousMoveData2.at(nextPos.agentNum).conflictNum==1){
                         currentMoveData.accumulationPoint += -999;
                         previousMoveData2.at(nextPos.agentNum).conflictNum = 0;
                     }
