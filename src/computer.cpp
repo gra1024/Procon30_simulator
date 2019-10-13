@@ -174,10 +174,10 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
                 for(unsigned int i = 0; i < previousMoveData3.size(); ++i){
                     if(currentMoveData.x == previousMoveData3[i].x && currentMoveData.y == previousMoveData3[i].y){
                         //補正値：選択したタイルのマス-10 ただし0以上に大きくはならない
-                        if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point >= 10){
+                        if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point >= 12){
                             currentMoveData.accumulationPoint += -1;
                         }else{
-                            currentMoveData.accumulationPoint += tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point - 10;
+                            currentMoveData.accumulationPoint += tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point - 12;
                         }
                     }
                 }
@@ -186,10 +186,10 @@ void Computer::greedy(int loopCount, MoveData currentMoveData){
                 for(unsigned int i = 0; i < teams[1].agents.size(); ++i){
                     if(currentMoveData.x == teams[1].agents[i].x && currentMoveData.y == teams[1].agents[i].y){
                         //補正値：選択したタイルのマス-10 ただし0以上に大きくはならない
-                        if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point >= 10){
+                        if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point >= 12){
                             currentMoveData.accumulationPoint += -1;
                         }else{
-                            currentMoveData.accumulationPoint += tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point - 10;
+                            currentMoveData.accumulationPoint += tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point - 12;
                         }
                     }
                 }
@@ -296,8 +296,7 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
             enemyAreaPoint *= correctionSplit[partCount].area;
             allPoint = tilePoint + areaPoint + enemyTilePoint + enemyAreaPoint;
 
-            //ループ補正（乗算）
-            allPoint *= correctionSplit[partCount].loop[static_cast<unsigned>(loopCount - 1)];
+
 
             //stay補正（減算）
             if(currentMoveData.moveAngle == 4){
@@ -313,7 +312,7 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
             allPoint -= distance(currentMoveData);
 
             //特定座標から離れるとペナルティ（減算）
-            allPoint -= coordinate(currentMoveData);
+           // allPoint -= coordinate(currentMoveData);
 
             /* 最初のループ限定の処理 */
             if(loopCount == correctionSplit[partCount].loopTimes){
@@ -339,10 +338,10 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
                 for(unsigned int i = 0; i < previousMoveData3.size(); ++i){
                     if(currentMoveData.x == previousMoveData3[i].x && currentMoveData.y == previousMoveData3[i].y){
                         //補正値：選択したタイルのマス-10 ただし0以上に大きくはならない
-                        if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point >= 10){
+                        if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point >= 12){
                             allPoint += -1;
                         }else{
-                            allPoint += tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point - 10;
+                            allPoint += tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point - 12;
                         }
                     }
                 }
@@ -351,14 +350,17 @@ void Computer::greedy2(int loopCount, MoveData currentMoveData, vector<vector<Ti
                 for(unsigned int i = 0; i < teams[1].agents.size(); ++i){
                     if(currentMoveData.x == teams[1].agents[i].x && currentMoveData.y == teams[1].agents[i].y){
                         //補正値：選択したタイルのマス-10 ただし0以上に大きくはならない
-                        if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point >= 10){
+                        if(tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point >= 12){
                             allPoint += -1;
                         }else{
-                            allPoint += tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point - 10;
+                            allPoint += tile->at(static_cast<unsigned>(currentMoveData.y) - 1).at(static_cast<unsigned>(currentMoveData.x) - 1).point - 12;
                         }
                     }
                 }
             }
+            //ループ補正（乗算）
+            allPoint *= correctionSplit[partCount].loop[static_cast<unsigned>(loopCount - 1)];
+
             currentMoveData.accumulationPoint += allPoint;
             //cout <<"allPoint" <<  allPoint << endl;
 
