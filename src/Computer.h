@@ -10,6 +10,7 @@ using namespace std;
 struct NextPos{
     unsigned int agentNum;
     int myTeam;
+    int EnemyTeam;
 };
 
 struct ProvisionalPoint{
@@ -50,7 +51,7 @@ public:
 
 private:
     void algo(int num);
-    void greedy(int loopCount, MoveData currentMoveData);
+    void greedy(int loopCount, MoveData currentMoveData, vector<vector<Tile>> currentTileData);
     void greedy2(int loopCount, MoveData currentMoveData, vector<vector<Tile>> currentTileData);
     void chooseBestResult();
     int outLange(int x, int y);

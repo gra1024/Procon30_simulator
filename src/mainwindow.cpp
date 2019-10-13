@@ -154,7 +154,7 @@ void MainWindow::on_pushButton_reload_clicked(){
         AF3->drow();
         updateTeamPoints(3);
     }
-    qDebug() << "Finish Reload";
+    qDebug() << "Finish Reload " << field.turn;
 }
 
 void MainWindow::on_pushButton_setField_clicked(){
