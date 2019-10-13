@@ -25,7 +25,7 @@
       "stay": 1,
       "myTeamColorTile": 1.0,
       "distance": [ 10, 8, 6, 4, 0, 0 ],
-      "tile": 1.2,
+      "tile": 1.4,
       "area": 1.5
     },
     {
@@ -34,7 +34,7 @@
       "stay": 1,
       "myTeamColorTile": 1.0,
       "distance": [ 10, 8, 6, 4, 0, 0 ],
-      "tile": 1.5,
+      "tile": 1.4,
       "area": 2.0
     }
   ],
