@@ -7,7 +7,7 @@
         "myTeamColorTile": 1.0,
         "distance": [ 20, 20, 6, 4, 0, 0 ],
         "tile": 1.0,
-        "area": 1.2
+        "area": 1.0
       },
       {
         "loopTimes": 3,
@@ -48,20 +48,20 @@
         "area": 1.2
       },
       {
-        "loopTimes": 3,
+        "loopTimes": 2,
         "loop": [ 0.6, 0.8, 1.0 ],
         "stay": 1,
         "myTeamColorTile": 1.0,
-        "distance": [ 10, 8, 6, 4, 0, 0 ],
+        "distance": [ 10, 8, 0, 0, 0, 0 ],
         "tile": 1.0,
         "area": 1.2
       },
       {
-        "loopTimes": 3,
+        "loopTimes": 1,
         "loop": [ 0.6, 0.8, 1.0 ],
         "stay": 1,
         "myTeamColorTile": 1.0,
-        "distance": [ 10, 8, 6, 4, 0, 0 ],
+        "distance": [ 10, 0, 0, 0, 0, 0 ],
         "tile": 1.0,
         "area": 1.0
       }
