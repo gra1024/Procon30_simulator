@@ -1,4 +1,4 @@
-#include "Computer.h"
+﻿#include "Computer.h"
 
 Computer::Computer()
 {
@@ -516,7 +516,6 @@ double Computer::distance(MoveData currentMoveData){
             } else {
                 dis = disY;
             }
-
             /* 距離が5より大きい場合の処理は5と同じ　*/
             if (dis > 5) dis = 5;
 
@@ -591,18 +590,18 @@ void Computer::splitTurn(){
     part[0] = field->maxTurn / 4;
     part[1] = field->maxTurn / 2;
     part[2] = field->maxTurn * 3 / 4;
-    part[3] = field->maxTurn - 3;
-    part[4] = field->maxTurn - 2;
-    part[5] = field->maxTurn - 1;
-    part[6] = field->maxTurn;
+    part[3] = field->maxTurn - 4;
+    part[4] = field->maxTurn - 3;
+    part[5] = field->maxTurn - 2;
+    part[6] = field->maxTurn - 1;
     if(part[2] > part[3]){
-        part[2] = field->maxTurn - 4;
+        part[2] = field->maxTurn - 5;
     }
     if(part[1] > part[2]){
-        part[1] = field->maxTurn - 5;
+        part[1] = field->maxTurn - 6;
     }
     if(part[0] > part[1]){
-        part[0] = field->maxTurn - 6;
+        part[0] = field->maxTurn - 7;
     }
 
     /* 出力 */
@@ -621,7 +620,7 @@ void Computer::partSelect(){
     if(partAfterTurnOver == 0 && field->turn > part[partCount]){
         partCount++;
     }
-    
+
     if(partAfterTurnOver == 0 && partCount == 7){
         partAfterTurnOver = 1;
         partCount = 0;

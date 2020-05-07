@@ -6,17 +6,8 @@
             "stay": 1,
             "myTeamColorTile": 0.1,
             "distance": [10,8,6,4,0,0],
-            "tile": 1.5,
-            "area": 0.5
-        },
-        {
-            "loopTimes": 3,
-            "loop": [0.8, 0.9, 1.0],
-            "stay": 1,
-            "myTeamColorTile": 0.1,
-            "distance": [10,8,6,4,0,0],
-            "tile": 1.5,
-            "area": 0.5
+            "tile": 1.4,
+            "area": 0.6
         },
         {
             "loopTimes": 3,
@@ -26,6 +17,15 @@
             "distance": [10,8,6,4,0,0],
             "tile": 1.3,
             "area": 0.7
+        },
+        {
+            "loopTimes": 3,
+            "loop": [0.8, 0.9, 1.0],
+            "stay": 1,
+            "myTeamColorTile": 0.1,
+            "distance": [10,8,6,4,0,0],
+            "tile": 1.2,
+            "area": 0.8
         },
         {
             "loopTimes": 3,
