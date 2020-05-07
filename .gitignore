@@ -41,12 +41,3 @@ CMakeLists.txt.user*
 compile_commands.json
 # QtCreator local machine specific files for imported projects 
 *creator.user*
-*.dropbox
-/data/fromGra/*
-!/data/fromGra/.gitkeep
-/data/fromRui/*
-!/data/fromRui/.gitkeep
-/data/fromDai/*
-!/data/fromDai/.gitkeep
-/data/fromHiro/*
-!/data/fromHiro/.gitkeep
