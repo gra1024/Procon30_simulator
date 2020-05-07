@@ -5,10 +5,14 @@
 八戸高専チームの作品 <br>
 
 ## Discription
-第30回高専プロコン 競技部門「踊って舞って回って」のためのプログラム <br>
-陣取りゲーム
+第30回高専プロコン 競技部門「踊って舞って回って(特殊な陣取りゲーム)」のためのプログラム <br>
 
 ## Usage
 操作説明<br>
-1.src/Procon30_simulator.proを起動
-2.ビルドして実行
+1.src/Procon30_simulator.proを起動 <br>
+2.ビルドして実行 <br>
+
+## Development environment
+言語：C,C++ <br>
+ライブラリ：Qt <br>
+IDE：Qt Creator Open 4.6.0 Community <br>
