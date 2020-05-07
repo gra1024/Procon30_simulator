@@ -3,20 +3,38 @@
         {
             "agentID": 1,
             "dx": 0,
-            "dy": 0,
-            "type": "stay"
+            "dy": 1,
+            "type": "move"
         },
         {
             "agentID": 2,
-            "dx": 0,
+            "dx": 1,
             "dy": 0,
-            "type": "stay"
+            "type": "move"
         },
         {
             "agentID": 3,
             "dx": 0,
+            "dy": -1,
+            "type": "move"
+        },
+        {
+            "agentID": 4,
+            "dx": 1,
             "dy": 0,
-            "type": "stay"
+            "type": "move"
+        },
+        {
+            "agentID": 5,
+            "dx": 0,
+            "dy": -1,
+            "type": "move"
+        },
+        {
+            "agentID": 6,
+            "dx": 1,
+            "dy": 1,
+            "type": "move"
         }
     ]
 }
